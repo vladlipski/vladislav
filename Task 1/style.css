@@ -6,24 +6,70 @@ body {
     margin: 70px auto;
 }
 
+* {
+    margin: 0 0;
+    padding: 0 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000000;
+}
 
 .header {
     overflow: hidden;
     margin: 0 auto;
-    width: 770px;
-    height: 70px;
-    background-image: url("images/menu.png");
+    width: 48.125em;
+    height: 4.375em;
+    background-image: url("images/nav-bar.png");
 }
 
-.menu {
-    position: absolute;
+.nav-bar-text {
+    font-family: "Fjalla One", sans-serif;
+    color: rgb(255, 255, 255);
+    text-transform: uppercase;
 }
 
-.site-name {
+.logo{
     height: 100%;
-    width: 170px;
+    width: 22%;
+    text-align: center;
+    float: left;
 }
 
-.menu__item {
-    display: inline-block;
+.logo__text {
+    line-height: 2.375em;
+    font-size: 1.875em;
 }
+
+.nav-bar {
+    float: left;
+    width: 78%;
+}
+
+.nav-bar-list {
+    float: right;
+}
+
+.nav-bar__item {
+    list-style: none;
+    float: left;
+    line-height: 6.375em;
+    font-size: 0.75em;
+    padding: 0 1.5em;
+    border-left: 0.063em solid #f9cbb8;
+}
+
+.active + .nav-bar__item {
+    border: none;
+}
+
+.active {
+    background-color: #e7936e;
+    border: none;
+    box-shadow: inset 0 0 0.375em 0 rgba(0,0,0,0.3);
+}
+
