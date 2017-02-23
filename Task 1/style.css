@@ -1,0 +1,29 @@
+html {
+    background-image: url("images/background.png");
+}
+
+body {
+    margin: 70px auto;
+}
+
+
+.header {
+    overflow: hidden;
+    margin: 0 auto;
+    width: 770px;
+    height: 70px;
+    background-image: url("images/menu.png");
+}
+
+.menu {
+    position: absolute;
+}
+
+.site-name {
+    height: 100%;
+    width: 170px;
+}
+
+.menu__item {
+    display: inline-block;
+}
