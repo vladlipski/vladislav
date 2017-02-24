@@ -132,7 +132,7 @@ a:hover {
     font-weight: 100;
     text-transform: uppercase;
     text-align: center;
-    color: #535067;
+    color: #4b485d;
     height: 20%;
     width: 60%;
     margin: 15px auto;
@@ -140,11 +140,12 @@ a:hover {
 
 .link-button {
     display: block;
-    background: url("images/link_button.png");
+    background-size: contain;
     text-align: center;
 }
 
 .banner-info__button {
+    background: url("images/link_button.png");
     font-size: 0.875em;
     width: 110px;
     height: 35px;
@@ -153,6 +154,37 @@ a:hover {
     margin-top: 20px;
 }
 
-.notes {
+.notes-group {
     height: 250px;
 }
+
+.note{
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.note__header {
+    font-size: 1.125em;
+    margin-left: 20px;
+    margin-top: 40px;
+}
+
+.note__text {
+    overflow: hidden;
+    height: 40%;
+    margin: 10px 20px;
+    margin-bottom: 20px;
+}
+
+.note__button {
+    width: 70px;
+    height: 25px;
+    background: url("images/link_button_small.png");
+    font-size: 0.875em;
+    line-height: 25px;
+    margin-left: 20px;
+}
+
+
+
