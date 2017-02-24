@@ -78,6 +78,10 @@ a:hover {
     background-color: #24232d;
 }
 
+.main section {
+    border-bottom: 1px solid #2d2c35;
+}
+
 .banner {
     position: relative;
     height: 413px;
@@ -123,11 +127,13 @@ a:hover {
 }
 
 .banner-info__text {
+    overflow: hidden;
     font-size: 1.250em;
     font-weight: 100;
     text-transform: uppercase;
     text-align: center;
     color: #535067;
+    height: 20%;
     width: 60%;
     margin: 15px auto;
 }
@@ -144,5 +150,9 @@ a:hover {
     height: 35px;
     line-height: 35px;
     margin: 0 auto;
-    margin-top: 15px;
+    margin-top: 20px;
+}
+
+.notes {
+    height: 250px;
 }
