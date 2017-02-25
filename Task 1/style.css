@@ -107,6 +107,7 @@ a:hover {
     min-height: 160px;
     padding: 40px 140px;
     background-color: #17161d;
+    text-align: center;
 }
 
 .header-text {
@@ -137,17 +138,16 @@ a:hover {
 }
 
 .link-button {
-    display: block;
-    background-size: contain;
+    display: inline-block;
+    border: 3px #eb9f7f solid;
+    border-radius: 4px;
+    background-color: #1e1d26;
     text-align: center;
 }
 
 .banner-info__button {
-    background: url("images/link_button.png");
     font-size: 0.875em;
-    width: 110px;
-    height: 35px;
-    line-height: 35px;
+    padding: 7px 9px;
     margin: 0 auto;
 }
 
@@ -166,25 +166,16 @@ a:hover {
 
 .note__header {
     font-size: 1.125em;
-    /*margin-left: 20px;*/
-    /*margin-top: 40px;*/
 }
 
 .note__text {
-    /*overflow: hidden;*/
-    /*height: 40%;*/
-    /*margin: 10px 20px;*/
-    /*margin-bottom: 20px;*/
     font-size: 0.875em;
     margin-top: 10px;
 }
 
 .note__button {
-    width: 70px;
-    height: 25px;
-    background: url("images/link_button_small.png");
+    padding: 2px 4px;
     font-size: 0.875em;
-    line-height: 25px;
     margin-top: 20px;
 }
 
