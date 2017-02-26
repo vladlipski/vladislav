@@ -23,7 +23,6 @@ a:hover {
 
 .header {
     overflow: hidden;
-    margin: 0 auto;
     height: 70px;
     background-image: url("images/nav-bar.png");
 }
@@ -109,14 +108,14 @@ a:hover {
     text-align: center;
 }
 
-.header-text {
+.title {
     font-family: "Fjalla One", sans-serif;
     color: #e89472;
     font-weight: normal;
     text-transform: uppercase;
 }
 
-.banner-info__header {
+.large_title {
     font-size: 1.875em;
     text-align: center;
 }
@@ -126,12 +125,15 @@ a:hover {
     color: #ffffff;
 }
 
-.banner-info__text {
+.description {
     font-size: 1.250em;
     font-weight: 100;
     text-transform: uppercase;
     text-align: center;
     color: #4b485d;
+}
+
+.banner-info__description {
     margin: 20px auto;
 }
 
@@ -161,16 +163,16 @@ a:hover {
     padding: 1% 1%;
 }
 
-.note__header {
+.small_title {
     font-size: 1.125em;
 }
 
-.note-text_selected {
+.selected_content {
     font-style: italic;
     text-decoration: underline;
 }
 
-.note__text {
+.note__content {
     font-size: 0.875em;
     font-weight: 400;
     color: #55545d;
@@ -202,4 +204,13 @@ a:hover {
 .tag + .tag:before {
     color: #55545d;
     content: "\00a0\00a0\00a0\00a0/\00a0\00a0\00a0\00a0";
+}
+
+.portfolio {
+    min-height: 480px;
+    padding: 40px 25px;
+}
+
+.portfolio__description {
+    margin: 10px auto;
 }
