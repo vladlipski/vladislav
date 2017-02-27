@@ -339,3 +339,36 @@ a:hover {
     padding: 4px 6px;
     margin: 0 auto;
 }
+
+.footer {
+    height: 125px;
+    background-color: #17161d;
+    border-radius: 0 0 5px 5px;
+    padding: 20px 100px;
+    min-height: 125px;
+    overflow: auto;
+}
+
+.footer-container {
+    float: left;
+    height: calc(100% - 40px);
+    width: calc(50% - 30px);
+    padding: 20px 15px;
+}
+
+.footer-container * {
+    float: right;
+    text-align: right;
+}
+
+.footer-container + .footer-container * {
+    float: left;
+    text-align: left;
+}
+
+.footer-container-content {
+    margin-top: 15px;
+    color: #5c5b64;
+    font-size: 0.875em;
+    line-height: 1.5;
+}
