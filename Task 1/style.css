@@ -92,6 +92,7 @@ a:hover {
     height: 400px;
     background: url("images/banner.png");
     text-align: center;
+    box-shadow: 25px 0 25px -25px rgba(0,0,0,0.45), -25px 0 25px -25px rgba(0,0,0,0.45);;
 }
 
 .social {
