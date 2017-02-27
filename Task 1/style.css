@@ -282,3 +282,60 @@ a:hover {
     height: 100%;
     transform: scale(1.1, 1.1);
 }
+
+.contact {
+    min-height: 350px;
+    padding: 40px 100px;
+}
+
+.contact-form {
+    width: 100%;
+}
+
+::-webkit-input-placeholder {
+    color:#5c5b64;
+}
+
+::-moz-placeholder {
+    color:#5c5b64;
+}
+:-moz-placeholder {
+    color:#5c5b64;
+}
+
+:-ms-input-placeholder {
+    color:#5c5b64;
+}
+
+.input{
+    font: 400 0.875em "Source Sans Pro", sans-serif;
+    margin-bottom: 20px;
+    background-color: #24232d;
+    border-radius: 3px;
+    border: solid 1px #38383f;
+    color: #5c5b64;
+    padding: 10px 10px;
+}
+
+.contact-form__input {
+    width: calc(48% - 24px);
+    margin-right: 4%;
+}
+
+.contact-form__input + .contact-form__input {
+    margin-right: 0;
+}
+
+.contact-form__message {
+    -webkit-box-sizing: border-box;
+    resize: none;
+    height: 135px;
+    width: 100%;
+}
+
+.contact-form__button {
+    display: block;
+    font-size: 1.125em;
+    padding: 4px 6px;
+    margin: 0 auto;
+}
