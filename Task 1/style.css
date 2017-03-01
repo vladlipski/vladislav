@@ -22,10 +22,6 @@ a {
     text-decoration: none;
 }
 
-a:hover {
-    color: #000000;
-}
-
 .header {
     overflow: hidden;
     height: 70px;
@@ -63,6 +59,7 @@ a:hover {
 }
 
 .nav-bar__item {
+    cursor: pointer;
     float: left;
     line-height: 75px;
     font-size: 0.75em;
@@ -78,6 +75,11 @@ a:hover {
     background-color: #e7936e;
     border: none;
     box-shadow: inset 0 0 6px 0 rgba(0,0,0,0.3);
+}
+
+.nav-bar__item:hover {
+    color: #000000;
+    box-shadow: inset 0 0 10px 0 #000000;
 }
 
 .main {
@@ -148,7 +150,12 @@ a:hover {
     margin: 20px auto;
 }
 
+.link-button:hover {
+    box-shadow: 0 0 5px 0 #000000;
+}
+
 .link-button {
+    cursor: pointer;
     display: inline-block;
     border: 3px #eb9f7f solid;
     border-radius: 4px;
@@ -238,7 +245,12 @@ a:hover {
     margin: 0 5px;
 }
 
+.button:hover {
+    box-shadow: 0 0 5px 0 #000000;
+}
+
 .button {
+    cursor: pointer;
     font: 400 0.875em "Fjalla One", sans-serif;
     text-transform: uppercase;
     border-radius: 3px;
