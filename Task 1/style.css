@@ -27,6 +27,7 @@ a:hover {
 }
 
 .header {
+    overflow: hidden;
     height: 70px;
     background-color: #eb9775;
     border-radius: 5px 5px 0 0;
@@ -39,7 +40,7 @@ a:hover {
     text-transform: uppercase;
 }
 
-.logo{
+.logo {
     height: 100%;
     width: 22%;
     text-align: center;
@@ -69,11 +70,11 @@ a:hover {
     border-left: 1px solid #f9cbb8;
 }
 
-.active + .nav-bar__item {
+.nav-bar__item_active + .nav-bar__item {
     border: none;
 }
 
-.active {
+.nav-bar__item_active {
     background-color: #e7936e;
     border: none;
     box-shadow: inset 0 0 6px 0 rgba(0,0,0,0.3);
@@ -83,7 +84,10 @@ a:hover {
     background-color: #24232d;
 }
 
-.main section {
+.banner,
+.banner-info,
+.notes-group,
+.portfolio {
     border-bottom: 1px solid #2d2c35;
 }
 
@@ -121,12 +125,13 @@ a:hover {
     text-transform: uppercase;
 }
 
-.large_title {
+.title_large {
     font-size: 1.875em;
     text-align: center;
 }
 
-.banner-text_selected {
+.banner-info__description_selected {
+    background-color: rgba(0, 0, 0, 0);
     font-weight: bold;
     color: #ffffff;
 }
@@ -162,18 +167,20 @@ a:hover {
     padding: 40px 20px;
 }
 
-.note{
+.note {
     width: 48%;
     height: 98%;
     float: left;
     padding: 1% 1%;
 }
 
-.small_title {
+.title_small {
     font-size: 1.125em;
 }
 
-.selected_content {
+.note__content_selected {
+    background-color: rgba(0, 0, 0, 0);
+    color: #55545d;
     font-style: italic;
     text-decoration: underline;
 }
@@ -235,6 +242,9 @@ a:hover {
     font: 400 0.875em "Fjalla One", sans-serif;
     text-transform: uppercase;
     border-radius: 3px;
+    background-color: #4b4a54;
+    color: #ffffff;
+    border: solid #4b4a54;
 }
 
 .portfolio__button {
@@ -242,17 +252,11 @@ a:hover {
     padding-top: 1px;
 }
 
-.dark_style {
+.button_highlighted {
     font-weight: bold;
     background-color: #e7936e;
     color: #1b1b1b;
     border: solid #e7936e;
-}
-
-.light_style {
-    background-color: #4b4a54;
-    color: #ffffff;
-    border: solid #4b4a54;
 }
 
 .gallery {
@@ -311,9 +315,8 @@ a:hover {
     color:#5c5b64;
 }
 
-.input{
+.input {
     font: 400 0.875em "Source Sans Pro", sans-serif;
-    margin-bottom: 20px;
     background-color: #24232d;
     border-radius: 3px;
     border: solid 1px #38383f;
@@ -321,20 +324,26 @@ a:hover {
     padding: 10px 10px;
 }
 
-.contact-form__input {
+.contact-form__input-set {
+    margin-bottom: 20px;
+    border: none;
+}
+
+.contact-form__input-set .input {
     width: calc(48% - 24px);
     margin-right: 4%;
 }
 
-.contact-form__input + .contact-form__input {
+.contact-form__input-set :last-child {
     margin-right: 0;
 }
 
 .contact-form__message {
-    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
     resize: none;
     height: 135px;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .contact-form__button {
@@ -354,20 +363,16 @@ a:hover {
 }
 
 .footer-container {
+    font-style: normal;
     float: left;
     height: calc(100% - 40px);
     width: calc(50% - 30px);
     padding: 20px 15px;
 }
 
-.footer-container * {
+.footer-container_pull_right * {
     float: right;
     text-align: right;
-}
-
-.footer-container + .footer-container * {
-    float: left;
-    text-align: left;
 }
 
 .footer-container-content {

@@ -14,7 +14,7 @@
         <div class="logo"><span class="logo__text nav-bar-text">Your name</span></div>
         <nav class="nav">
             <ul class="nav-bar">
-                <li class="nav-bar__item active"><a href="" class="nav-bar-text">Home</a></li>
+                <li class="nav-bar__item nav-bar__item_active"><a href="" class="nav-bar-text">Home</a></li>
                 <li class="nav-bar__item"><a href="" class="nav-bar-text">About</a></li>
                 <li class="nav-bar__item"><a href="" class="nav-bar-text">Services</a></li>
                 <li class="nav-bar__item"><a href="" class="nav-bar-text">Portfolio</a></li>
@@ -24,36 +24,36 @@
     </header>
 
     <main class="main">
-        <section class="banner">
+        <div class="banner">
             <ul class="social">
                 <li class="social__item"><a href=""><img src="images/facebook_logo.png"></a></li>
                 <li class="social__item"><a href=""><img src="images/twitter_logo.png"></a></li>
                 <li class="social__item"><a href=""><img src="images/linkedin_logo.png"></a></li>
             </ul>
-        </section>
+        </div>
 
         <section class="banner-info">
-            <h1 class="title large_title">Hello Iam kate Doe</h1>
+            <h1 class="title title_large">Hello Iam kate Doe</h1>
             <p class="description banner-info__description">
-                Donec nec justo <span class="banner-text_selected">eget felis</span> facilisis fermentum
+                Donec nec justo <mark class="banner-info__description_selected">eget felis</mark> facilisis fermentum
                 pelle ntesque felis lorem ipsum dolor
             </p>
             <a class="link-button title banner-info__button ">More about me</a>
         </section>
 
-        <section class="notes-group">
-            <div class="note">
-                <h2 class="title small_title">Nunc dignissim risus</h2>
+        <div class="notes-group">
+            <section class="note">
+                <h2 class="title title_small">Nunc dignissim risus</h2>
                 <p class="note__content">
                     Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu
-                    <span class="selected_content">vulputate magna eros eu erat.</span> Aliquam erat volutpat.
+                    <mark class="note__content_selected">vulputate magna eros eu erat.</mark> Aliquam erat volutpat.
                     Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
                 </p>
                 <a class="link-button title note__button">More info</a>
-            </div>
+            </section>
 
-            <div class="note">
-                <h2 class="title small_title">Vivamus vestibulum nulla </h2>
+            <section class="note">
+                <h2 class="title title_small">Vivamus vestibulum nulla </h2>
                 <p class="note__content">
                     Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.
                 </p>
@@ -63,23 +63,23 @@
                    <li class="tag">Tindidunt</li>
                 </ul>
                 <a class="note__button link-button title">More info</a>
-            </div>
-        </section>
+            </section>
+        </div>
 
         <section class="portfolio">
-            <h1 class="title large_title">Portfolio</h1>
+            <h1 class="title title_large">Portfolio</h1>
             <p class="description portfolio__description">
                 Integer vitae libero ac risus egestas placerat
             </p>
             <ul class="buttons-group">
                 <li class="buttons-group__item">
-                    <button class="button portfolio__button dark_style">Tomdicmt</button>
+                    <button class="button portfolio__button button_highlighted">Tomdicmt</button>
                 </li>
                 <li class="buttons-group__item">
-                    <button class="button portfolio__button light_style">Voluptin</button>
+                    <button class="button portfolio__button">Voluptin</button>
                 </li>
                 <li class="buttons-group__item">
-                    <button class="button portfolio__button light_style">Fermentu</button>
+                    <button class="button portfolio__button">Fermentu</button>
                 </li>
             </ul>
             <ul class="gallery">
@@ -136,32 +136,34 @@
         </section>
 
         <section class="contact">
-            <h1 class="title large_title">Contact me</h1>
+            <h1 class="title title_large">Contact me</h1>
             <p class="description portfolio__description">
                 lorem ger vitae libero ac risus
             </p>
             <form class="contact-form" action="" method="post">
-                <input class="input contact-form__input" placeholder="Name here..." type="text" required>
-                <input class="input contact-form__input" placeholder="Email here..." type="email" required>
+                <fieldset class="contact-form__input-set">
+                    <input class="input" placeholder="Name here..." type="text" required>
+                    <input class="input" placeholder="Email here..." type="email" required>
+                </fieldset>
                 <textarea class="input contact-form__message" placeholder="Message here..." required></textarea>
-                <button class="button contact-form__button dark_style" type="submit">Submit</button>
+                <button class="button contact-form__button button_highlighted" type="submit">Submit</button>
             </form>
         </section>
     </main>
 
     <footer class="footer">
-        <div class="footer-container">
-            <h2 class="title small_title">Designed by</h2>
+        <address class="footer-container footer-container_pull_right">
+            <h2 class="title title_small">Designed by</h2>
             <p class="footer-container-content">
                 www.alltemplateneeds.com www.alldesignneeds.com
             </p>
-        </div>
-        <div class="footer-container">
-            <h2 class="title small_title">Images from</h2>
+        </address>
+        <address class="footer-container">
+            <h2 class="title title_small">Images from</h2>
             <p class="footer-container-content">
                 www.wallpaperswide.com  www.wallcoo.net
             </p>
-        </div>
+        </address>
     </footer>
 
 </body>
