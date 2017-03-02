@@ -22,11 +22,17 @@ define(function(){
         return prev + currentValue;
     }
 
+    function unfoldCallback(currentValue) {
+        currentValue++;
+        return currentValue <= 4 ? currentValue : false;
+    }
+
     return {
         sum: sum,
         sumThree: sumThree,
         emptyFunc: emptyFunc,
-        sumCallback: sumCallback
+        sumCallback: sumCallback,
+        unfoldCallback: unfoldCallback
     }
 
 });

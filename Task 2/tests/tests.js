@@ -56,4 +56,13 @@ define(['testLib', 'tasks'], function(testLib, tasks){
         );
     });
 
+    QUnit.test('Linear fold', function (assert) {
+        assert.deepEqual(tasks.linearUnfold(testLib.unfoldCallback, 0), [1, 2, 3, 4],
+            'Linear unfold for callback, which iterate parameter,' +
+            ' with initialValue = 0 should return [1, 2, 3, 4]');
+        assert.deepEqual(tasks.linearUnfold(testLib.unfoldCallback, 2), [3, 4],
+            'Linear unfold for callback, which iterate parameter,' +
+            ' with initialValue = 2 should return [3, 4]');
+    });
+
 });

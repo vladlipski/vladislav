@@ -15,13 +15,13 @@ define(function() {
         var arity = func.length;
 
         return function newFunc() {
-            var args = slice.call(arguments, 0);
+            var args = slice.call(arguments);
             if (args.length >= arity) {
                 return func.apply(null, args);
             }
             else {
                 return function () {
-                    var newArgs = slice.call(arguments, 0);
+                    var newArgs = slice.call(arguments);
                     return newFunc.apply(null, args.concat(newArgs));
                 }
             }
@@ -49,9 +49,20 @@ define(function() {
         return previousValue;
     }
 
+    function linearUnfold(callback, initialValue) {
+        var currentValue = callback(initialValue);
+        var array = [];
+        while (currentValue) {
+            array.push(currentValue);
+            currentValue = callback(currentValue);
+        }
+        return array;
+    }
+
     return {
         bind: bind,
         curry: curry,
-        linearFold: linearFold
+        linearFold: linearFold,
+        linearUnfold: linearUnfold
     }
 });
