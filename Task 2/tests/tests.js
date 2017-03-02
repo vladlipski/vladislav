@@ -36,4 +36,24 @@ define(['testLib', 'tasks'], function(testLib, tasks){
             'call carried sum with (1) should return 1');
     });
 
+    QUnit.test('Linear fold', function (assert) {
+        assert.equal(tasks.linearFold( [1, 2, 3, 4], testLib.sumCallback), 10,
+            'Linear fold for [1, 2, 3, 4] without initialValue and with sum callback should return 10');
+        assert.equal(tasks.linearFold( [1], testLib.sumCallback), 1,
+            'Linear fold for [1] without initialValue and with sum callback should return 1');
+        assert.equal(tasks.linearFold( [1, 2, 3, 4], testLib.sumCallback, 10), 20,
+            'Linear fold for [1, 2, 3, 4] with initialValue = 10 and with sum callback should return 20');
+        assert.equal(tasks.linearFold( [1], testLib.sumCallback, 10), 11,
+            'Linear fold for [1] with initialValue = 10 and with sum callback should return 11');
+        assert.equal(tasks.linearFold( [], testLib.sumCallback, 10), 10,
+            'Linear fold for [] with initialValue = 10 and with sum callback should return 10');
+        assert.throws(
+            function () {
+                return tasks.linearFold([], testLib.sumCallback);
+            },
+            TypeError,
+            'Linear fold for [] without initialValue and with sum callback should throw TypeError'
+        );
+    });
+
 });

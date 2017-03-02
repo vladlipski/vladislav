@@ -1,8 +1,10 @@
 define(function() {
+
     function bind() {
         var slice = [].slice;
         var func = arguments[arguments.length - 1];
         var args = slice.call(arguments, 0, -1);
+
         return function () {
             return func.apply(null, args.concat(slice.call(arguments)));
         };
@@ -19,15 +21,37 @@ define(function() {
             }
             else {
                 return function () {
-                    var args2 = slice.call(arguments, 0);
-                    return newFunc.apply(null, args.concat(args2));
+                    var newArgs = slice.call(arguments, 0);
+                    return newFunc.apply(null, args.concat(newArgs));
                 }
             }
         };
     }
 
+    function linearFold(array, callback, initialValue) {
+        var previousValue;
+        var start = 0;
+
+        if (array.length == 0 && !initialValue) {
+            throw new TypeError();
+        }
+
+        if (initialValue) {
+            previousValue = initialValue;
+        } else {
+            previousValue = array[0];
+            start = 1;
+        }
+
+        for (var i = start; i < array.length; i++) {
+            previousValue = callback(previousValue, array[i], i, array);
+        }
+        return previousValue;
+    }
+
     return {
         bind: bind,
-        curry: curry
+        curry: curry,
+        linearFold: linearFold
     }
 });

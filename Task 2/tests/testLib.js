@@ -3,6 +3,7 @@ define(function(){
     function sumThree(a, b, c) {
         return a + b + c;
     }
+
     function sum() {
         var slice = [].slice;
         var args = slice.call(arguments);
@@ -17,10 +18,15 @@ define(function(){
         return 9;
     }
 
+    function sumCallback(prev, currentValue, i, array) {
+        return prev + currentValue;
+    }
+
     return {
         sum: sum,
         sumThree: sumThree,
-        emptyFunc: emptyFunc
+        emptyFunc: emptyFunc,
+        sumCallback: sumCallback
     }
 
 });
