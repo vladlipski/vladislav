@@ -90,11 +90,11 @@ define(['testLib', 'tasks'], function(testLib, tasks){
     });
 
     QUnit.test('Average of even numbers', function (assert) {
-        assert.deepEqual(tasks.getAverageEven([1,23,2,6,12, 0]), 5,
+        assert.equal(tasks.getAverageEven([1,23,2,6,12, 0]), 5,
             'Average of even numbers in [1,23,2,6,12, 0], should be 5');
-        assert.deepEqual(tasks.getAverageEven([1, 2, 3, 4, 5, 6]), 4,
+        assert.equal(tasks.getAverageEven([1, 2, 3, 4, 5, 6]), 4,
             'Average of even numbers in [1, 2, 3, 4, 5, 6], should be 4');
-        assert.deepEqual(tasks.getAverageEven([2]), 2,
+        assert.equal(tasks.getAverageEven([2]), 2,
             'Average of even numbers in [2], should be 2');
         assert.throws(
             function () {
@@ -110,6 +110,15 @@ define(['testLib', 'tasks'], function(testLib, tasks){
             TypeError,
             'getAverageEven for [], should throw TypeError'
         );
+    });
+
+    QUnit.test('Sum of random numbers', function (assert) {
+        assert.ok(tasks.sumRandom(10, 1, 5) <= 10 * 5,
+            'Sum of 10 random numbers in range(1, 5), should be less than 50');
+        assert.ok(tasks.sumRandom(10, 0, 0) == 0,
+            'Sum of 10 random numbers in range(0, 0), should be equal 0');
+        assert.ok(tasks.sumRandom(0, 1, 1000) == 0,
+            'Sum of 0 random numbers in range(1, 1000), should be less equal 0');
     });
 
 });

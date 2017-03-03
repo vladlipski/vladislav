@@ -35,6 +35,18 @@ define(function(){
         return (!(value % 2));
     }
 
+    function getAverage(previousValue, currentValue, i, array) {
+        previousValue += currentValue;
+        if (i == array.length - 1) {
+            previousValue /= array.length;
+        }
+        return previousValue;
+    }
+
+    function random(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
     return {
         sum: sum,
         sumThree: sumThree,
@@ -42,7 +54,9 @@ define(function(){
         sumCallback: sumCallback,
         unfoldCallback: unfoldCallback,
         mult: mult,
-        isEven: isEven
+        isEven: isEven,
+        getAverage: getAverage,
+        random: random
     }
 
 });

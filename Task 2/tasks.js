@@ -81,16 +81,15 @@ define(['testLib'], function(testLib) {
 
     function getAverageEven(array) {
         var arrEven = filter(array, testLib.isEven);
+        return linearFold(arrEven, testLib.getAverage);
+    }
 
-        function getAverage(previousValue, currentValue, i, array) {
-            previousValue += currentValue;
-            if (i == array.length - 1) {
-                previousValue /= array.length;
-            }
-            return previousValue;
+    function sumRandom(count, min, max) {
+        var array = [];
+        for (var i = 0; i < count; i++) {
+            array.push(testLib.random(min, max));
         }
-
-        return linearFold(arrEven, getAverage);
+        return testLib.sum.apply(null, array);
     }
 
     return {
@@ -100,6 +99,7 @@ define(['testLib'], function(testLib) {
         linearUnfold: linearUnfold,
         map: map,
         filter: filter,
-        getAverageEven: getAverageEven
+        getAverageEven: getAverageEven,
+        sumRandom: sumRandom
     }
 });
