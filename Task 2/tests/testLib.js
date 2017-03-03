@@ -18,8 +18,8 @@ define(function(){
         return 9;
     }
 
-    function sumCallback(prev, currentValue, i, array) {
-        return prev + currentValue;
+    function sumCallback(previousValue, currentValue, i, array) {
+        return previousValue + currentValue;
     }
 
     function unfoldCallback(currentValue) {
@@ -27,12 +27,22 @@ define(function(){
         return currentValue <= 4 ? currentValue : false;
     }
 
+    function mult(value) {
+        return value * 2;
+    }
+
+    function isEven(value) {
+        return (!(value % 2));
+    }
+
     return {
         sum: sum,
         sumThree: sumThree,
         emptyFunc: emptyFunc,
         sumCallback: sumCallback,
-        unfoldCallback: unfoldCallback
+        unfoldCallback: unfoldCallback,
+        mult: mult,
+        isEven: isEven
     }
 
 });

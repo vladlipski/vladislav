@@ -56,13 +56,60 @@ define(['testLib', 'tasks'], function(testLib, tasks){
         );
     });
 
-    QUnit.test('Linear fold', function (assert) {
+    QUnit.test('Linear unfold', function (assert) {
         assert.deepEqual(tasks.linearUnfold(testLib.unfoldCallback, 0), [1, 2, 3, 4],
             'Linear unfold for callback, which iterate parameter,' +
             ' with initialValue = 0 should return [1, 2, 3, 4]');
         assert.deepEqual(tasks.linearUnfold(testLib.unfoldCallback, 2), [3, 4],
             'Linear unfold for callback, which iterate parameter,' +
             ' with initialValue = 2 should return [3, 4]');
+    });
+
+    QUnit.test('Map', function (assert) {
+        assert.deepEqual(tasks.map([1, 2, 3], testLib.mult), [2, 4, 6],
+            'Map for [1, 2, 3], with mult callback should return [2, 4, 6]');
+        assert.deepEqual(tasks.map([10], testLib.mult), [20],
+            'Map for [10], with mult callback should return [20]');
+        assert.deepEqual(tasks.map([], testLib.mult), [],
+            'Map for [], with mult callback should return []');
+    });
+
+    QUnit.test('Filter', function (assert) {
+        assert.deepEqual(tasks.filter([1, 2, 3, 4, 5, 6], testLib.isEven), [2, 4, 6],
+            'Filter all even numbers in [1, 2, 3, 4, 5, 6], should return [2, 4, 6]');
+        assert.deepEqual(tasks.filter([1, 3, 5, 7, 9], testLib.isEven), [],
+            'Filter all even numbers in [1, 3, 5, 7, 9], should return []');
+        assert.deepEqual(tasks.filter([2, 4, 6, 8, 10], testLib.isEven), [2, 4, 6, 8, 10],
+            'Filter all even numbers in [2, 4, 6, 8, 10], should return [2, 4, 6, 8, 10]');
+        assert.deepEqual(tasks.filter([1], testLib.isEven), [],
+            'Filter all even numbers in [1], should return []');
+        assert.deepEqual(tasks.filter([2], testLib.isEven), [2],
+            'Filter all even numbers in [2], should return [2]');
+        assert.deepEqual(tasks.filter([], testLib.isEven), [],
+            'Filter all even numbers in [], should return []');
+    });
+
+    QUnit.test('Average of even numbers', function (assert) {
+        assert.deepEqual(tasks.getAverageEven([1,23,2,6,12, 0]), 5,
+            'Average of even numbers in [1,23,2,6,12, 0], should be 5');
+        assert.deepEqual(tasks.getAverageEven([1, 2, 3, 4, 5, 6]), 4,
+            'Average of even numbers in [1, 2, 3, 4, 5, 6], should be 4');
+        assert.deepEqual(tasks.getAverageEven([2]), 2,
+            'Average of even numbers in [2], should be 2');
+        assert.throws(
+            function () {
+                return tasks.getAverageEven([1, 3, 5]);
+            },
+            TypeError,
+            'getAverageEven for [1, 3, 5], should throw TypeError'
+        );
+        assert.throws(
+            function () {
+                return tasks.getAverageEven([]);
+            },
+            TypeError,
+            'getAverageEven for [], should throw TypeError'
+        );
     });
 
 });

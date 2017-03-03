@@ -1,4 +1,4 @@
-define(function() {
+define(['testLib'], function(testLib) {
 
     function bind() {
         var slice = [].slice;
@@ -59,10 +59,47 @@ define(function() {
         return array;
     }
 
+    function map(array, callback) {
+
+        function mapCallback(previousValue, currentValue, i, array) {
+            previousValue.push(callback(currentValue));
+            return previousValue;
+        }
+
+        return linearFold(array, mapCallback, []);
+    }
+
+    function filter(array, callback) {
+        var newArr = [];
+        array.forEach(function(currentValue, index, arr) {
+            if (callback(currentValue)) {
+                newArr.push(currentValue);
+            }
+        });
+        return newArr;
+    }
+
+    function getAverageEven(array) {
+        var arrEven = filter(array, testLib.isEven);
+
+        function getAverage(previousValue, currentValue, i, array) {
+            previousValue += currentValue;
+            if (i == array.length - 1) {
+                previousValue /= array.length;
+            }
+            return previousValue;
+        }
+
+        return linearFold(arrEven, getAverage);
+    }
+
     return {
         bind: bind,
         curry: curry,
         linearFold: linearFold,
-        linearUnfold: linearUnfold
+        linearUnfold: linearUnfold,
+        map: map,
+        filter: filter,
+        getAverageEven: getAverageEven
     }
 });
