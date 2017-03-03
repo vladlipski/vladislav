@@ -92,6 +92,10 @@ define(['testLib'], function(testLib) {
         return testLib.sum.apply(null, array);
     }
 
+    function findFirst(array, condition) {
+        return filter(array, condition)[0] || null
+    }
+
     return {
         bind: bind,
         curry: curry,
@@ -100,6 +104,7 @@ define(['testLib'], function(testLib) {
         map: map,
         filter: filter,
         getAverageEven: getAverageEven,
-        sumRandom: sumRandom
+        sumRandom: sumRandom,
+        findFirst: findFirst
     }
 });

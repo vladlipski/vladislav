@@ -121,4 +121,17 @@ define(['testLib', 'tasks'], function(testLib, tasks){
             'Sum of 0 random numbers in range(1, 1000), should be less equal 0');
     });
 
+    QUnit.test('First', function (assert) {
+        assert.equal(tasks.findFirst([1, 2, 3, 4, 5], testLib.isEven), 2,
+            'First even in [1, 2, 3, 4, 5] should be 2');
+        assert.equal(tasks.findFirst([1, 3, 5, 7, 9, 10], testLib.isEven), 10,
+            'First even in [1, 3, 5, 7, 9, 10] should be 10');
+        assert.equal(tasks.findFirst([2, 4, 18, 12, 10, 6], testLib.isEven), 2,
+            'First even in [2, 4, 18, 12, 10, 6] should be 2');
+        assert.equal(tasks.findFirst([1, 3, 5], testLib.isEven), null,
+            'First even in [1, 3, 5] should be null');
+        assert.equal(tasks.findFirst([], testLib.isEven), null,
+            'First even in [] should be null');
+    });
+
 });
