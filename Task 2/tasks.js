@@ -105,6 +105,16 @@ define(['testLib'], function(testLib) {
         }
     }
 
+    function memoize(func) {
+        return function (arg) {
+            var hash = (arg === Object(arg)) ?
+                JSON.stringify(arg) : arg;
+            func.memoize || (func.memoize = {});
+            return (hash in func.memoize) ? func.memoize[hash] :
+                func.memoize[hash] = func.call(this, arg);
+        };
+    }
+
     return {
         bind: bind,
         curry: curry,
@@ -115,6 +125,7 @@ define(['testLib'], function(testLib) {
         getAverageEven: getAverageEven,
         sumRandom: sumRandom,
         findFirst: findFirst,
-        lazyEvaluation: lazyEvaluation
+        lazyEvaluation: lazyEvaluation,
+        memoize: memoize
     }
 });

@@ -8,9 +8,16 @@ define(function(){
         var slice = [].slice;
         var args = slice.call(arguments);
         var result = 0;
-        args.forEach(function (item) {
-            result += item;
-        });
+
+        if (args[0] === Object(args[0])){
+            for (var index in args[0]) {
+                result += args[0][index];
+            }
+        } else {
+            args.forEach(function (item) {
+                result += item;
+            });
+        }
         return result;
     }
 

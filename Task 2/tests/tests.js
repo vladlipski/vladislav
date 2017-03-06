@@ -153,4 +153,61 @@ define(['testLib', 'tasks'], function(testLib, tasks){
             'After 3 calls of lazySumOneAndTwo, counter should be equal 1');
     });
 
+    counter = 0;
+
+    function inc(arg) {
+        counter++;
+        switch (arg) {
+            case undefined: return undefined;
+            case null: return null;
+            default: return ++arg;
+        }
+    }
+
+    var  memoInc = tasks.memoize(inc);
+    var  memoSum = tasks.memoize(sum);
+
+    QUnit.test('Memoization', function (assert) {
+        assert.equal(memoSum({a:1, b:2}), 3,
+            'memoSum({a:1, b:2}) call should return 3');
+        assert.equal(memoSum({a:1, b:2}), 3,
+            'memoSum({a:1, b:2}) call should return 3');
+        assert.equal(counter, 1,
+            'After 2 calls of memoSum({a:1, b:2}), counter should be equal 1');
+        assert.equal(memoSum({c:2, b:2}), 4,
+            'memoSum({c:2, b:2}) call should return 4');
+        assert.equal(memoSum({c:2, b:2}), 4,
+            'memoSum({c:2, b:2}) call should return 4');
+        assert.equal(memoSum({}), 0,
+            'memoSum({}) call should return 0');
+        assert.equal(memoSum({}), 0,
+            'memoSum({}) call should return 0');
+        assert.equal(counter, 3,
+            'After 2 calls of memoSum({a:1, b:2}), 2 calls of memoSum({c:2, b:2})' +
+            ' and 2 calls of memoSum({}), counter should be equal 3');
+
+        counter = 0;
+
+        assert.equal(memoInc(1), 2,
+            'memoInc(1) call should return 2');
+        assert.equal(memoInc(1), 2,
+            'memoInc(1) call should return 2');
+        assert.equal(counter, 1,
+            'After 2 calls of memoInc(1), counter should be equal 1');
+        assert.equal(memoInc(undefined), undefined,
+            'memoInc(undefined) call should return undefined');
+        assert.equal(memoInc(undefined), undefined,
+            'memoInc(undefined) call should return undefined');
+        assert.equal(counter, 2,
+            'After 2 calls of memoInc(1) and 2 calls memoInc(undefined),' +
+            ' counter should be equal 2');
+        assert.equal(memoInc(null), null,
+            'memoInc(null) call should return null');
+        assert.equal(memoInc(null), null,
+            'memoInc(null) call should return null');
+        assert.equal(counter, 3,
+            'After 2 calls of memoInc(1), 2 calls memoInc(undefined) and' +
+            '2 calls of memoInc(null), counter should be equal 3');
+    });
+
 });
