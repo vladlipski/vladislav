@@ -13,7 +13,6 @@ define(['testLib', 'tasks'], function(testLib, tasks){
             'bind three arguments (1, 3, 9), emptyFunc() should return 9');
         assert.equal(tasks.bind(testLib.emptyFunc)(), 9,
             'bind null arguments, emptyFunc() should return 9');
-
     });
 
     QUnit.test('Curry function', function (assert) {
@@ -132,6 +131,26 @@ define(['testLib', 'tasks'], function(testLib, tasks){
             'First even in [1, 3, 5] should be null');
         assert.equal(tasks.findFirst([], testLib.isEven), null,
             'First even in [] should be null');
+    });
+
+    var counter = 0;
+
+    function sum() {
+        counter++;
+        return testLib.sum.apply(null, arguments);
+    }
+
+    var lazySumOneAndTwo = tasks.lazyEvaluation(1, 2, sum);
+
+    QUnit.test('Lazy evaluation', function (assert) {
+        assert.equal(lazySumOneAndTwo(), 3,
+            'lazySumOneAndTwo() call should return 3');
+        assert.equal(lazySumOneAndTwo(3), 3,
+            'lazySumOneAndTwo(3) call should return 3');
+        assert.equal(lazySumOneAndTwo(8, 8), 3,
+            'lazySumOneAndTwo(8, 8) call should return 3');
+        assert.equal(counter, 1,
+            'After 3 calls of lazySumOneAndTwo, counter should be equal 1');
     });
 
 });

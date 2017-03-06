@@ -96,6 +96,15 @@ define(['testLib'], function(testLib) {
         return filter(array, condition)[0] || null
     }
 
+    function lazyEvaluation() {
+        var cache;
+        var bindedFunc = bind.apply(null, arguments);
+        return function () {
+            cache = cache || bindedFunc();
+            return cache;
+        }
+    }
+
     return {
         bind: bind,
         curry: curry,
@@ -105,6 +114,7 @@ define(['testLib'], function(testLib) {
         filter: filter,
         getAverageEven: getAverageEven,
         sumRandom: sumRandom,
-        findFirst: findFirst
+        findFirst: findFirst,
+        lazyEvaluation: lazyEvaluation
     }
 });
