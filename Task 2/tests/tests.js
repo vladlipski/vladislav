@@ -1,4 +1,4 @@
-define(['testLib', 'tasks'], function(testLib, tasks){
+define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
 
     QUnit.test('Partial application', function (assert) {
         assert.equal(tasks.bind(1, testLib.sumThree)(2, 3), 6,
@@ -208,6 +208,15 @@ define(['testLib', 'tasks'], function(testLib, tasks){
         assert.equal(counter, 3,
             'After 2 calls of memoInc(1), 2 calls memoInc(undefined) and' +
             '2 calls of memoInc(null), counter should be equal 3');
+    });
+
+    QUnit.test('Twin numbers', function (assert) {
+        assert.deepEqual(twins.findTwins(1),[[220, 284]],
+            'First twin numbers should be 220 and 284');
+        assert.deepEqual(twins.findTwins(5),[[220, 284], [1184, 1210],
+            [2620, 2924], [5020, 5564], [6232, 6368]],
+            'First 5 twin numbers should be [220, 284], [1184, 1210], ' +
+            '[2620, 2924], [5020, 5564], [6232, 6368]');
     });
 
 });
