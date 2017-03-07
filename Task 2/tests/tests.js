@@ -19,20 +19,12 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
         assert.equal(tasks.curry(testLib.emptyFunc)(), 9,
             'call carried emptyFunc  without parameters should return 9');
         assert.equal(tasks.curry(testLib.emptyFunc)(10, 9, 8), 9,
-            'call carried emptyFunc  with parameters should return 9');
+            'call carried emptyFunc with parameters should return 9');
 
         var carriedSumThree = tasks.curry(testLib.sumThree);
 
-        assert.equal(typeof(carriedSumThree(1)), 'function',
-            'call carriedSumThree(1) should return function');
-        assert.equal(typeof(carriedSumThree(1)(2)), 'function',
-            'call carriedSumThree(1)(2) should return function');
         assert.equal(carriedSumThree(1)(2)(3), 6,
             'call  carriedSumThree(1)(2)(3) should return 6');
-        assert.equal(carriedSumThree(1, 2, 3), 6,
-            'carriedSumThree (1, 2, 3) should return 6');
-        assert.equal(tasks.curry(testLib.sum)(1), 1,
-            'call carried sum with (1) should return 1');
     });
 
     QUnit.test('Linear fold', function (assert) {
@@ -46,22 +38,18 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
             'Linear fold for [1] with initialValue = 10 and with sum callback should return 11');
         assert.equal(tasks.linearFold( [], testLib.sumCallback, 10), 10,
             'Linear fold for [] with initialValue = 10 and with sum callback should return 10');
-        assert.throws(
-            function () {
-                return tasks.linearFold([], testLib.sumCallback);
-            },
-            TypeError,
-            'Linear fold for [] without initialValue and with sum callback should throw TypeError'
+        assert.equal( tasks.linearFold([], testLib.sumCallback), 0,
+            'Linear fold for [] without initialValue and with sum callback should return 0'
         );
     });
 
     QUnit.test('Linear unfold', function (assert) {
-        assert.deepEqual(tasks.linearUnfold(testLib.unfoldCallback, 0), [1, 2, 3, 4],
+        assert.deepEqual(tasks.linearUnfold(testLib.unfoldCallback, 4), [3, 2, 1],
             'Linear unfold for callback, which iterate parameter,' +
-            ' with initialValue = 0 should return [1, 2, 3, 4]');
-        assert.deepEqual(tasks.linearUnfold(testLib.unfoldCallback, 2), [3, 4],
+            ' with initialValue = 1 should return [1, 2, 3, 4]');
+        assert.deepEqual(tasks.linearUnfold(testLib.unfoldCallback, 3), [2, 1],
             'Linear unfold for callback, which iterate parameter,' +
-            ' with initialValue = 2 should return [3, 4]');
+            ' with initialValue = 3 should return [3, 4]');
     });
 
     QUnit.test('Map', function (assert) {
@@ -76,6 +64,10 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
     QUnit.test('Filter', function (assert) {
         assert.deepEqual(tasks.filter([1, 2, 3, 4, 5, 6], testLib.isEven), [2, 4, 6],
             'Filter all even numbers in [1, 2, 3, 4, 5, 6], should return [2, 4, 6]');
+        assert.deepEqual(tasks.filter([1, 2, [2, 4], 4, 5, 6], testLib.isEven), [2, [2, 4], 4, 6],
+            'Filter all even numbers in [1, 2, [2, 4], 4, 5, 6], should return [2, [2, 4], 4, 6]');
+        assert.deepEqual(tasks.filter([1, 2, [2, 4, [2]], 4, 5, 6], testLib.isEven), [2, [2, 4, [2]], 4, 6],
+            'Filter all even numbers in [1, 2, [2, 4, [2]], 4, 5, 6], should return [2, [2, 4, [2]], 4, 6]');
         assert.deepEqual(tasks.filter([1, 3, 5, 7, 9], testLib.isEven), [],
             'Filter all even numbers in [1, 3, 5, 7, 9], should return []');
         assert.deepEqual(tasks.filter([2, 4, 6, 8, 10], testLib.isEven), [2, 4, 6, 8, 10],
@@ -95,19 +87,11 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
             'Average of even numbers in [1, 2, 3, 4, 5, 6], should be 4');
         assert.equal(tasks.getAverageEven([2]), 2,
             'Average of even numbers in [2], should be 2');
-        assert.throws(
-            function () {
-                return tasks.getAverageEven([1, 3, 5]);
-            },
-            TypeError,
-            'getAverageEven for [1, 3, 5], should throw TypeError'
+        assert.equal(tasks.getAverageEven([1, 3, 5]), 0,
+            'getAverageEven for [1, 3, 5], should return 0'
         );
-        assert.throws(
-            function () {
-                return tasks.getAverageEven([]);
-            },
-            TypeError,
-            'getAverageEven for [], should throw TypeError'
+        assert.equal(tasks.getAverageEven([]), 0,
+            'getAverageEven for [], should return 0'
         );
     });
 
@@ -137,9 +121,11 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
 
     function sum() {
         counter++;
-        return testLib.sum.apply(null, arguments);
+        return tasks.sum.apply(null, arguments);
     }
 
+    var lazySum = tasks.lazyEvaluation(sum);
+    var nullFunc = tasks.lazyEvaluation(testLib.nullFunc);
     var lazySumOneAndTwo = tasks.lazyEvaluation(1, 2, sum);
 
     QUnit.test('Lazy evaluation', function (assert) {
@@ -151,6 +137,10 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
             'lazySumOneAndTwo(8, 8) call should return 3');
         assert.equal(counter, 1,
             'After 3 calls of lazySumOneAndTwo, counter should be equal 1');
+        assert.equal(lazySum(), 0,
+            'lazySum() call should return 0');
+        assert.equal(nullFunc(), null,
+            'lazySum() call should return 0');
     });
 
     counter = 0;

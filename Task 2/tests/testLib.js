@@ -1,28 +1,16 @@
 define(function(){
 
+
     function sumThree(a, b, c) {
         return a + b + c;
     }
 
-    function sum() {
-        var slice = [].slice;
-        var args = slice.call(arguments);
-        var result = 0;
-
-        if (args[0] === Object(args[0])){
-            for (var index in args[0]) {
-                result += args[0][index];
-            }
-        } else {
-            args.forEach(function (item) {
-                result += item;
-            });
-        }
-        return result;
-    }
-
     function emptyFunc() {
         return 9;
+    }
+
+    function nullFunc() {
+        return null;
     }
 
     function sumCallback(previousValue, currentValue, i, array) {
@@ -30,8 +18,15 @@ define(function(){
     }
 
     function unfoldCallback(currentValue) {
-        currentValue++;
-        return currentValue <= 4 ? currentValue : false;
+        if (currentValue > 1) {
+            currentValue--;
+        } else {
+            return false;
+        }
+        return {
+            value: currentValue,
+            element: currentValue
+        }
     }
 
     function mult(value) {
@@ -55,7 +50,7 @@ define(function(){
     }
 
     return {
-        sum: sum,
+        nullFunc: nullFunc,
         sumThree: sumThree,
         emptyFunc: emptyFunc,
         sumCallback: sumCallback,
