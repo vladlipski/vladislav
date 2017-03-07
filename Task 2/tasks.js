@@ -92,7 +92,7 @@ define(['testLib'], function(testLib) {
                 if (newElement.length != 0) {
                     newArr.push(newElement);
                 }
-            } else if (callback(currentValue)) {
+            } else if (callback(currentValue, index, arr)) {
                 newArr.push(currentValue);
             }
         });
