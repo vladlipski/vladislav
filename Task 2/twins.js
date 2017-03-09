@@ -1,4 +1,4 @@
-define(['tasks', 'testLib'], function(tasks, testLib) {
+define(['tasks'], function(tasks) {
 
     function findDividers(number) {
         var result = [];
@@ -30,33 +30,39 @@ define(['tasks', 'testLib'], function(tasks, testLib) {
         return result;
     }
 
-    function findTwins(n) {
-        var counter = 0,
-            number1 = 1,
-            number2,
-            dividers1,
-            dividers2;
-
-        var checkedNumbers = [];
-        var result = [];
-
-        while (counter < n) {
-            dividers1 = findDividers(number1);
-            if (dividers1.length > 2) {
-                number2 = tasks.sum(dividers1);
-                dividers2 = findDividers(number2);
-                if (number1 == tasks.sum(dividers2) &&
-                    number1 != number2 &&
-                    checkedNumbers.indexOf(number2) == -1) {
-                    result.push([number1, number2]);
-                    checkedNumbers.push(number1);
-                    counter++;
-                }
+    function getTwin(number) {
+        dividers1 = findDividers(number);
+        if (dividers1.length > 2) {
+            twin = tasks.sum(dividers1);
+            dividers2 = findDividers(twin);
+            if (number == tasks.sum(dividers2)) {
+                return twin;
             }
-            number1++;
         }
-        return result;
-        findDividers(220);
+        return null;
+    }
+
+    function findTwins(n) {
+        var counter = 0;
+
+        function checkNumber(number1) {
+            var number2;
+
+            while (counter < n) {
+                number2 = getTwin(number1);
+                if (number2 > number1) {
+                    counter++;
+                    return {
+                        element: [number1++, number2],
+                        value: number1
+                    }
+                }
+                number1++;
+            }
+
+        }
+
+        return tasks.linearUnfold(checkNumber, 2);
     }
 
     return {
