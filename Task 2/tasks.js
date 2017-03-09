@@ -1,5 +1,20 @@
 define(['testLib'], function(testLib) {
 
+    function range(start, stop) {
+
+        function getSequence(currentValue) {
+            if (currentValue < start) {
+                return false;
+            }
+            return {
+                element: currentValue--,
+                state: currentValue
+            }
+        }
+
+        return linearUnfold(getSequence, stop).reverse();
+    }
+
     function sum() {
         var slice = [].slice;
         var args = slice.call(arguments);
@@ -46,8 +61,8 @@ define(['testLib'], function(testLib) {
     function linearFold(array, callback, initialValue) {
         var previousValue;
         var start = 0;
-        if (array.length == 0 && !initialValue) {
-            return 0;
+        if (array.length == 0) {
+            return initialValue;
         }
 
         if (initialValue) {
@@ -64,11 +79,11 @@ define(['testLib'], function(testLib) {
     }
 
     function linearUnfold(callback, initialValue) {
-        var currentValue = initialValue;
+        var currentState = initialValue;
         var array = [];
         var currentResult;
-        while (currentResult = callback(currentValue)) {
-            currentValue = currentResult.value;
+        while (currentResult = callback(currentState)) {
+            currentState = currentResult.state;
             array.push(currentResult.element);
         }
         return array;
@@ -86,17 +101,15 @@ define(['testLib'], function(testLib) {
 
     function filter(array, callback) {
         var newArr = [];
-        array.forEach(function(currentValue, index, arr) {
-            if (Array.isArray(currentValue)) {
-                var newElement = filter(currentValue, callback);
-                if (newElement.length != 0) {
-                    newArr.push(newElement);
-                }
-            } else if (callback(currentValue, index, arr)) {
-                newArr.push(currentValue);
+        if (array.length > 0) {
+            if (callback(array[0], array)) {
+                newArr.push(array[0]);
             }
-        });
-        return newArr;
+            return newArr.concat(filter.call(null, array.slice(1), callback));
+        }
+        else {
+            return newArr;
+        }
     }
 
     function getAverageEven(array) {
@@ -109,7 +122,7 @@ define(['testLib'], function(testLib) {
         function randomCallback(count) {
             if (count) {
                 return {
-                    value: --count,
+                    state: --count,
                     element: testLib.random(min, max)
                 }
             } else {
@@ -144,6 +157,7 @@ define(['testLib'], function(testLib) {
     }
 
     return {
+        range: range,
         sum: sum,
         bind: bind,
         curry: curry,

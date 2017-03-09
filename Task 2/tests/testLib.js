@@ -24,7 +24,7 @@ define(function(){
             return false;
         }
         return {
-            value: currentValue,
+            state: currentValue,
             element: currentValue
         }
     }

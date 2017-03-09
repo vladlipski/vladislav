@@ -6,24 +6,14 @@ define(['tasks'], function(tasks) {
         if (number == 1 || number == 2)
             return number;
 
-        function range(currentValue) {
-            if (currentValue <= 1) {
-                return false;
-            }
-            return {
-                element: currentValue--,
-                value: currentValue
-            }
-        }
-
-        var arr = tasks.linearUnfold(range, Math.ceil(Math.sqrt(number)) + 1);
+        var arr = tasks.range(2, Math.ceil(Math.sqrt(number)) + 1);
         result = result.concat(tasks.filter(arr, function (divider) {
             return number % divider == 0;
         }));
         result = result.concat(tasks.map(result, function(divider) {
             return number / divider;
         }));
-        result = tasks.filter(result, function(elem, index, self) {
+        result = result.filter(function(elem, index, self) {
             return index == self.indexOf(elem);
         });
         result.push(1);
@@ -54,7 +44,7 @@ define(['tasks'], function(tasks) {
                     counter++;
                     return {
                         element: [number1++, number2],
-                        value: number1
+                        state: number1
                     }
                 }
                 number1++;

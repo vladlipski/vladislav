@@ -38,8 +38,8 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
             'Linear fold for [1] with initialValue = 10 and with sum callback should return 11');
         assert.equal(tasks.linearFold( [], testLib.sumCallback, 10), 10,
             'Linear fold for [] with initialValue = 10 and with sum callback should return 10');
-        assert.equal( tasks.linearFold([], testLib.sumCallback), 0,
-            'Linear fold for [] without initialValue and with sum callback should return 0'
+        assert.equal( tasks.linearFold([], testLib.sumCallback), undefined,
+            'Linear fold for [] without initialValue and with sum callback should return undefined'
         );
     });
 
@@ -87,11 +87,11 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
             'Average of even numbers in [1, 2, 3, 4, 5, 6], should be 4');
         assert.equal(tasks.getAverageEven([2]), 2,
             'Average of even numbers in [2], should be 2');
-        assert.equal(tasks.getAverageEven([1, 3, 5]), 0,
-            'getAverageEven for [1, 3, 5], should return 0'
+        assert.equal(tasks.getAverageEven([1, 3, 5]), undefined,
+            'getAverageEven for [1, 3, 5], should return undefined'
         );
-        assert.equal(tasks.getAverageEven([]), 0,
-            'getAverageEven for [], should return 0'
+        assert.equal(tasks.getAverageEven([]), undefined,
+            'getAverageEven for [], should return undefined'
         );
     });
 
@@ -100,8 +100,8 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
             'Sum of 10 random numbers in range(1, 5), should be less than 50');
         assert.ok(tasks.sumRandom(10, 0, 0) == 0,
             'Sum of 10 random numbers in range(0, 0), should be equal 0');
-        assert.ok(tasks.sumRandom(0, 1, 1000) == 0,
-            'Sum of 0 random numbers in range(1, 1000), should be less equal 0');
+        assert.ok(tasks.sumRandom(0, 1, 1000) == undefined,
+            'Sum of 0 random numbers in range(1, 1000), should be equal undefined');
     });
 
     QUnit.test('First', function (assert) {
@@ -137,8 +137,8 @@ define(['testLib', 'tasks', 'twins'], function(testLib, tasks, twins){
             'lazySumOneAndTwo(8, 8) call should return 3');
         assert.equal(counter, 1,
             'After 3 calls of lazySumOneAndTwo, counter should be equal 1');
-        assert.equal(lazySum(), 0,
-            'lazySum() call should return 0');
+        assert.equal(lazySum(),undefined,
+            'lazySum() call should return undefined');
         assert.equal(nullFunc(), null,
             'lazySum() call should return 0');
     });
