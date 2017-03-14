@@ -1,5 +1,5 @@
 .audio-player {
-    width: 450px;
+    width: 500px;
     height: 43px;
     margin: 20px auto;
     background-color: #1b1b1b;
@@ -33,7 +33,7 @@
 }
 
 .audio-player__track {
-    width: 80px;
+    width: 130px;
 }
 
 .slider {

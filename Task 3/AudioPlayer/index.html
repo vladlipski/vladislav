@@ -9,24 +9,28 @@
 <body>
 
     <div class="audio-player">
-        <button type="button" class="audio-player__button audio-player__button_play"></button>
-        <button type="button" class="audio-player__button audio-player__button_pause"></button>
-        <span class="audio-player__time audio-player__time_current">00:00</span>
-        <div class="slider audio-player__track"></div>
-        <span class="audio-player__time audio-player__time_total">00:00</span>
-        <div class="audio-player__speaker"></div>
-        <div class="slider audio-player__volume"></div>
+
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.min.js"></script>
-<script src="audioPlayer.js"></script>
-<script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.1/howler.js"></script>
+    <script src="audioPlayer.js"></script>
 
-    $(function(){
-        $(".audio-player").audioPlayer();
-    });
+    <script>
 
-</script>
+        $(function(){
+
+            var settings = {
+                src: 'music/a_ha_thought_that_it_was_you.mp3'
+//                onvolume: function() {
+//                    console.log("volume changed");
+//                }
+            };
+
+            $('.audio-player').audioPlayer(settings);
+        });
+
+    </script>
 </body>
 </html>
