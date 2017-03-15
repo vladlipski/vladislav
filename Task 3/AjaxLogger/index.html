@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
+    <title>Ajax logger</title>
+</head>
+<body>
+    <h1 ><a href="#" id="send">Send Request</a></h1>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="ajaxLogger.js"></script>
+
+    <script type='text/javascript'>
+        $(function() {
+            ajaxLogger.initialize();
+            $("#send").click(function (url) {
+                $.ajax({
+                    url: url,
+                    type: 'GET'
+                });
+            }.bind(this, 'test'));
+        });
+    </script>
+</body>
+</html>

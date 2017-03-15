@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Demo</title>
+    <title>Audio player</title>
     <link rel="stylesheet" href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/themes/sunny/jquery-ui.css">
     <link rel="stylesheet" href="css/audio-player.css">
 </head>
@@ -22,10 +22,10 @@
         $(function(){
 
             var settings = {
-                src: 'music/a_ha_thought_that_it_was_you.mp3'
-//                onvolume: function() {
-//                    console.log("volume changed");
-//                }
+                src: 'music/a_ha_thought_that_it_was_you.mp3',
+                onvolume: function() {
+                    console.log("volume changed");
+                }
             };
 
             $('.audio-player').audioPlayer(settings);
