@@ -119,7 +119,7 @@
         }
         
         function initializePlayerTemplate() {
-            var htmlOutput =
+            var playerTemplate =
                 '<button type="button" class="audio-player__button audio-player__button_play"></button>' +
                 '<button type="button" class="audio-player__button audio-player__button_pause"></button>' +
                 '<span class="audio-player__time audio-player__time_current">00:00</span>' +
@@ -128,7 +128,7 @@
                 '<div class="audio-player__speaker"></div>' +
                 '<div class="slider audio-player__volume"></div>';
 
-            $this.append(htmlOutput);
+            $this.append(playerTemplate);
         }
 
         function initializeButtons() {
