@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="import" href="jquery.html">
+</head>
+<body>
+    <template id="template">
+        <style>
+            #spinner-wrapper {
+                position: absolute;
+                background-color: rgba(191, 191, 191, 0.5);
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+            }
+
+            #spinner {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+        </style>
+
+        <div id="spinner-wrapper">
+            <img id="spinner" src="">
+        </div>
+    </template>
+
+    <script>
+        !function() {
+            var localDocument = document.currentScript.ownerDocument;
+            var template = localDocument.getElementById('template');
+            var SpinnerPrototype = Object.create(HTMLElement.prototype);
+
+            SpinnerPrototype.createdCallback = function() {
+                var root = this.createShadowRoot();
+                root.appendChild(template.content.cloneNode(true));
+
+                this.spinner = $(root.getElementById('spinner'));
+                this.spinner.attr('src', this.getAttribute('src') || 'img/default.gif');
+
+                if (this.getAttribute('block-ui') !== 'true') {
+                    $(root.getElementById('spinner-wrapper')).replaceWith(this.spinner);
+                }
+            };
+
+            document.registerElement('super-spinner', {
+                prototype: SpinnerPrototype
+            });
+        }();
+    </script>
+</body>
+</html>
