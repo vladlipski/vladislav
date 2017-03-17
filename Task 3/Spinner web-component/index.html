@@ -28,7 +28,15 @@
         Vivamus viverra accumsan interdum. Praesent bibendum eu urna sagittis aliquet.
         Phasellus iaculis viverra ex. Sed finibus laoreet nunc, a volutpat nisi ullamcorper quis.
         Sed ullamcorper neque sit amet mi cursus semper. Quisque.
-        <loading-spinner src="img/ring.gif" block-ui="true"></loading-spinner>
+        <!--<loading-spinner block-ui="true"></loading-spinner>-->
     </div>
+    <script>
+        var spinner = document.createElement('loading-spinner');
+
+        $('.test').append(spinner);
+        spinner.show();
+        spinner.show();
+        spinner.hide();
+    </script>
 </body>
 </html>

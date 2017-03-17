@@ -14,7 +14,6 @@
                 top: 0;
                 left: 0;
             }
-
             #spinner {
                 position: absolute;
                 top: 50%;
@@ -24,7 +23,7 @@
         </style>
 
         <div id="spinner-wrapper">
-            <img id="spinner" src="">
+            <img id="spinner" src="img/default.gif">
         </div>
     </template>
 
@@ -33,16 +32,33 @@
             var localDocument = document.currentScript.ownerDocument;
             var template = localDocument.getElementById('template');
             var SpinnerPrototype = Object.create(HTMLElement.prototype);
-
             SpinnerPrototype.createdCallback = function() {
+                this.spinnerCount = 0;
                 var root = this.createShadowRoot();
                 root.appendChild(template.content.cloneNode(true));
-
                 this.spinner = $(root.getElementById('spinner'));
                 this.spinner.attr('src', this.getAttribute('src') || 'img/default.gif');
-
                 if (this.getAttribute('block-ui') !== 'true') {
-                    $(root.getElementById('spinner-wrapper')).replaceWith(this.spinner);
+                    this.spinner = $(root.getElementById('spinner-wrapper')).replaceWith(this.spinner);
+                }
+                $(this).hide();
+            };
+
+            SpinnerPrototype.show = function () {
+                console.log('show');
+                if (this.spinnerCount == 0) {
+                    $(this).show();
+                }
+                this.spinnerCount++;
+            };
+
+            SpinnerPrototype.hide = function () {
+                console.log('hide');
+                if (this.spinnerCount > 0) {
+                    this.spinnerCount--;
+                    if (this.spinnerCount == 0) {
+                        $(this).hide();
+                    }
                 }
             };
 
