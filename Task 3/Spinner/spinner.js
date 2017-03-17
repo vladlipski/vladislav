@@ -13,12 +13,12 @@
 
         function initializeSpinnerClass() {
             $this.css('position','relative');
-            if(!settings.spinnerElement.hasClass( 'spinner' )) {
+            if(!settings.spinnerElement.hasClass('spinner')) {
                 settings.spinnerElement.addClass('spinner');
             }
         }
 
-        $this.showSpinner = function() {
+        $this.show = function() {
             if (spinnerCount == 0) {
                 if (settings.blockUi) {
                     $this.append(spinnerWrapper);
@@ -29,7 +29,7 @@
             spinnerCount++;
         };
 
-        $this.hideSpinner = function() {
+        $this.hide = function() {
             if (spinnerCount > 0) {
                 spinnerCount--;
                 if (spinnerCount == 0) {
@@ -42,9 +42,9 @@
             }
         };
 
-        $this.wrapSpinner = function(promise) {
-            $this.showSpinner();
-            return promise.done($this.hideSpinner);
+        $this.wrap = function(promise) {
+            $this.show();
+            return promise.done($this.hide);
         };
 
         initializeSpinnerClass();

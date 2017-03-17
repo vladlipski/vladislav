@@ -1,8 +1,8 @@
 (function ( $ ) {
 
-    $.fn.audioPlayer = function(options) {
+    $.fn.audioPlayer = function(settings) {
 
-        var settings = $.extend({
+        var defaultSettings = $.extend({
             onplay: function() {
                 console.log("play");
             },
@@ -27,7 +27,7 @@
             onloaderror: function() {
                 console.log("load error");
             }
-        }, options );
+        }, settings);
 
         $this = this;
         var playButton = {};
@@ -73,24 +73,24 @@
 
         function initializePlayer() {
             player = new Howl({
-                src: [settings.src],
+                src: [defaultSettings.src],
                 autoplay: false,
                 loop: false,
-                onplay: settings.onplay,
-                onpause: settings.onpause,
-                onstop: settings.onstop,
-                onvolume: settings.onvolume,
-                onseek: settings.onseek,
+                onplay: defaultSettings.onplay,
+                onpause: defaultSettings.onpause,
+                onstop: defaultSettings.onstop,
+                onvolume: defaultSettings.onvolume,
+                onseek: defaultSettings.onseek,
                 onend: function() {
                     updateProgress();
                     $this.player.paused = true;
-                    settings.onend();
+                    defaultSettings.onend();
                 },
                 onload: function() {
                     setTotalTime(player.duration());
-                    settings.onload();
+                    defaultSettings.onload();
                 },
-                onloaderror: settings.onloaderror
+                onloaderror: defaultSettings.onloaderror
             });
             player.playPause = playPause;
             player.paused = true;

@@ -47,15 +47,15 @@
             var spinner = $('.test').spinner(settings);
 
             $("#show").click(function() {
-                spinner.showSpinner();
+                spinner.show();
             });
 
             $("#hide").click(function() {
-                spinner.hideSpinner();
+                spinner.hide();
             });
 
             $("#wrap").click(function() {
-                spinner.wrapSpinner(
+                spinner.wrap(
                     $.ajax({
                         url: "large-test"
                     })
