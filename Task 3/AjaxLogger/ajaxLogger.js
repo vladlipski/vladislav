@@ -3,27 +3,28 @@ var ajaxLogger = (function() {
     var defaultSettings = {};
 
     var startLogging = function () {
-        XMLHttpRequest.prototype._open = XMLHttpRequest.prototype.open;
-
-        XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
-            this.addEventListener("error", defaultSettings.onError, false);
-            this.addEventListener("load", defaultSettings.onLoad, false);
-            this.addEventListener('progress', function(oEvent) {
-                if (oEvent.lengthComputable) {
-                    var progress = Math.ceil(oEvent.loaded / oEvent.total * 100);
-                    defaultSettings.onProgress(progress);
-                }
-            }, false);
-            this.addEventListener('abort', defaultSettings.onAbort, false);
-            this._open(method, url, async, user, password);
-        };
-
-        XMLHttpRequest.prototype._send = XMLHttpRequest.prototype.send;
-
-        XMLHttpRequest.prototype.send = function(data) {
-            defaultSettings.onStart();
-            this._send(data);
-        };
+        var xhr = new window.XMLHttpRequest();
+        xhr.addEventListener('progress', function(oEvent) {
+            if (oEvent.lengthComputable) {
+                var progress = Math.ceil(oEvent.loaded / oEvent.total * 100);
+                defaultSettings.onProgress(progress);
+            }
+        });
+        $.ajaxSetup({
+            xhr: function (xhr) {
+                xhr = new window.XMLHttpRequest();
+                xhr.addEventListener('progress', function(oEvent) {
+                    if (oEvent.lengthComputable) {
+                        var progress = Math.ceil(oEvent.loaded / oEvent.total * 100);
+                        defaultSettings.onProgress(progress);
+                    }
+                });
+                return xhr;
+            }
+        });
+        $(document).ajaxStart(defaultSettings.onStart);
+        $(document).ajaxError(defaultSettings.onError);
+        $(document).ajaxComplete(defaultSettings.onLoad);
     };
 
     var initialize = function(settings) {
@@ -34,21 +35,31 @@ var ajaxLogger = (function() {
             onProgress: function(progress) {
                 console.log("progress " + progress + "%");
             },
-            onError: function() {
-                console.log("error");
+            onError: function( event, jqxhr, settings, thrownError ) {
+                console.log(thrownError);
             },
             onLoad: function() {
                 console.log("done");
-            },
-            onAbort: function() {
-                console.log("abort");
             }
         }, settings);
         startLogging();
     };
 
+    var destroy = function () {
+        $(document).off('ajaxStart');
+        $(document).off('ajaxError');
+        $(document).off('ajaxComplete');
+        $.ajaxSetup({
+            xhr: function (xhr) {
+                xhr = new window.XMLHttpRequest();
+                return xhr;
+            }
+        });
+    };
+
     return {
-        initialize: initialize
+        initialize: initialize,
+        destroy: destroy
     }
 
 })();
