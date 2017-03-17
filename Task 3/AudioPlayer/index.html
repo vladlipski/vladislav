@@ -8,8 +8,7 @@
 </head>
 <body>
 
-    <div class="audio-player">
-
+    <div class="audio-player" id="audio-player">
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -28,7 +27,7 @@
                 }
             };
 
-            $('.audio-player').audioPlayer(settings);
+            var player = $('.audio-player').audioPlayer(settings);
         });
 
     </script>

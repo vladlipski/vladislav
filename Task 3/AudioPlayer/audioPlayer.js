@@ -30,11 +30,13 @@
         }, settings);
 
         $this = this;
+        var playerElements = [];
         var playButton = {};
         var pauseButton = {};
         var progressSlider = {};
         var currentTimeElement = {};
         var totalTimeElement = {};
+        var volumeSlider = {};
         var totalTime = 0;
         var timer = {};
 
@@ -48,27 +50,28 @@
             }
         }
 
-        function initializeTime() {
-            currentTimeElement = $('.audio-player__time_current');
-            totalTimeElement = $('.audio-player__time_total');
-        }
-
         function playPause(){
             var player = $this.player;
             if (player.paused === true){
                 player.play();
                 player.paused = false;
-                playButton.trigger('focus');
+                if (playButton) {
+                    playButton.trigger('focus');
+                }
             } else if (player.paused === false){
                 player.pause();
                 player.paused = true;
-                pauseButton.trigger('focus');
+                if (pauseButton) {
+                    pauseButton.trigger('focus');
+                }
             }
         }
 
         function setTotalTime(duration) {
             totalTime = duration;
-            totalTimeElement.text(formatTime(totalTime));
+            if (totalTimeElement) {
+                totalTimeElement.text(formatTime(totalTime));
+            }
         }
 
         function initializePlayer() {
@@ -99,56 +102,78 @@
         }
         
         function initializeSliders() {
-            progressSlider = $('.audio-player__track');
-            progressSlider.slider({
-                start: function() {
-                    $this.player.allowUpdate = false;
-                },
-                stop: function() {
-                    $this.player.allowUpdate = true;
-                    $this.player.seek(totalTime * progressSlider.slider('value') / 100);
-                    updateProgress();
-                }
-            });
-            $('.audio-player__volume').slider({
-                value: 100,
-                slide: function () {
-                    $this.player.volume($this.find(".audio-player__volume").slider('value') / 100);
-                }
-            });
+            if (progressSlider) {
+                progressSlider.slider({
+                    start: function() {
+                        $this.player.allowUpdate = false;
+                    },
+                    stop: function() {
+                        $this.player.allowUpdate = true;
+                        $this.player.seek(totalTime * progressSlider.slider('value') / 100);
+                        updateProgress();
+                    }
+                });
+            }
+            if (volumeSlider) {
+                volumeSlider.slider({
+                    value: 100,
+                    slide: function () {
+                        $this.player.volume($this.find(".audio-player__volume").slider('value') / 100);
+                    }
+                });
+            }
         }
-        
-        function initializePlayerTemplate() {
-            var playerTemplate =
-                '<button type="button" class="audio-player__button audio-player__button_play"></button>' +
-                '<button type="button" class="audio-player__button audio-player__button_pause"></button>' +
-                '<span class="audio-player__time audio-player__time_current">00:00</span>' +
-                '<div class="slider audio-player__track"></div>' +
-                '<span class="audio-player__time audio-player__time_total">00:00</span>' +
-                '<div class="audio-player__speaker"></div>' +
-                '<div class="slider audio-player__volume"></div>';
 
-            $this.append(playerTemplate);
+        function getElement(selector) {
+            var element = $this.find(selector);
+            if (element.length) {
+                return element
+            }
+            return null;
+        }
+
+        function initializePlayerTemplate() {
+            if($('.audio-player').children().length == 0) {
+                var playerTemplate =
+                    '<button type="button" class="audio-player__button audio-player__button_play"></button>' +
+                    '<button type="button" class="audio-player__button audio-player__button_pause"></button>' +
+                    '<span class="audio-player__time audio-player__time_current">00:00</span>' +
+                    '<div class="slider audio-player__track"></div>' +
+                    '<span class="audio-player__time audio-player__time_total">00:00</span>' +
+                    '<div class="audio-player__speaker"></div>' +
+                    '<div class="slider audio-player__volume"></div>';
+
+                $this.append(playerTemplate);
+            }
+            playButton = getElement('.audio-player__button_play');
+            pauseButton = getElement('.audio-player__button_pause');
+            currentTimeElement = getElement('.audio-player__time_current');
+            progressSlider = getElement('.audio-player__track');
+            totalTimeElement = getElement('.audio-player__time_total');
+            volumeSlider = getElement('.audio-player__volume');
         }
 
         function initializeButtons() {
-            playButton = $this.find('.audio-player__button_play');
-            pauseButton = $this.find('.audio-player__button_pause');
-            playButton.on('click', function() {
-                $this.player.playPause();
-            });
-            pauseButton.on('click', function() {
-                $this.player.playPause();
-            });
+            if (playButton) {
+                playButton.on('click', function() {
+                    $this.player.playPause();
+                });
+            }
+            if (pauseButton) {
+                pauseButton.on('click', function() {
+                    $this.player.playPause();
+                });
+            }
         }
 
         function updateProgress() {
             var player = $this.player;
-            if (!player.paused && player.allowUpdate) {
+            if (!player.paused && player.allowUpdate && progressSlider) {
                 progressSlider.slider('value', player.seek() / totalTime * 100);
             }
-            currentTimeElement.text(formatTime(player.seek()));
-
+            if (currentTimeElement) {
+                currentTimeElement.text(formatTime(player.seek()));
+            }
         }
 
         function initializeTimer() {
@@ -158,11 +183,17 @@
         function initialize() {
             initializePlayerTemplate();
             initializeSliders();
-            initializeTime();
             initializePlayer();
             initializeButtons();
             initializeTimer();
         }
+
+        $this.destroy = function () {
+            clearTimeout(timer);
+            $this.player.stop();
+            delete $this.player;
+            $('.audio-player').remove();
+        };
 
         initialize();
         return $this;
