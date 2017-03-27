@@ -1,35 +1,20 @@
 import React, { Component, PropTypes } from 'react';
 import Grid  from 'react-bootstrap/lib/Grid';
-import Navbar from 'react-bootstrap/lib/Navbar';
-import { Link } from 'react-router';
 
 import './bootstrap.css';
-import { Nav, NavItem } from "react-bootstrap";
-import {LinkContainer} from "react-router-bootstrap";
-
-const propTypes = {
-  children: PropTypes.node
-};
+import {connect} from "react-redux";
+import Header from "../Header";
 
 class App extends Component {
     render() {
+        const { dispatch, isAuthenticated, errorMessage } = this.props;
         return (
             <div>
-                <Navbar>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            <Link to='/'>Students Lab Management Portal</Link>
-                        </Navbar.Brand>
-                        <Navbar.Toggle />
-                    </Navbar.Header>
-                    <Navbar.Collapse>
-                        <Nav pullRight>
-                            <LinkContainer to='/login'>
-                                <NavItem>Login</NavItem>
-                            </LinkContainer>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Navbar>
+                <Header
+                    isAuthenticated={isAuthenticated}
+                    errorMessage={errorMessage}
+                    dispatch={dispatch}>
+                </Header>
                 <Grid>
                     {this.props.children}
                 </Grid>
@@ -38,6 +23,18 @@ class App extends Component {
   }
 }
 
-App.propTypes = propTypes;
+App.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    errorMessage: PropTypes.string,
+    children: PropTypes.node
+};
 
-export default App;
+function mapStateToProps(state) {
+    return {
+        isAuthenticated: state.isAuthenticated,
+        errorMessage: state.errorMessage
+    }
+}
+
+export default connect(mapStateToProps)(App)
