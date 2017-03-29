@@ -1,18 +1,16 @@
 // import { authService } from './authService'
 // var localStorage = require('localStorage');
 //
-// export const LOGIN_REQUEST = 'LOGIN_REQUEST'
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-export const LOGIN_FAILURE = 'LOGIN_FAILURE'
-//
-// function requestLogin() {
-//     return {
-//         type: LOGIN_REQUEST,
-//         isFetching: true,
-//         isAuthenticated: false
-//     }
-// }
-//
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+
+function requestLogin() {
+    return {
+        type: LOGIN_REQUEST
+    }
+}
+
 function receiveLogin() {
     return {
         type: LOGIN_SUCCESS
@@ -37,6 +35,7 @@ export function loginUser(creds) {
         // dispatch(requestLogin(creds));
         // var response = authService('login', request);
         // localStorage.setItem('id_token', response.id_token);
+        dispatch(requestLogin());
         dispatch(loginError('Wrong password'));//response.id_token))
     }
 }

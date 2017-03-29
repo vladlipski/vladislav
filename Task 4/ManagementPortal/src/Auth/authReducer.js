@@ -10,11 +10,11 @@ export default function(state = {
                             isAuthenticated: false//localStorage.getItem('id_token') ? true : false
                         }, action) {
     switch (action.type) {
-        // case LOGIN_REQUEST:
-        //     return Object.assign({}, state, {
-        //         isFetching: true,
-        //         isAuthenticated: false
-        //     })
+        case LOGIN_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true,
+                isAuthenticated: false
+            });
         case LOGIN_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: false,
