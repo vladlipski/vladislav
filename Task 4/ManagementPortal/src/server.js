@@ -13,15 +13,15 @@ app.use((req, res) => {
   const store = configureStore();
 
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
-    if (redirectLocation) { // Если необходимо сделать redirect
+    if (redirectLocation) {
       return res.redirect(301, redirectLocation.pathname + redirectLocation.search);
     }
 
-    if (error) { // Произошла ошибка любого рода
+    if (error) {
       return res.status(500).send(error.message);
     }
 
-    if (!renderProps) { // мы не определили путь, который бы подошел для URL
+    if (!renderProps) {
       return res.status(404).send('Not found');
     }
 
@@ -41,17 +41,17 @@ const assetUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:8050'
 function renderHTML(componentHTML) {
   return `
     <!DOCTYPE html>
-      <html>
-      <head>
-          <meta charset="utf-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Hello React</title>
-          <link rel="stylesheet" href="${assetUrl}/public/assets/styles.css">
-      </head>
-      <body>
-        <div id="react-view">${componentHTML}</div>
-        <script type="application/javascript" src="${assetUrl}/public/assets/bundle.js"></script>
-      </body>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Hello React</title>
+      <link rel="stylesheet" href="${assetUrl}/public/assets/styles.css">
+    </head>
+    <body>
+      <div id="react-view">${componentHTML}</div>
+      <script type="application/javascript" src="${assetUrl}/public/assets/bundle.js"></script>
+    </body>
     </html>
   `;
 }

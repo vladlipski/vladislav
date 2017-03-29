@@ -1,40 +1,36 @@
 import React, { Component, PropTypes } from 'react'
-import Login from './Login'
-import Logout from './Logout'
-import { loginUser, logoutUser } from '../Login/loginActions'
+import {dispatch} from "redux";
+import {Nav, Navbar, NavItem} from "react-bootstrap";
+import {LinkContainer} from "react-router-bootstrap";
+import {Link} from "react-router";
 
 export default class Header extends Component {
 
     render() {
-        const { dispatch, isAuthenticated, errorMessage } = this.props;
+        const isAuthenticated = this.props.isAuthenticated;
 
         return (
-            <nav className='navbar navbar-default'>
-                <div className='container-fluid'>
-                    <a className="navbar-brand" href="#">Students Lab Management Portal</a>
-                    <div className='navbar-form'>
-
-                        {!isAuthenticated &&
-                        <Login
-                            errorMessage={errorMessage}
-                            onLoginClick={ creds => dispatch(loginUser(creds)) }
-                        />
-                        }
-
+            <Navbar>
+                <Navbar.Header>
+                    <Navbar.Brand>
+                        <Link to='/'>Students Lab Management Portal</Link>
+                    </Navbar.Brand>
+                    <Navbar.Toggle />
+                </Navbar.Header>
+                <Navbar.Collapse>
+                    <Nav pullRight>
                         {isAuthenticated &&
-                        <Logout onLogoutClick={() => dispatch(logoutUser())} />
+                            <LinkContainer to='/logout'>
+                                <NavItem>Logout</NavItem>
+                            </LinkContainer>
                         }
-
-                    </div>
-                </div>
-            </nav>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
         )
     }
-
 }
 
 Header.propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string
+    isAuthenticated: PropTypes.bool.isRequired
 };

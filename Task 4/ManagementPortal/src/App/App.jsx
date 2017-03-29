@@ -1,20 +1,22 @@
 import React, { Component, PropTypes } from 'react';
 import Grid  from 'react-bootstrap/lib/Grid';
-
-import './bootstrap.css';
 import {connect} from "react-redux";
 import Header from "../Header";
+import './bootstrap.css';
 
 class App extends Component {
+    componentWillMount() {
+        if (!this.props.isAuthenticated) {
+            this.props.router.push('/login');
+        }
+    }
     render() {
-        const { dispatch, isAuthenticated, errorMessage } = this.props;
+        const isAuthenticated = this.props.isAuthenticated;
         return (
             <div>
                 <Header
                     isAuthenticated={isAuthenticated}
-                    errorMessage={errorMessage}
-                    dispatch={dispatch}>
-                </Header>
+                />
                 <Grid>
                     {this.props.children}
                 </Grid>
@@ -24,16 +26,14 @@ class App extends Component {
 }
 
 App.propTypes = {
-    dispatch: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string,
     children: PropTypes.node
 };
 
 function mapStateToProps(state) {
     return {
-        isAuthenticated: state.isAuthenticated,
-        errorMessage: state.errorMessage
+        isAuthenticated: state.auth.isAuthenticated
+        // errorMessage: state.errorMessage
     }
 }
 
