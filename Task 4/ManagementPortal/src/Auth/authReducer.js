@@ -13,21 +13,20 @@ export default function(state = {
         // case LOGIN_REQUEST:
         //     return Object.assign({}, state, {
         //         isFetching: true,
-        //         isAuthenticated: false,
-        //         user: action.creds
+        //         isAuthenticated: false
         //     })
         case LOGIN_SUCCESS:
             return Object.assign({}, state, {
-                // isFetching: false,
-                isAuthenticated: true
-                // errorMessage: ''
-            })
-        // case LOGIN_FAILURE:
-        //     return Object.assign({}, state, {
-        //         isFetching: false,
-        //         isAuthenticated: false,
-        //         errorMessage: action.message
-        //     })
+                isFetching: false,
+                isAuthenticated: true,
+                errorMessage: ''
+            });
+        case LOGIN_FAILURE:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isAuthenticated: false,
+                errorMessage: action.payload
+            });
         // case LOGOUT_SUCCESS:
         //     return Object.assign({}, state, {
         //         isFetching: true,

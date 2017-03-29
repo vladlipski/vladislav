@@ -5,19 +5,25 @@ import Col from 'react-bootstrap/lib/Col';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Button from 'react-bootstrap/lib/Button';
 import {ControlLabel, PageHeader} from 'react-bootstrap';
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {loginUser} from "./authActions";
+import * as ReactDOM from "react-dom";
 
 class Login extends Component {
     render() {
+        const { errorMessage } = this.props;
+
         return (
             <div>
                 <PageHeader>Students Lab Management Portal</PageHeader>
                 <Form horizontal>
                     <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} sm={3}>
-                            Email
+                            Username
                         </Col>
                         <Col sm={6}>
-                            <FormControl type="email" placeholder="Email" />
+                            <FormControl type="text" placeholder="username" ref="username"/>
                         </Col>
                     </FormGroup>
 
@@ -26,13 +32,17 @@ class Login extends Component {
                             Password
                         </Col>
                         <Col sm={6}>
-                            <FormControl type="password" placeholder="Password" />
+                            <FormControl type="password" placeholder="Password" ref="password"/>
                         </Col>
                     </FormGroup>
 
+                    {errorMessage &&
+                        <p style={{color:'red'}}>{errorMessage}</p>
+                    }
+
                     <FormGroup>
                         <Col smOffset={3} sm={6}>
-                            <Button type="submit">
+                            <Button onClick={(event) => this.loginClick(event)}>
                                 Sign in
                             </Button>
                         </Col>
@@ -41,6 +51,35 @@ class Login extends Component {
             </div>
         );
     }
+
+    loginClick(event) {
+        const username = ReactDOM.findDOMNode(this.refs.username);
+        const password = ReactDOM.findDOMNode(this.refs.password);
+        console.log(username.value);
+        console.log(password.value);
+
+        const creds = {
+            username: username.value.trim(),
+            password: password.value.trim()
+        };
+        this.props.loginUser(creds);
+    }
 }
 
-export default Login;
+Login.propTypes = {
+    errorMessage: PropTypes.string
+};
+
+function mapStateToProps(state) {
+    return {
+        errorMessage: state.auth.errorMessage
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        loginUser: bindActionCreators(loginUser, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

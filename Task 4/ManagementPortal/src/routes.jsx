@@ -4,7 +4,7 @@ import App from './App';
 import Login from './Auth';
 
 export default (
-    <Route component={App} path='/'>
+    <Route authorize={['student', 'mentor', 'admin']} component={App} path='/'>
         <Route component={Login} path='login' />
     </Route>
 );

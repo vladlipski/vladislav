@@ -3,13 +3,15 @@ import Grid  from 'react-bootstrap/lib/Grid';
 import {connect} from "react-redux";
 import Header from "../Header";
 import './bootstrap.css';
+import { AuthorizedComponent } from 'react-router-role-authorization';
 
-class App extends Component {
-    componentWillMount() {
-        if (!this.props.isAuthenticated) {
-            this.props.router.push('/login');
-        }
+class App extends AuthorizedComponent {
+    constructor(props) {
+        super(props);
+        this.userRoles = [];
+        this.notAuthorizedPath = '/login';
     }
+
     render() {
         const isAuthenticated = this.props.isAuthenticated;
         return (
@@ -21,8 +23,8 @@ class App extends Component {
                     {this.props.children}
                 </Grid>
             </div>
-    );
-  }
+        );
+     }
 }
 
 App.propTypes = {
@@ -33,7 +35,6 @@ App.propTypes = {
 function mapStateToProps(state) {
     return {
         isAuthenticated: state.auth.isAuthenticated
-        // errorMessage: state.errorMessage
     }
 }
 

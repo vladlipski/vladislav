@@ -13,7 +13,7 @@ export default class Header extends Component {
             <Navbar>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <Link to='/'>Students Lab Management Portal</Link>
+                        Students Lab Management Portal
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>

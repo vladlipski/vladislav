@@ -3,49 +3,43 @@
 //
 // export const LOGIN_REQUEST = 'LOGIN_REQUEST'
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-// export const LOGIN_FAILURE = 'LOGIN_FAILURE'
+export const LOGIN_FAILURE = 'LOGIN_FAILURE'
 //
-// function requestLogin(creds) {
+// function requestLogin() {
 //     return {
 //         type: LOGIN_REQUEST,
 //         isFetching: true,
-//         isAuthenticated: false,
-//         creds
+//         isAuthenticated: false
 //     }
 // }
 //
-function receiveLogin(id_token) {
+function receiveLogin() {
     return {
-        type: LOGIN_SUCCESS,
-        isFetching: false,
-        isAuthenticated: true,
-        id_token: id_token
+        type: LOGIN_SUCCESS
     }
 }
-//
-// function loginError(message) {
-//     return {
-//         type: LOGIN_FAILURE,
-//         isFetching: false,
-//         isAuthenticated: false,
-//         message
-//     }
-// }
-//
-// export function loginUser(creds) {
-//
-//     let request = {
-//         username: creds.username,
-//         password: creds.password
-//     };
-//
-//     return dispatch => {
-//         dispatch(requestLogin(creds));
-//         var response = authService('login', request);
-//         localStorage.setItem('id_token', response.id_token);
-//         dispatch(receiveLogin(response.id_token))
-//     }
-// }
+
+function loginError(message) {
+    return {
+        type: LOGIN_FAILURE,
+        payload: message
+    }
+}
+
+export function loginUser(creds) {
+
+    let request = {
+        username: creds.username,
+        password: creds.password
+    };
+
+    return dispatch => {
+        // dispatch(requestLogin(creds));
+        // var response = authService('login', request);
+        // localStorage.setItem('id_token', response.id_token);
+        dispatch(loginError('Wrong password'));//response.id_token))
+    }
+}
 //
 // export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 // export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
