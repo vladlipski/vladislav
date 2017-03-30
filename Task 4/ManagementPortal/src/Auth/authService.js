@@ -1,23 +1,27 @@
 import * as jwt from "jsonwebtoken";
+const JWT_SECRET = 'super secret 228';
 
 const fakeDatabase = {
     users: [{
         id: 1,
         username: 'vlad',
         password: '123',
+        roles: ['admin']
     }, {
-        id: 1,
+        id: 2,
         username: 'dima',
         password: '111',
+        roles: ['student']
     }, {
-        id: 1,
+        id: 3,
         username: 'denis',
         password: '000',
+        roles: ['mentor']
     }],
 };
 
-function createToken(username) {
-    return jwt.sign( {username}, 'secret', { expiresIn: 60*60*5 });
+function createToken(user) {
+    return jwt.sign({ user_id: user.id }, JWT_SECRET, { expiresIn: 60*60*5 });
 }
 
 function login(request) {

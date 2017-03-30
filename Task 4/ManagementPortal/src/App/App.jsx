@@ -6,18 +6,22 @@ import './bootstrap.css';
 import { AuthorizedComponent } from 'react-router-role-authorization';
 
 class App extends AuthorizedComponent {
-    constructor(props) {
-        super(props);
-        this.userRoles = [];
-        this.notAuthorizedPath = '/login';
+    // constructor(props) {
+    //     super(props);
+    //     this.userRoles = [];
+    //     this.notAuthorizedPath = '/login';
+    // }
+    componentWillMount() {
+        if (!this.props.isAuthenticated) {
+            this.props.router.push('/login');
+        }
     }
 
     render() {
-        const isAuthenticated = this.props.isAuthenticated;
         return (
             <div>
                 <Header
-                    isAuthenticated={isAuthenticated}
+                    roles={this.userRoles}
                 />
                 <Grid>
                     {this.props.children}

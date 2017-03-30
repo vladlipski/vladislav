@@ -32,38 +32,38 @@ export function loginUser(creds) {
     };
 
     return dispatch => {
-        // dispatch(requestLogin(creds));
-        // var response = authService('login', request);
+
         // localStorage.setItem('id_token', response.id_token);
         dispatch(requestLogin());
-        dispatch(loginError('Wrong password'));//response.id_token))
+        dispatch(receiveLogin());
+        //dispatch(loginError('Wrong password'));//response.id_token))
     }
 }
-//
-// export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-// export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-// export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
-//
-// function requestLogout() {
-//     return {
-//         type: LOGOUT_REQUEST,
-//         isFetching: true,
-//         isAuthenticated: true
-//     }
-// }
-//
-// function receiveLogout() {
-//     return {
-//         type: LOGOUT_SUCCESS,
-//         isFetching: false,
-//         isAuthenticated: false
-//     }
-// }
-//
-// export function logoutUser() {
-//     return dispatch => {
-//         dispatch(requestLogout());
-//         localStorage.removeItem('id_token');
-//         dispatch(receiveLogout())
-//     }
-// }
+
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
+
+function requestLogout() {
+    return {
+        type: LOGOUT_REQUEST,
+        isFetching: true,
+        isAuthenticated: true
+    }
+}
+
+function receiveLogout() {
+    return {
+        type: LOGOUT_SUCCESS,
+        isFetching: false,
+        isAuthenticated: false
+    }
+}
+
+export function logoutUser() {
+    return dispatch => {
+        dispatch(requestLogout());
+        // localStorage.removeItem('id_token');
+        dispatch(receiveLogout())
+    }
+}

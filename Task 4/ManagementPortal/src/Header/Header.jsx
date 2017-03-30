@@ -1,14 +1,15 @@
 import React, { Component, PropTypes } from 'react'
-import {dispatch} from "redux";
+import {bindActionCreators, dispatch} from "redux";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
-import {Link} from "react-router";
+import {logoutUser} from "../Auth/authActions";
+import {connect} from "react-redux";
 
-export default class Header extends Component {
+class Header extends Component {
 
     render() {
         const isAuthenticated = this.props.isAuthenticated;
-
+        const roles = this.props.roles;
         return (
             <Navbar>
                 <Navbar.Header>
@@ -19,6 +20,11 @@ export default class Header extends Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav pullRight>
+                        {/*{roles[0]==='student' &&*/}
+                        {/*<LinkContainer to='/'>*/}
+                            {/*<NavItem>Student</NavItem>*/}
+                        {/*</LinkContainer>*/}
+                        {/*}*/}
                         {isAuthenticated &&
                             <LinkContainer to='/logout'>
                                 <NavItem>Logout</NavItem>
@@ -34,3 +40,17 @@ export default class Header extends Component {
 Header.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired
 };
+
+function mapStateToProps(state) {
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        logoutUser: bindActionCreators(logoutUser, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

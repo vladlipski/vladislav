@@ -27,11 +27,11 @@ export default function(state = {
                 isAuthenticated: false,
                 errorMessage: action.payload
             });
-        // case LOGOUT_SUCCESS:
-        //     return Object.assign({}, state, {
-        //         isFetching: true,
-        //         isAuthenticated: false
-        //     })
+        case LOGOUT_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: false,
+                isAuthenticated: false
+            });
         default:
             return state
     }

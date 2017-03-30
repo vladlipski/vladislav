@@ -11,8 +11,14 @@ import {loginUser} from "./authActions";
 import * as ReactDOM from "react-dom";
 
 class Login extends Component {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isAuthenticated) {
+            nextProps.router.push('/');
+        }
+    }
+
     render() {
-        const { errorMessage } = this.props;
+        const {  errorMessage } = this.props;
 
         return (
             <div>
@@ -67,11 +73,13 @@ class Login extends Component {
 }
 
 Login.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
+        isAuthenticated: state.auth.isAuthenticated,
         errorMessage: state.auth.errorMessage
     }
 }
