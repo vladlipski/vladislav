@@ -7,7 +7,7 @@ import Forbidden from "./Forbidden/Forbidden";
 
 
 export default (store) => {
-    function requireAuth(replace) {
+    function requireAuth(nextState, replace) {
         const state = store.getState();
 
         if (!state.auth.isAuthenticated) {
