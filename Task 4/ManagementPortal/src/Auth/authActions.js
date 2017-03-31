@@ -1,10 +1,12 @@
-// import { authService } from './authService'
-
 import Cookies from 'js-cookie';
+import * as authService from "./authService";
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 function requestLogin() {
     return {
@@ -32,25 +34,19 @@ function loginError(message) {
     }
 }
 
-export function loginUser(creds) {
-
-    let request = {
-        username: creds.username,
-        password: creds.password
-    };
-
+export function loginUser(username, password) {
     return (dispatch) => {
         dispatch(requestLogin());
-
-        Cookies.set('id_token', 1);
-        dispatch(receiveLogin());
-        //dispatch(loginError('Wrong password'));//response.id_token))
+        return authService.login(username, password).then((id_token) => {
+            if (!id_token) {
+                dispatch(loginError('Incorrect username or password.'));
+                return Promise.reject();
+            }
+            Cookies.set('id_token', id_token);
+            dispatch(receiveLogin());
+        })
     }
 }
-
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 function requestLogout() {
     return {

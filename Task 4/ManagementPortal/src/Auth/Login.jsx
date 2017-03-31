@@ -23,11 +23,7 @@ class Login extends Component {
         const username = ReactDOM.findDOMNode(this.refs.username);
         const password = ReactDOM.findDOMNode(this.refs.password);
 
-        const creds = {
-            username: username.value.trim(),
-            password: password.value.trim()
-        };
-        this.props.loginUser(creds);
+        this.props.loginUser(username.value.trim(), password.value.trim());
     }
 
     render() {
@@ -56,7 +52,11 @@ class Login extends Component {
                     </FormGroup>
 
                     {errorMessage &&
-                        <p style={{color:'red'}}>{errorMessage}</p>
+                        <FormGroup>
+                            <Col smOffset={3} sm={6}>
+                                <p style={{color:'red'}}>{errorMessage}</p>
+                            </Col>
+                        </FormGroup>
                     }
 
                     <FormGroup>
