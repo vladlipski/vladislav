@@ -6,9 +6,14 @@ import {logoutUser} from "../Auth/authActions";
 import {connect} from "react-redux";
 
 class Header extends Component {
+    componentWillReceiveProps(nextProps) {
+        if (!nextProps.isAuthenticated) {
+            browserHistory.push('/login');
+        }
+    }
+
     logoutClick() {
         this.props.logoutUser();
-        browserHistory.push('/login');
     }
 
     render() {

@@ -6,11 +6,6 @@ import {connect} from "react-redux";
 
 
 class App extends Component {
-    // componentWillMount() {
-    //     if (!this.props.isAuthenticated) {
-    //           this.props.router.push('/login');
-    //     }
-    // }
 
     render() {
         return (

@@ -1,5 +1,5 @@
 // import { authService } from './authService'
-//var localStorage = require('localStorage');
+
 import Cookies from 'js-cookie';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -39,10 +39,10 @@ export function loginUser(creds) {
         password: creds.password
     };
 
-    return dispatch => {
+    return (dispatch) => {
+        dispatch(requestLogin());
 
         Cookies.set('id_token', 1);
-        dispatch(requestLogin());
         dispatch(receiveLogin());
         //dispatch(loginError('Wrong password'));//response.id_token))
     }

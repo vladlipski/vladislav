@@ -13,6 +13,12 @@ import * as ReactDOM from "react-dom";
 
 
 class Login extends Component {
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isAuthenticated) {
+            browserHistory.push('/');
+        }
+    }
+
     loginClick() {
         const username = ReactDOM.findDOMNode(this.refs.username);
         const password = ReactDOM.findDOMNode(this.refs.password);
@@ -22,7 +28,6 @@ class Login extends Component {
             password: password.value.trim()
         };
         this.props.loginUser(creds);
-        browserHistory.push('/');
     }
 
     render() {
