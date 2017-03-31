@@ -2,11 +2,12 @@ import Cookies from 'js-cookie';
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE
 } from './authActions'
+import {verifyToken} from "./authService";
 
 
 export default function(state = {
                             isFetching: false,
-                            isAuthenticated: !!Cookies.get('id_token')
+                            isAuthenticated: verifyToken(Cookies.get('id_token'))
                         }, action) {
     switch (action.type) {
         case LOGIN_REQUEST:

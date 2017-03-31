@@ -40,11 +40,11 @@ export function loginUser(username, password) {
         return authService.login(username, password).then((id_token) => {
             if (!id_token) {
                 dispatch(loginError('Incorrect username or password.'));
-                return Promise.reject();
+                return Promise.reject('login fail');
             }
             Cookies.set('id_token', id_token);
             dispatch(receiveLogin());
-        })
+        }).catch(error => console.log("Error: ", error))
     }
 }
 
