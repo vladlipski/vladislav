@@ -9,7 +9,7 @@ class Header extends Component {
 
     render() {
         const isAuthenticated = this.props.isAuthenticated;
-        const roles = this.props.roles;
+
         return (
             <Navbar>
                 <Navbar.Header>
@@ -20,11 +20,6 @@ class Header extends Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav pullRight>
-                        {/*{roles[0]==='student' &&*/}
-                        {/*<LinkContainer to='/'>*/}
-                            {/*<NavItem>Student</NavItem>*/}
-                        {/*</LinkContainer>*/}
-                        {/*}*/}
                         {isAuthenticated &&
                             <LinkContainer to='/logout'>
                                 <NavItem>Logout</NavItem>

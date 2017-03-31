@@ -4,7 +4,7 @@ import FormGroup from 'react-bootstrap/lib/FormGroup';
 import Col from 'react-bootstrap/lib/Col';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Button from 'react-bootstrap/lib/Button';
-import {ControlLabel, PageHeader} from 'react-bootstrap';
+import {ControlLabel, Grid, PageHeader} from 'react-bootstrap';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {loginUser} from "./authActions";
@@ -21,7 +21,7 @@ class Login extends Component {
         const {  errorMessage } = this.props;
 
         return (
-            <div>
+            <Grid>
                 <PageHeader>Students Lab Management Portal</PageHeader>
                 <Form horizontal>
                     <FormGroup controlId="formHorizontalEmail">
@@ -54,7 +54,7 @@ class Login extends Component {
                         </Col>
                     </FormGroup>
                 </Form>
-            </div>
+            </Grid>
         );
     }
 

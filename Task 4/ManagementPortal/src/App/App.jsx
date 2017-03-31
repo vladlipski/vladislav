@@ -5,17 +5,12 @@ import Header from "../Header";
 import './bootstrap.css';
 import { AuthorizedComponent } from 'react-router-role-authorization';
 
-class App extends AuthorizedComponent {
-    // constructor(props) {
-    //     super(props);
-    //     this.userRoles = [];
-    //     this.notAuthorizedPath = '/login';
+class App extends Component {
+    // componentWillMount() {
+    //     if (!this.props.isAuthenticated) {
+    //         this.props.router.push('/login');
+    //     }
     // }
-    componentWillMount() {
-        if (!this.props.isAuthenticated) {
-            this.props.router.push('/login');
-        }
-    }
 
     render() {
         return (
