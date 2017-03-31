@@ -1,11 +1,15 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import {bindActionCreators, dispatch} from "redux";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
-import {LinkContainer} from "react-router-bootstrap";
+import { browserHistory } from 'react-router';
 import {logoutUser} from "../Auth/authActions";
 import {connect} from "react-redux";
 
 class Header extends Component {
+    logoutClick() {
+        this.props.logoutUser();
+        browserHistory.push('/login');
+    }
 
     render() {
         const isAuthenticated = this.props.isAuthenticated;
@@ -21,9 +25,7 @@ class Header extends Component {
                 <Navbar.Collapse>
                     <Nav pullRight>
                         {isAuthenticated &&
-                            <LinkContainer to='/logout'>
-                                <NavItem>Logout</NavItem>
-                            </LinkContainer>
+                            <NavItem onClick={() => this.logoutClick()}>Logout</NavItem>
                         }
                     </Nav>
                 </Navbar.Collapse>
@@ -31,10 +33,6 @@ class Header extends Component {
         )
     }
 }
-
-Header.propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired
-};
 
 function mapStateToProps(state) {
     return {

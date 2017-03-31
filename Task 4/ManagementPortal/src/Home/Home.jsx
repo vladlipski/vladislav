@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { AuthorizedComponent } from 'react-router-role-authorization';
+
 
 class Home extends AuthorizedComponent {
     constructor(props) {
         super(props);
-        this.userRoles = [];
+        this.userRoles = ['student'];
         this.notAuthorizedPath = '/forbidden';
     }
 

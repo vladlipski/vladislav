@@ -1,15 +1,13 @@
-import React from 'react';
-import {browserHistory, IndexRoute, Route, Router}  from 'react-router';
-import App from './App';
-import Login from './Auth';
+import React from "react";
+import {browserHistory, IndexRoute, Route, Router}  from "react-router";
+import App from "./App";
+import Login from "./Auth";
 import Home from "./Home";
-import Forbidden from "./Forbidden";
-
-
+import Forbidden from "./Forbidden/Forbidden";
 
 
 export default (store) => {
-    function requireAuth(nextState, replace) {
+    function requireAuth(replace) {
         const state = store.getState();
 
         if (!state.auth.isAuthenticated) {
@@ -20,7 +18,7 @@ export default (store) => {
     return(
         <Router history={browserHistory}>
             <Route component={App} path='/' onEnter={requireAuth}>
-                <IndexRoute component={Home}/>
+                <IndexRoute authorize={['student', 'mentor', 'admin']} component={Home}/>
             </Route>
             <Route component={Login} path='/login'/>
             <Route component={Forbidden} path="/forbidden" />

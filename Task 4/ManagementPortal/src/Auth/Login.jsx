@@ -10,11 +10,23 @@ import {bindActionCreators} from "redux";
 import {loginUser} from "./authActions";
 import * as ReactDOM from "react-dom";
 
+
 class Login extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.isAuthenticated) {
             nextProps.router.push('/');
         }
+    }
+
+    loginClick() {
+        const username = ReactDOM.findDOMNode(this.refs.username);
+        const password = ReactDOM.findDOMNode(this.refs.password);
+
+        const creds = {
+            username: username.value.trim(),
+            password: password.value.trim()
+        };
+        this.props.loginUser(creds);
     }
 
     render() {
@@ -29,7 +41,7 @@ class Login extends Component {
                             Username
                         </Col>
                         <Col sm={6}>
-                            <FormControl type="text" placeholder="username" ref="username"/>
+                            <FormControl type="text" placeholder="Username" ref="username"/>
                         </Col>
                     </FormGroup>
 
@@ -48,7 +60,7 @@ class Login extends Component {
 
                     <FormGroup>
                         <Col smOffset={3} sm={6}>
-                            <Button onClick={(event) => this.loginClick(event)}>
+                            <Button onClick={() => this.loginClick()}>
                                 Sign in
                             </Button>
                         </Col>
@@ -56,19 +68,6 @@ class Login extends Component {
                 </Form>
             </Grid>
         );
-    }
-
-    loginClick(event) {
-        const username = ReactDOM.findDOMNode(this.refs.username);
-        const password = ReactDOM.findDOMNode(this.refs.password);
-        console.log(username.value);
-        console.log(password.value);
-
-        const creds = {
-            username: username.value.trim(),
-            password: password.value.trim()
-        };
-        this.props.loginUser(creds);
     }
 }
 
