@@ -6,18 +6,13 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 import Button from 'react-bootstrap/lib/Button';
 import {ControlLabel, Grid, PageHeader} from 'react-bootstrap';
 import {connect} from "react-redux";
+import { browserHistory } from 'react-router';
 import {bindActionCreators} from "redux";
 import {loginUser} from "./authActions";
 import * as ReactDOM from "react-dom";
 
 
 class Login extends Component {
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.isAuthenticated) {
-            nextProps.router.push('/');
-        }
-    }
-
     loginClick() {
         const username = ReactDOM.findDOMNode(this.refs.username);
         const password = ReactDOM.findDOMNode(this.refs.password);
@@ -27,6 +22,7 @@ class Login extends Component {
             password: password.value.trim()
         };
         this.props.loginUser(creds);
+        browserHistory.push('/');
     }
 
     render() {

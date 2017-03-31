@@ -1,4 +1,5 @@
-// var localStorage = require('localStorage');
+//var localStorage = require('localStorage');
+import Cookies from 'js-cookie';
 
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE
@@ -7,7 +8,7 @@ import {
 
 export default function(state = {
                             isFetching: false,
-                            isAuthenticated: false//localStorage.getItem('id_token') ? true : false
+                            isAuthenticated:  !!Cookies.get('id_token')
                         }, action) {
     switch (action.type) {
         case LOGIN_REQUEST:

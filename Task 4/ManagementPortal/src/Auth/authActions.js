@@ -1,6 +1,7 @@
 // import { authService } from './authService'
-// var localStorage = require('localStorage');
-//
+//var localStorage = require('localStorage');
+import Cookies from 'js-cookie';
+
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -40,7 +41,7 @@ export function loginUser(creds) {
 
     return dispatch => {
 
-        // localStorage.setItem('id_token', response.id_token);
+        Cookies.set('id_token', 1);
         dispatch(requestLogin());
         dispatch(receiveLogin());
         //dispatch(loginError('Wrong password'));//response.id_token))
@@ -78,7 +79,7 @@ function logoutError() {
 export function logoutUser() {
     return dispatch => {
         dispatch(requestLogout());
-        // localStorage.removeItem('id_token');
+        Cookies.remove('id_token');
         dispatch(receiveLogout())
     }
 }

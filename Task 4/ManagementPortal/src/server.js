@@ -5,12 +5,16 @@ import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import getRoutes from './getRoutes';
 import configureStore from './configureStore';
-
+var Cookies = require( "cookies" )
 
 const app = express();
 
 app.use((req, res) => {
   const store = configureStore();
+  const state = store.getState();
+
+  const cookies = new Cookies(req, res);
+  state.auth.isAuthenticated = !!cookies.get('id_token');
 
   match({ routes: getRoutes(store), location: req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
