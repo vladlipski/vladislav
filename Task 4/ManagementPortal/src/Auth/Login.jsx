@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
-import {ControlLabel, FormGroup, Grid, PageHeader} from 'react-bootstrap';
+import {Alert, ControlLabel, FormGroup, Grid, PageHeader} from 'react-bootstrap';
 import {connect} from "react-redux";
 import {browserHistory} from 'react-router';
 import {bindActionCreators} from "redux";
@@ -60,7 +60,9 @@ class Login extends Component {
                     {errorMessage &&
                         <FormGroup>
                             <Col smOffset={3} sm={6}>
-                                <p style={{color:"red"}}>{errorMessage}</p>
+                                <Alert bsStyle="danger">
+                                    {errorMessage}
+                                </Alert>
                             </Col>
                         </FormGroup>
                     }

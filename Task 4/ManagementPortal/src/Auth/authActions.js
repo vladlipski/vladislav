@@ -37,13 +37,20 @@ function loginError(message) {
 export function loginUser(username, password) {
     return (dispatch) => {
         dispatch(requestLogin());
-        return authService.login(username, password).then((id_token) => {
-            if (!id_token) {
-                dispatch(loginError('Incorrect username or password.'));
-                return Promise.reject('login fail');
+        return authService.login(username, password).then((response) => {
+            if (response.status !== 200) {
+                return Promise.reject(response.status);
             }
             dispatch(receiveLogin());
-        }).catch(error => console.log("Error: ", error))
+        }).catch(error => {
+            switch (error) {
+                case 401:
+                    dispatch(loginError('Incorrect username or password.'));
+                    break;
+                default:
+                    dispatch(loginError('Oops. Something is wrong. Try again, please. '));
+            }
+        })
     }
 }
 

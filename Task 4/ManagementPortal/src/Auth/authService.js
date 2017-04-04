@@ -44,8 +44,11 @@ const delay = (ms) =>
 export const login = (username, password) =>
     delay(500).then(() => {
         const user = fakeDatabase.users.find((element) => element.username === username);
+        const response = {
+            status: 401
+        };
         if (!user) {
-            return null;
+            return response;
         }
         if (user.password === password)
         {
@@ -55,7 +58,9 @@ export const login = (username, password) =>
                 roles: user.roles
             });
             Cookies.set('id_token', id_token);
-            return id_token
+            response.status = 200;
+            response.id_token = id_token;
+            return response;
         }
-        return null;
+        return response;
     });
