@@ -51,6 +51,8 @@ function renderHTML(componentHTML) {
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Students Lab Management Portal</title>
+      <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" 
+      integrity="sha384-h21C2fcDk/eFsW9sC9h0dhokq5pDinLNklTKoxIZRUn3+hvmgQSffLLQ4G4l2eEr" crossorigin="anonymous">
       <link rel="stylesheet" href="${assetUrl}/public/assets/styles.css">
     </head>
     <body>

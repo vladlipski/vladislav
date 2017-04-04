@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Grid  from 'react-bootstrap/lib/Grid';
 import Header from "../Header";
-import './bootstrap.css';
 import {connect} from "react-redux";
 
 
