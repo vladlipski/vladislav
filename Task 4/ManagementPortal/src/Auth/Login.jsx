@@ -1,16 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import Form from 'react-bootstrap/lib/Form';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
+import React, {Component, PropTypes} from 'react';
 import Col from 'react-bootstrap/lib/Col';
-import FormControl from 'react-bootstrap/lib/FormControl';
 import Button from 'react-bootstrap/lib/Button';
-import {ControlLabel, Grid, PageHeader} from 'react-bootstrap';
+import {ControlLabel, FormGroup, Grid, PageHeader} from 'react-bootstrap';
 import {connect} from "react-redux";
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 import {bindActionCreators} from "redux";
 import {loginUser} from "./authActions";
-import * as ReactDOM from "react-dom";
-
+import {Form, Input, Row} from 'formsy-react-components';
 
 class Login extends Component {
     componentWillReceiveProps(nextProps) {
@@ -19,26 +15,31 @@ class Login extends Component {
         }
     }
 
-    loginClick() {
-        const username = ReactDOM.findDOMNode(this.refs.username);
-        const password = ReactDOM.findDOMNode(this.refs.password);
-
-        this.props.loginUser(username.value.trim(), password.value.trim());
+    loginClick(values) {
+        const username = values.username;
+        const password = values.password;
+        this.props.loginUser(username.trim(), password.trim());
     }
 
     render() {
-        const {  errorMessage } = this.props;
+        const { errorMessage } = this.props;
 
         return (
             <Grid>
                 <PageHeader>Students Lab Management Portal</PageHeader>
-                <Form horizontal>
+                <Form
+                    onValidSubmit={this.loginClick.bind(this)}>
                     <FormGroup controlId="formHorizontalEmail">
                         <Col componentClass={ControlLabel} sm={3}>
                             Username
                         </Col>
                         <Col sm={6}>
-                            <FormControl type="text" placeholder="Username" ref="username"/>
+                            <Input
+                                layout={'elementOnly'}
+                                name="username"
+                                placeholder="Username"
+                                required
+                            />
                         </Col>
                     </FormGroup>
 
@@ -47,21 +48,26 @@ class Login extends Component {
                             Password
                         </Col>
                         <Col sm={6}>
-                            <FormControl type="password" placeholder="Password" ref="password"/>
+                            <Input
+                                layout={'elementOnly'}
+                                name="password"
+                                placeholder="Password"
+                                required
+                            />
                         </Col>
                     </FormGroup>
 
                     {errorMessage &&
                         <FormGroup>
                             <Col smOffset={3} sm={6}>
-                                <p style={{color:'red'}}>{errorMessage}</p>
+                                <p style={{color:"red"}}>{errorMessage}</p>
                             </Col>
                         </FormGroup>
                     }
 
                     <FormGroup>
                         <Col smOffset={3} sm={6}>
-                            <Button onClick={() => this.loginClick()}>
+                            <Button type="submit">
                                 Sign in
                             </Button>
                         </Col>

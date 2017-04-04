@@ -1,5 +1,6 @@
 import * as jwt from "jsonwebtoken";
 const JWT_SECRET = 'suzukigsf600s';
+import Cookies from 'js-cookie';
 
 const fakeDatabase = {
     users: [{
@@ -48,11 +49,13 @@ export const login = (username, password) =>
         }
         if (user.password === password)
         {
-            return createToken({
+            const id_token = createToken({
                 id: user.id,
                 username: user.username,
                 roles: user.roles
-            })
+            });
+            Cookies.set('id_token', id_token);
+            return id_token
         }
         return null;
     });

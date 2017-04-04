@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {bindActionCreators, dispatch} from "redux";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 import {logoutUser} from "../Auth/authActions";
 import {connect} from "react-redux";
 

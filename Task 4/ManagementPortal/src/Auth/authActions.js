@@ -1,5 +1,5 @@
-import Cookies from 'js-cookie';
 import * as authService from "./authService";
+import Cookies from 'js-cookie';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -42,7 +42,6 @@ export function loginUser(username, password) {
                 dispatch(loginError('Incorrect username or password.'));
                 return Promise.reject('login fail');
             }
-            Cookies.set('id_token', id_token);
             dispatch(receiveLogin());
         }).catch(error => console.log("Error: ", error))
     }
