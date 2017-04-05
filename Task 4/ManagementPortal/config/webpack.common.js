@@ -4,12 +4,11 @@ const webpack            = require('webpack');
 const path               = require('path');
 const ExtractTextPlugin  = require('extract-text-webpack-plugin');
 
-const publicPath         = 'http://localhost:8050/public/assets';
+const publicPath         = '/public/assets';
 const cssName            = 'styles.css';
 const jsName             = 'bundle.js';
 
 module.exports = function (options) {
-  console.log('----------'.concat(process.env.NODE_ENV));
   return {
       entry: ['babel-polyfill', './src/client.js'],
       resolve: {

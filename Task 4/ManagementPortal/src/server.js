@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import getRoutes from './getRoutes';
 import configureStore from './configureStore';
 import {verifyToken} from "./Auth/authService";
-var Cookies = require( "cookies" );
+const Cookies = require("cookies");
 
 const app = express();
 

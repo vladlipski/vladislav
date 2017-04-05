@@ -1,12 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import Col from 'react-bootstrap/lib/Col';
 import Button from 'react-bootstrap/lib/Button';
-import {Alert, ControlLabel, FormGroup, Grid, PageHeader} from 'react-bootstrap';
+import {Alert, Grid, PageHeader} from 'react-bootstrap';
 import {connect} from "react-redux";
 import {browserHistory} from 'react-router';
 import {bindActionCreators} from "redux";
 import {loginUser} from "./authActions";
 import {Form, Input, Row} from 'formsy-react-components';
+import "./login-form.css";
+
 
 class Login extends Component {
     componentWillReceiveProps(nextProps) {
@@ -27,54 +29,46 @@ class Login extends Component {
         return (
             <Grid>
                 <PageHeader>Students Lab Management Portal</PageHeader>
-                <Form
-                    onValidSubmit={this.loginClick.bind(this)}>
-                    <FormGroup controlId="formHorizontalEmail">
-                        <Col componentClass={ControlLabel} sm={3}>
-                            Username
-                        </Col>
-                        <Col sm={6}>
-                            <Input
-                                layout={'elementOnly'}
-                                name="username"
-                                placeholder="Username"
-                                required
-                            />
-                        </Col>
-                    </FormGroup>
+                <Col className="login-form" smOffset={2} sm={7}>
+                    <Form
+                        onValidSubmit={this.loginClick.bind(this)}
+                        noValidate
+                    >
+                        <Input
+                            label="Username:"
+                            name="username"
+                            placeholder="Username"
+                            required
+                            validationErrors={{
+                                isDefaultRequiredValue: 'Username is required.'
+                            }}
+                        />
 
-                    <FormGroup controlId="formHorizontalPassword">
-                        <Col componentClass={ControlLabel} sm={3}>
-                            Password
-                        </Col>
-                        <Col sm={6}>
-                            <Input
-                                layout={'elementOnly'}
-                                name="password"
-                                placeholder="Password"
-                                required
-                            />
-                        </Col>
-                    </FormGroup>
+                        <Input
+                            label="Password:"
+                            name="password"
+                            placeholder="Password"
+                            required
+                            validationErrors={{
+                                isDefaultRequiredValue: 'Password is required.'
+                            }}
+                        />
 
-                    {errorMessage &&
-                        <FormGroup>
-                            <Col smOffset={3} sm={6}>
+                        {errorMessage &&
+                            <Row layout={'horizontal'}>
                                 <Alert bsStyle="danger">
                                     {errorMessage}
                                 </Alert>
-                            </Col>
-                        </FormGroup>
-                    }
+                            </Row>
+                        }
 
-                    <FormGroup>
-                        <Col smOffset={3} sm={6}>
+                        <Row layout={'horizontal'}>
                             <Button type="submit">
                                 Sign in
                             </Button>
-                        </Col>
-                    </FormGroup>
-                </Form>
+                        </Row>
+                    </Form>
+                </Col>
             </Grid>
         );
     }
