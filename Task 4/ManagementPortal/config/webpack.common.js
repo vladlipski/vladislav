@@ -26,7 +26,7 @@ module.exports = function (options) {
           new ExtractTextPlugin(cssName)
       ],
       output: {
-          path: `./public/assets/`,
+          path: publicPath,
           filename: jsName,
           publicPath
       },
