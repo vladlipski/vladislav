@@ -23,15 +23,14 @@ const fakeDatabase = {
 
 export const verifyToken = function (token) {
     if (!token) {
-        return false;
+        return null;
     }
     try {
-        const payload = jwt.verify(token, JWT_SECRET);
-        return !!payload;
+        return jwt.verify(token, JWT_SECRET);
     }
     catch (e)
     {
-        return false;
+        return null;
     }
 };
 

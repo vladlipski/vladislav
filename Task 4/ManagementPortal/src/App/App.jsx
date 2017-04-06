@@ -6,7 +6,7 @@ import {browserHistory} from 'react-router';
 
 class App extends Component {
     componentWillReceiveProps(nextProps) {
-        if (!nextProps.isAuthenticated) {
+        if (!nextProps.user) {
             browserHistory.push('/login');
         }
     }
@@ -24,13 +24,13 @@ class App extends Component {
 }
 
 App.propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
+    user: PropTypes.object,
     children: PropTypes.node
 };
 
 function mapStateToProps(state) {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        user: state.auth.user
     }
 }
 

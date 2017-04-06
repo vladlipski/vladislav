@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import {bindActionCreators, dispatch} from "redux";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
 import {logoutUser} from "../Auth/authActions";
@@ -10,7 +10,7 @@ class Header extends Component {
     }
 
     render() {
-        const isAuthenticated = this.props.isAuthenticated;
+        const user = this.props.user;
 
         return (
             <Navbar>
@@ -22,7 +22,7 @@ class Header extends Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav pullRight>
-                        {isAuthenticated &&
+                        {user &&
                             <NavItem onClick={() => this.logoutClick()}>Logout</NavItem>
                         }
                     </Nav>
@@ -32,9 +32,13 @@ class Header extends Component {
     }
 }
 
+Header.propTypes = {
+    user: PropTypes.object
+};
+
 function mapStateToProps(state) {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        user: state.auth.user
     }
 }
 

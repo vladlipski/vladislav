@@ -12,7 +12,7 @@ function requestLogin() {
     return {
         type: LOGIN_REQUEST,
         isFetching: true,
-        isAuthenticated: false
+        user: null
     }
 }
 
@@ -20,7 +20,7 @@ function receiveLogin(user) {
     return {
         type: LOGIN_SUCCESS,
         isFetching: false,
-        isAuthenticated: true,
+        user,
         errorMessage: ''
     }
 }
@@ -29,7 +29,7 @@ function loginError(message) {
     return {
         type: LOGIN_FAILURE,
         isFetching: false,
-        isAuthenticated: false,
+        user: null,
         message
     }
 }
@@ -48,8 +48,7 @@ export function loginUser(username, password) {
 function requestLogout() {
     return {
         type: LOGOUT_REQUEST,
-        isFetching: true,
-        isAuthenticated: true
+        isFetching: true
     }
 }
 
@@ -57,7 +56,7 @@ function receiveLogout() {
     return {
         type: LOGOUT_SUCCESS,
         isFetching: false,
-        isAuthenticated: false
+        user: null
     }
 }
 
@@ -65,7 +64,7 @@ function logoutError() {
     return {
         type: LOGOUT_FAILURE,
         isFetching: false,
-        isAuthenticated: false
+        user: null
     }
 }
 

@@ -12,7 +12,7 @@ import "./login-form.css";
 
 class Login extends Component {
     componentWillReceiveProps(nextProps) {
-        if (nextProps.isAuthenticated) {
+        if (nextProps.user) {
             browserHistory.push('/');
         }
     }
@@ -75,13 +75,13 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-    isAuthenticated: PropTypes.bool.isRequired,
+    user: PropTypes.object,
     errorMessage: PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
-        isAuthenticated: state.auth.isAuthenticated,
+        user: state.auth.user,
         errorMessage: state.auth.errorMessage
     }
 }

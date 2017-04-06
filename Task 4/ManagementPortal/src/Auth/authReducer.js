@@ -7,40 +7,39 @@ import {verifyToken} from "./authService";
 
 export default function(state = {
                             isFetching: false,
-                            isAuthenticated: verifyToken(Cookies.get('id_token'))
+                            user: verifyToken(Cookies.get('id_token'))
                         }, action) {
     switch (action.type) {
         case LOGIN_REQUEST:
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
-                isAuthenticated: action.isAuthenticated
+                user: action.user
             });
         case LOGIN_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
-                isAuthenticated: action.isAuthenticated,
+                user: action.user,
                 errorMessage: action.message
             });
         case LOGIN_FAILURE:
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
-                isAuthenticated: action.isAuthenticated,
+                user: action.user,
                 errorMessage: action.message
             });
         case LOGOUT_REQUEST:
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
-                isAuthenticated: action.isAuthenticated
+                isFetching: action.isFetching
             });
         case LOGOUT_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
-                isAuthenticated: action.isAuthenticated
+                user: action.user
             });
         case LOGOUT_FAILURE:
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
-                isAuthenticated: action.isAuthenticated
+                user: action.user
             });
         default:
             return state

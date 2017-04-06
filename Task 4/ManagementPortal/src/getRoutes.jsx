@@ -9,14 +9,14 @@ import Forbidden from "./Forbidden";
 export default (store) => {
     function requireAuth(nextState, replace) {
         const state = store.getState();
-        if (!state.auth.isAuthenticated) {
+        if (!state.auth.user) {
             replace("/login");
         }
     }
 
     function checkAuth(nextState, replace) {
         const state = store.getState();
-        if (state.auth.isAuthenticated) {
+        if (state.auth.user) {
             replace("/");
         }
     }

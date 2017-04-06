@@ -1,11 +1,12 @@
-import React from 'react';
-import { AuthorizedComponent } from 'react-router-role-authorization';
+import React, {PropTypes} from 'react';
+import {AuthorizedComponent} from 'react-router-role-authorization';
+import {connect} from "react-redux";
 
 
 class Home extends AuthorizedComponent {
     constructor(props) {
         super(props);
-        this.userRoles = ['student'];
+        this.userRoles =  this.props.user.roles;//['student'];
         this.notAuthorizedPath = '/forbidden';
     }
 
@@ -18,4 +19,15 @@ class Home extends AuthorizedComponent {
     }
 }
 
-export default Home
+Home.propTypes = {
+    user: PropTypes.object
+};
+
+function mapStateToProps(state) {
+    return {
+        user: state.auth.user
+    }
+}
+
+
+export default connect(mapStateToProps)(Home)

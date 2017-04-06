@@ -15,7 +15,7 @@ app.use((req, res) => {
   const state = store.getState();
 
   const cookies = new Cookies(req, res);
-  state.auth.isAuthenticated = verifyToken(cookies.get('id_token'));
+  state.auth.user = verifyToken(cookies.get('id_token'));
 
   match({ routes: getRoutes(store), location: req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
