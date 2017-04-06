@@ -47,20 +47,19 @@ export const login = (username, password) =>
         const response = {
             status: 401
         };
-        if (!user) {
-            return response;
-        }
-        if (user.password === password)
+        if (user && user.password === password)
         {
-            const id_token = createToken({
+            const userData = {
                 id: user.id,
                 username: user.username,
                 roles: user.roles
-            });
+            };
+            const id_token = createToken(userData);
             Cookies.set('id_token', id_token);
             response.status = 200;
-            response.id_token = id_token;
+            response.user = userData;
             return response;
         }
-        return response;
+        response.errorMessage = 'Incorrect username or password.';
+        return Promise.reject(response);
     });

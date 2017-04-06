@@ -16,7 +16,7 @@ function requestLogin() {
     }
 }
 
-function receiveLogin() {
+function receiveLogin(user) {
     return {
         type: LOGIN_SUCCESS,
         isFetching: false,
@@ -37,19 +37,10 @@ function loginError(message) {
 export function loginUser(username, password) {
     return (dispatch) => {
         dispatch(requestLogin());
-        return authService.login(username, password).then((response) => {
-            if (response.status !== 200) {
-                return Promise.reject(response.status);
-            }
-            dispatch(receiveLogin());
-        }).catch(error => {
-            switch (error) {
-                case 401:
-                    dispatch(loginError('Incorrect username or password.'));
-                    break;
-                default:
-                    dispatch(loginError('Oops. Something is wrong. Try again, please. '));
-            }
+        return authService.login(username, password).then(response => {
+            dispatch(receiveLogin(response.user));
+        }).catch(response => {
+            dispatch(loginError(response.errorMessage));
         })
     }
 }
