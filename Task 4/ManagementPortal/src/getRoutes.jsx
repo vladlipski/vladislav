@@ -4,6 +4,7 @@ import App from "./App";
 import Login from "./Auth";
 import Home from "./Home";
 import Forbidden from "./Forbidden";
+import DepartmentsList from "./Departament/DepartmentsList";
 
 
 export default (store) => {
@@ -25,6 +26,7 @@ export default (store) => {
         <Router history={browserHistory}>
             <Route component={App} path='/' onEnter={requireAuth}>
                 <IndexRoute authorize={['student', 'mentor', 'admin']} component={Home}/>
+                <Route authorize={['admin']} component={DepartmentsList} path='departments'/>
             </Route>
             <Route component={Login} path='/login' onEnter={checkAuth}/>
             <Route component={Forbidden} path="/forbidden" />

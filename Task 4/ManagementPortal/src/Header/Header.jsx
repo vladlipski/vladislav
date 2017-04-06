@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react'
-import {bindActionCreators, dispatch} from "redux";
+import {bindActionCreators} from "redux";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
 import {logoutUser} from "../Auth/authActions";
 import {connect} from "react-redux";
+import {IndexLinkContainer, LinkContainer} from "react-router-bootstrap";
 
 class Header extends Component {
     logoutClick() {
@@ -18,8 +19,19 @@ class Header extends Component {
                     <Navbar.Brand>
                         Students Lab Management Portal
                     </Navbar.Brand>
-                    <Navbar.Toggle />
                 </Navbar.Header>
+                <Nav
+                    activeHref="active"
+                >
+                    <IndexLinkContainer to="/">
+                        <NavItem>Home</NavItem>
+                    </IndexLinkContainer>
+                    {user && user.roles.find((role) => role === 'admin') &&
+                        <LinkContainer to="/departments">
+                            <NavItem>Departments</NavItem>
+                        </LinkContainer>
+                    }
+                </Nav>
                 <Navbar.Collapse>
                     <Nav pullRight>
                         {user &&
@@ -48,4 +60,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps, null, { pure: false })(Header)
