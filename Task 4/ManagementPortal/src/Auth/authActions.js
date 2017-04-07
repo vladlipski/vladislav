@@ -10,27 +10,21 @@ export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 function requestLogin() {
     return {
-        type: LOGIN_REQUEST,
-        isFetching: true,
-        user: null
+        type: LOGIN_REQUEST
     }
 }
 
 function receiveLogin(user) {
     return {
         type: LOGIN_SUCCESS,
-        isFetching: false,
-        user,
-        errorMessage: ''
+        payload: user
     }
 }
 
 function loginError(message) {
     return {
         type: LOGIN_FAILURE,
-        isFetching: false,
-        user: null,
-        message
+        payload: message
     }
 }
 
@@ -47,24 +41,19 @@ export function loginUser(username, password) {
 
 function requestLogout() {
     return {
-        type: LOGOUT_REQUEST,
-        isFetching: true
+        type: LOGOUT_REQUEST
     }
 }
 
 function receiveLogout() {
     return {
-        type: LOGOUT_SUCCESS,
-        isFetching: false,
-        user: null
+        type: LOGOUT_SUCCESS
     }
 }
 
 function logoutError() {
     return {
-        type: LOGOUT_FAILURE,
-        isFetching: false,
-        user: null
+        type: LOGOUT_FAILURE
     }
 }
 

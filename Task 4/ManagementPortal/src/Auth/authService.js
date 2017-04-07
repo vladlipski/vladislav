@@ -19,6 +19,16 @@ const fakeDatabase = {
         password: '3',
         roles: ['mentor']
     }],
+    departments: [{
+        id: 1,
+        title: 'D1'
+    }, {
+        id: 2,
+        title: 'D2'
+    }, {
+        id: 3,
+        title: 'D3'
+    }],
 };
 
 export const verifyToken = function (token) {
