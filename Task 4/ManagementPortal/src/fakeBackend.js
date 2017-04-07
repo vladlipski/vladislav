@@ -7,16 +7,29 @@ const fakeDatabase = {
         id: 1,
         username: 'vlad',
         password: '1',
+        department: null,
+        mentor: null,
         roles: ['admin']
     }, {
         id: 2,
         username: 'dima',
-        password: '2',
+        password: '1',
+        department: 1,
+        mentor: 4,
         roles: ['student']
     }, {
         id: 3,
+        username: 'misha',
+        password: '1',
+        department: 1,
+        mentor: 4,
+        roles: ['student']
+    }, {
+        id: 4,
         username: 'denis',
-        password: '3',
+        password: '1',
+        department: 1,
+        mentor: null,
         roles: ['mentor']
     }],
     departments: [{
@@ -71,4 +84,18 @@ export const login = (username, password) =>
         }
         response.errorMessage = 'Incorrect username or password.';
         return Promise.reject(response);
+    });
+
+export const getUsersByMentor = (mentorId) =>
+    delay(500).then(() => {
+        var users;
+        if (mentorId === 0) {
+            users = fakeDatabase.users;
+        } else {
+            users = fakeDatabase.users.filter((user) => user.mentor === mentorId);
+        }
+        return {
+            status: 200,
+            users
+        };
     });

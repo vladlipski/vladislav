@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE
 } from './authActions'
-import {verifyToken} from "./authService";
+import {verifyToken} from "../fakeBackend";
 
 
 export default function(state = {

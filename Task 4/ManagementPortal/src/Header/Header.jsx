@@ -4,10 +4,12 @@ import {Nav, Navbar, NavItem} from "react-bootstrap";
 import {logoutUser} from "../Auth/authActions";
 import {connect} from "react-redux";
 import {IndexLinkContainer, LinkContainer} from "react-router-bootstrap";
+import {browserHistory} from 'react-router';
 
 class Header extends Component {
     logoutClick() {
         this.props.logoutUser();
+        browserHistory.push('/login');
     }
 
     render() {
@@ -26,6 +28,11 @@ class Header extends Component {
                     <IndexLinkContainer to="/">
                         <NavItem>Home</NavItem>
                     </IndexLinkContainer>
+                    {user && user.roles.find((role) => role === 'admin' || role === 'mentor') &&
+                        <LinkContainer to="/users">
+                            <NavItem>Users</NavItem>
+                        </LinkContainer>
+                    }
                     {user && user.roles.find((role) => role === 'admin') &&
                         <LinkContainer to="/departments">
                             <NavItem>Departments</NavItem>

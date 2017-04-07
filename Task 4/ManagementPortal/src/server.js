@@ -5,7 +5,7 @@ import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import getRoutes from './getRoutes';
 import configureStore from './configureStore';
-import {verifyToken} from "./Auth/authService";
+import {verifyToken} from "./fakeBackend";
 const Cookies = require("cookies");
 
 const app = express();

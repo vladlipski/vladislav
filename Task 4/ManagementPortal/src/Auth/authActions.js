@@ -1,4 +1,4 @@
-import * as authService from "./authService";
+import * as fakeBackend from "../fakeBackend";
 import Cookies from 'js-cookie';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -31,7 +31,7 @@ function loginError(message) {
 export function loginUser(username, password) {
     return (dispatch) => {
         dispatch(requestLogin());
-        return authService.login(username, password).then(response => {
+        return fakeBackend.login(username, password).then(response => {
             dispatch(receiveLogin(response.user));
         }).catch(response => {
             dispatch(loginError(response.errorMessage));
