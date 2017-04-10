@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {ListGroup, ListGroupItem} from "react-bootstrap";
 import {getUsers} from "./userActions";
 import {bindActionCreators} from "redux";
+import {LinkContainer} from "react-router-bootstrap";
 
 class UsersList extends AuthorizedComponent {
     constructor(props) {
@@ -29,7 +30,9 @@ class UsersList extends AuthorizedComponent {
         }
         return usersList.users.map((user) => {
             return (
-                <ListGroupItem key={user.id} href="#">{user.username}</ListGroupItem>
+                <LinkContainer key={user.id} to={"/users/".concat(user.id)}>
+                    <ListGroupItem>{user.username}</ListGroupItem>
+                </LinkContainer>
             );
         });
     }
