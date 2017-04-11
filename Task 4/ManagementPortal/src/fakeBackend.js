@@ -99,3 +99,12 @@ export const getUsersByMentor = (mentorId) =>
             users
         };
     });
+
+export const getUserById = (id) =>
+    delay(500).then(() => {
+        const user = fakeDatabase.users.find((user) => String(user.id) === id);
+        return {
+            status: 200,
+            user
+        };
+    });

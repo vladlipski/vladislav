@@ -9,7 +9,7 @@ import {LinkContainer} from "react-router-bootstrap";
 class UsersList extends AuthorizedComponent {
     constructor(props) {
         super(props);
-        this.userRoles =  this.props.roles;
+        this.userRoles =  this.props.currentUserRoles;
         this.notAuthorizedPath = '/forbidden';
     }
 
@@ -22,11 +22,13 @@ class UsersList extends AuthorizedComponent {
         }
     }
 
-    renderList (usersList){
+    renderList(usersList){
         if (usersList.isFetching) {
-            return (
-                <h1>Loading...</h1>
-            )
+            return <h1>Loading...</h1>;
+        } else if(usersList.errorMessage) {
+            return  <div className="alert alert-danger">{usersList.errorMessage}</div>
+        } else if(!usersList.users) {
+            return <span />
         }
         return usersList.users.map((user) => {
             return (
@@ -54,7 +56,7 @@ UsersList.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        roles: state.auth.user.roles,
+        currentUserRoles: state.auth.user.roles,
         currentUserId: state.auth.user.id,
         usersList: state.usersManager.usersList
     }

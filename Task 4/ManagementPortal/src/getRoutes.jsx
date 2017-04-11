@@ -6,6 +6,7 @@ import Home from "./Home";
 import Forbidden from "./Forbidden";
 import DepartmentsList from "./Departament/DepartmentsList";
 import UsersList from "./User/UsersList";
+import User from "./User/User";
 
 
 export default (store) => {
@@ -28,6 +29,7 @@ export default (store) => {
             <Route component={App} path='/' onEnter={requireAuth}>
                 <IndexRoute authorize={['student', 'mentor', 'admin']} component={Home}/>
                 <Route authorize={['mentor', 'admin']} component={UsersList} path='users'/>
+                <Route authorize={['mentor', 'admin']} component={User} path='users/:id'/>
                 <Route authorize={['admin']} component={DepartmentsList} path='departments'/>
             </Route>
             <Route component={Login} path='/login' onEnter={checkAuth}/>
