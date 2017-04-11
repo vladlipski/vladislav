@@ -27,10 +27,10 @@ export function fetchUsersFailure(message) {
     };
 }
 
-export function getUsers(mentorId) {
+export function getUsers(id) {
     return (dispatch) => {
         dispatch(fetchUsers());
-        return fakeBackend.getUsersByMentor(mentorId).then(response => {
+        return fakeBackend.getUsersByMentor(id).then(response => {
             dispatch(fetchUsersSuccess(response.users));
         }).catch(response => {
             dispatch(fetchUsersFailure(response.errorMessage));
@@ -58,10 +58,10 @@ export function fetchUserFailure(message) {
     };
 }
 
-export function getUser(id) {
+export function getUser(mentorId, userId) {
     return (dispatch) => {
         dispatch(fetchUser());
-        return fakeBackend.getUserById(id).then(response => {
+        return fakeBackend.getUserById(mentorId, userId).then(response => {
             dispatch(fetchUserSuccess(response.user));
         }).catch(response => {
             dispatch(fetchUserFailure(response.errorMessage));

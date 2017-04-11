@@ -3,6 +3,7 @@ import {AuthorizedComponent} from 'react-router-role-authorization';
 import {connect} from "react-redux";
 import {getUser} from "./userActions";
 import {bindActionCreators} from "redux";
+import {Alert} from "react-bootstrap";
 
 class User extends AuthorizedComponent {
     constructor(props) {
@@ -13,7 +14,7 @@ class User extends AuthorizedComponent {
 
     componentWillMount() {
         super.componentWillMount();
-        this.props.getUser(this.props.params.id);
+        this.props.getUser(this.props.currentUserId, this.props.params.id);
     }
 
     render() {
@@ -22,7 +23,11 @@ class User extends AuthorizedComponent {
         if (activeUser.isFetching) {
             return <h1>Loading...</h1>;
         } else if(activeUser.errorMessage) {
-            return  <div className="alert alert-danger">{activeUser.errorMessage}</div>
+            return (
+                <Alert bsStyle="danger">
+                    {activeUser.errorMessage}
+                </Alert>
+            )
         } else if(!activeUser.user) {
             return <span />
         }

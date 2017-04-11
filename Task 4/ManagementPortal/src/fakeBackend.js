@@ -86,10 +86,15 @@ export const login = (username, password) =>
         return Promise.reject(response);
     });
 
+function isAdmin(id) {
+    const user = fakeDatabase.users.find((user) => user.id === id);
+    return !!user.roles.find((role) => role === 'admin');
+}
+
 export const getUsersByMentor = (mentorId) =>
     delay(500).then(() => {
         var users;
-        if (mentorId === 0) {
+        if (isAdmin(mentorId)) {
             users = fakeDatabase.users;
         } else {
             users = fakeDatabase.users.filter((user) => user.mentor === mentorId);
@@ -100,11 +105,21 @@ export const getUsersByMentor = (mentorId) =>
         };
     });
 
-export const getUserById = (id) =>
+export const getUserById = (mentorId, userId) =>
     delay(500).then(() => {
-        const user = fakeDatabase.users.find((user) => String(user.id) === id);
-        return {
-            status: 200,
-            user
-        };
+        const user = fakeDatabase.users.find((user) => String(user.id) === userId);
+        if (!user) {
+            return Promise.reject({
+                errorMessage: "User doesn't exist"
+            });
+        }
+        if (isAdmin(mentorId) || user.mentor === mentorId) {
+            return {
+                status: 200,
+                user
+            };
+        }
+        return Promise.reject({
+            errorMessage: '403 Forbidden'
+        });
     });

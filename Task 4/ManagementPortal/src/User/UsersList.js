@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react'
 import {AuthorizedComponent} from 'react-router-role-authorization';
 import {connect} from "react-redux";
-import {ListGroup, ListGroupItem} from "react-bootstrap";
+import {Alert, ListGroup, ListGroupItem} from "react-bootstrap";
 import {getUsers} from "./userActions";
 import {bindActionCreators} from "redux";
 import {LinkContainer} from "react-router-bootstrap";
@@ -15,18 +15,18 @@ class UsersList extends AuthorizedComponent {
 
     componentWillMount() {
         super.componentWillMount();
-        if (this.userRoles.find((role) => role === 'admin')) {
-            this.props.getUsers(0);
-        } else {
-            this.props.getUsers(this.props.currentUserId);
-        }
+        this.props.getUsers(this.props.currentUserId);
     }
 
     renderList(usersList){
         if (usersList.isFetching) {
             return <h1>Loading...</h1>;
         } else if(usersList.errorMessage) {
-            return  <div className="alert alert-danger">{usersList.errorMessage}</div>
+            return (
+                <Alert bsStyle="danger">
+                    {usersList.errorMessage}
+                </Alert>
+            )
         } else if(!usersList.users) {
             return <span />
         }
