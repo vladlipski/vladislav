@@ -6,6 +6,7 @@ import {getUsers} from "./userActions";
 import {bindActionCreators} from "redux";
 import {LinkContainer} from "react-router-bootstrap";
 
+
 class UsersList extends AuthorizedComponent {
     constructor(props) {
         super(props);
@@ -51,7 +52,9 @@ class UsersList extends AuthorizedComponent {
 }
 
 UsersList.propTypes = {
-    user: PropTypes.object
+    currentUserRoles: PropTypes.array,
+    currentUserId: PropTypes.number,
+    usersList: PropTypes.object
 };
 
 function mapStateToProps(state) {

@@ -3,7 +3,8 @@ import {AuthorizedComponent} from 'react-router-role-authorization';
 import {connect} from "react-redux";
 import {getUser} from "./userActions";
 import {bindActionCreators} from "redux";
-import {Alert} from "react-bootstrap";
+import {Alert, Col, PageHeader} from "react-bootstrap";
+import AdminUserForm from "./UserForms/AdminUserForm";
 
 class User extends AuthorizedComponent {
     constructor(props) {
@@ -32,13 +33,18 @@ class User extends AuthorizedComponent {
             return <span />
         }
         return (
-            <h1>User {activeUser.user.username}</h1>
+            <Col smOffset={2} sm={7}>
+                <PageHeader>User: {activeUser.user.username}</PageHeader>
+                <AdminUserForm />
+            </Col>
         );
     }
 }
 
 User.propTypes = {
-    user: PropTypes.object
+    currentUserRoles: PropTypes.array,
+    currentUserId: PropTypes.number,
+    activeUser: PropTypes.object
 };
 
 function mapStateToProps(state) {
