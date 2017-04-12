@@ -28,12 +28,12 @@ class Header extends Component {
                     <IndexLinkContainer to="/">
                         <NavItem>Home</NavItem>
                     </IndexLinkContainer>
-                    {user && user.roles.find((role) => role === 'admin' || role === 'mentor') &&
+                    {user && (user.role === 'admin' || user.role === 'mentor') &&
                         <LinkContainer to="/users">
                             <NavItem>Users</NavItem>
                         </LinkContainer>
                     }
-                    {user && user.roles.find((role) => role === 'admin') &&
+                    {user && user.role === 'admin' &&
                         <LinkContainer to="/departments">
                             <NavItem>Departments</NavItem>
                         </LinkContainer>

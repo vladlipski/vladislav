@@ -1,17 +1,20 @@
-import React, {Component, PropTypes} from 'react';
-import Button from 'react-bootstrap/lib/Button';
+import React, {PropTypes} from 'react';
+import {RoleAwareComponent} from 'react-router-role-authorization';
 import {connect} from "react-redux";
-import {Form, Input, Row, Select} from 'formsy-react-components';
+import {Select} from 'formsy-react-components';
 
 
-class AdminUserForm extends Component {
-    constructor() {
-        super();
+class AdminUserForm extends RoleAwareComponent {
+    constructor(props) {
+        super(props);
+        this.allowedRoles = ['admin'];
+        this.userRoles = [this.props.currentUserRole];
+
         this.state = { userRole: 'admin' };
-        this.handleChange = this.handleChange.bind(this);
+        this.changeRole = this.changeRole.bind(this);
     }
 
-    handleChange(event, value) {
+    changeRole(event, value) {
         this.setState({
             userRole: value
         })
@@ -24,44 +27,24 @@ class AdminUserForm extends Component {
             {value: 'student', label: 'Student'}
         ];
 
-        return (
-            <Form
-                onValidSubmit={() => {}}
-                noValidate
-            >
-                <fieldset>
-                    <Select
-                        name="roles"
-                        value={'admin'}
-                        label="Roles: "
-                        options={roles}
-                        onChange={this.handleChange}
+        const jsx = (
+            <fieldset>
+                <Select
+                    name="roles"
+                    value={'admin'}
+                    label="Roles: "
+                    options={roles}
+                    onChange={this.changeRole}
+                    required
+                />
+                {this.state.userRole === 'mentor' &&
+                    < Select
+                        name="department"
+                        label="Department: "
+                        options={[]}
                         required
                     />
-                    <Input
-                        name="username"
-                        value=""
-                        label="Username:"
-                        type="text"
-                        placeholder="username"
-                        required
-                    />
-                    <Input
-                        name="password"
-                        value=""
-                        label="Password:"
-                        type="text"
-                        placeholder="This is a date input."
-                        required
-                    />
-                    {this.state.userRole === 'mentor' &&
-                         < Select
-                            name="department"
-                            label="Department: "
-                            options={[]}
-                        />
-                    }
-                </fieldset>
+                }
                 {this.state.userRole === 'student' &&
                     <fieldset>
                         <Select
@@ -76,21 +59,20 @@ class AdminUserForm extends Component {
                         />
                     </fieldset>
                 }
-                <Row layout={'horizontal'}>
-                    <Button type="submit">
-                        Ok
-                    </Button>
-                </Row>
-            </Form>
+            </fieldset>
         );
+
+        return this.rolesMatched() ? jsx : null;
     }
 }
 
 AdminUserForm.propTypes = {
+    currentUserRole: PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
+        currentUserRole: state.auth.user.role
     }
 }
 

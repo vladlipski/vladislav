@@ -9,28 +9,28 @@ const fakeDatabase = {
         password: '1',
         department: null,
         mentor: null,
-        roles: ['admin']
+        role: 'admin'
     }, {
         id: 2,
         username: 'dima',
         password: '1',
         department: 1,
         mentor: 4,
-        roles: ['student']
+        role: 'student'
     }, {
         id: 3,
         username: 'misha',
         password: '1',
         department: 1,
         mentor: 4,
-        roles: ['student']
+        role: 'student'
     }, {
         id: 4,
         username: 'denis',
         password: '1',
         department: 1,
         mentor: null,
-        roles: ['mentor']
+        role: 'mentor'
     }],
     departments: [{
         id: 1,
@@ -74,7 +74,7 @@ export const login = (username, password) =>
             const userData = {
                 id: user.id,
                 username: user.username,
-                roles: user.roles
+                role: user.role
             };
             const id_token = createToken(userData);
             Cookies.set('id_token', id_token);
@@ -88,7 +88,7 @@ export const login = (username, password) =>
 
 function isAdmin(id) {
     const user = fakeDatabase.users.find((user) => user.id === id);
-    return !!user.roles.find((role) => role === 'admin');
+    return user.role === 'admin';
 }
 
 export const getUsersByMentor = (mentorId) =>

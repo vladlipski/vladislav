@@ -4,12 +4,12 @@ import {connect} from "react-redux";
 import {getUser} from "./userActions";
 import {bindActionCreators} from "redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
-import AdminUserForm from "./UserForms/AdminUserForm";
+import UserForm from "./UserForms/UserForm";
 
 class User extends AuthorizedComponent {
     constructor(props) {
         super(props);
-        this.userRoles =  this.props.currentUserRoles;
+        this.userRoles =  [this.props.currentUserRole];
         this.notAuthorizedPath = '/forbidden';
     }
 
@@ -35,21 +35,24 @@ class User extends AuthorizedComponent {
         return (
             <Col smOffset={2} sm={7}>
                 <PageHeader>User: {activeUser.user.username}</PageHeader>
-                <AdminUserForm />
+                <UserForm
+                    currentUserRole={this.props.currentUserRole}
+                    activeUser={activeUser}
+                />
             </Col>
         );
     }
 }
 
 User.propTypes = {
-    currentUserRoles: PropTypes.array,
+    currentUserRole: PropTypes.string,
     currentUserId: PropTypes.number,
     activeUser: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
-        currentUserRoles: state.auth.user.roles,
+        currentUserRole: state.auth.user.role,
         currentUserId: state.auth.user.id,
         activeUser: state.usersManager.activeUser
     }

@@ -6,7 +6,7 @@ import {ListGroup, ListGroupItem} from "react-bootstrap";
 class DepartmentsList extends AuthorizedComponent {
     constructor(props) {
         super(props);
-        this.userRoles =  this.props.roles;
+        this.userRoles =  [this.props.role];
         this.notAuthorizedPath = '/forbidden';
     }
 
@@ -22,12 +22,12 @@ class DepartmentsList extends AuthorizedComponent {
 }
 
 DepartmentsList.propTypes = {
-    user: PropTypes.object
+    role: PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
-        roles: state.auth.user.roles
+        role: state.auth.user.role
     }
 }
 

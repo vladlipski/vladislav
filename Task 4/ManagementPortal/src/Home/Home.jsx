@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 class Home extends AuthorizedComponent {
     constructor(props) {
         super(props);
-        this.userRoles =  this.props.user.roles;
+        this.userRoles =  [this.props.user.role];
         this.notAuthorizedPath = '/forbidden';
     }
 

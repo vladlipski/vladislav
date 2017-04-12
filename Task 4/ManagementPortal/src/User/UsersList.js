@@ -10,7 +10,7 @@ import {LinkContainer} from "react-router-bootstrap";
 class UsersList extends AuthorizedComponent {
     constructor(props) {
         super(props);
-        this.userRoles =  this.props.currentUserRoles;
+        this.userRoles = [this.props.currentUserRole];
         this.notAuthorizedPath = '/forbidden';
     }
 
@@ -52,14 +52,14 @@ class UsersList extends AuthorizedComponent {
 }
 
 UsersList.propTypes = {
-    currentUserRoles: PropTypes.array,
+    currentUserRoles: PropTypes.string,
     currentUserId: PropTypes.number,
     usersList: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
-        currentUserRoles: state.auth.user.roles,
+        currentUserRole: state.auth.user.role,
         currentUserId: state.auth.user.id,
         usersList: state.usersManager.usersList
     }
