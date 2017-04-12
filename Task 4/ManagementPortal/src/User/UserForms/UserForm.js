@@ -6,17 +6,17 @@ import AdminUserForm from "./AdminUserForm";
 
 class UserForm extends Component {
     render() {
-        const {currentUserRole, activeUser} =  this.props;
+        const {currentUserRole, user} =  this.props;
 
         return (
             <Form
-                onValidSubmit={() => {}}
+                onValidSubmit={this.props.onSubmit}
                 noValidate
             >
                 <fieldset>
                     <Input
                         name="username"
-                        value={activeUser.user.username}
+                        value={user.username || ''}
                         label="Username:"
                         type="text"
                         placeholder="username"
@@ -24,7 +24,7 @@ class UserForm extends Component {
                     />
                     <Input
                         name="password"
-                        value={activeUser.user.password}
+                        value={user.password || ''}
                         label="Password:"
                         type="text"
                         placeholder="password"
@@ -38,7 +38,10 @@ class UserForm extends Component {
                         />
                     }
                 </fieldset>
-                <AdminUserForm />
+                <AdminUserForm
+                    currentUserRole={currentUserRole}
+                    user={user}
+                />
                 <Row layout={'horizontal'}>
                     <Button type="submit">
                         Ok
@@ -51,7 +54,8 @@ class UserForm extends Component {
 
 UserForm.propTypes = {
     currentUserRole: PropTypes.string,
-    activeUser: PropTypes.object
+    activeUser: PropTypes.object,
+    onSubmit: PropTypes.func
 };
 
 export default UserForm

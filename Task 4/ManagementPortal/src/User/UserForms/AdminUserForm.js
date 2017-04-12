@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {RoleAwareComponent} from 'react-router-role-authorization';
-import {connect} from "react-redux";
 import {Select} from 'formsy-react-components';
 
 
@@ -10,7 +9,7 @@ class AdminUserForm extends RoleAwareComponent {
         this.allowedRoles = ['admin'];
         this.userRoles = [this.props.currentUserRole];
 
-        this.state = { userRole: 'admin' };
+        this.state = { userRole: this.props.user.role };
         this.changeRole = this.changeRole.bind(this);
     }
 
@@ -26,12 +25,13 @@ class AdminUserForm extends RoleAwareComponent {
             {value: 'mentor', label: 'Mentor'},
             {value: 'student', label: 'Student'}
         ];
+        const user =  this.props.user;
 
         const jsx = (
             <fieldset>
                 <Select
                     name="roles"
-                    value={'admin'}
+                    value={user.role}
                     label="Roles: "
                     options={roles}
                     onChange={this.changeRole}
@@ -70,15 +70,4 @@ AdminUserForm.propTypes = {
     currentUserRole: PropTypes.string
 };
 
-function mapStateToProps(state) {
-    return {
-        currentUserRole: state.auth.user.role
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminUserForm)
+export default AdminUserForm

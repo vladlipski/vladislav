@@ -3,10 +3,10 @@ import {AuthorizedComponent} from 'react-router-role-authorization';
 import {connect} from "react-redux";
 import {getUser} from "./userActions";
 import {bindActionCreators} from "redux";
-import {Alert, Col, PageHeader} from "react-bootstrap";
+import {Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForms/UserForm";
 
-class User extends AuthorizedComponent {
+class UserNew extends AuthorizedComponent {
     constructor(props) {
         super(props);
         this.userRoles =  [this.props.currentUserRole];
@@ -15,47 +15,33 @@ class User extends AuthorizedComponent {
 
     componentWillMount() {
         super.componentWillMount();
-        this.props.getUser(this.props.currentUserId, this.props.params.id);
+        //this.props.getUser(this.props.currentUserId, this.props.params.id);
     }
 
     render() {
-        const activeUser = this.props.activeUser;
-
-        if (activeUser.isFetching) {
-            return <h1>Loading...</h1>;
-        } else if(activeUser.errorMessage) {
-            return (
-                <Alert bsStyle="danger">
-                    {activeUser.errorMessage}
-                </Alert>
-            )
-        } else if(!activeUser.user) {
-            return <span />
-        }
         return (
             <Col smOffset={2} sm={7}>
-                <PageHeader>User: {activeUser.user.username}</PageHeader>
+                <PageHeader>New user</PageHeader>
                 <UserForm
                     currentUserRole={this.props.currentUserRole}
-                    user={activeUser.user}
-                    onSubmit={() => {console.log('Submit')}}
+                    user={{}}
+                    onSubmit={() => {console.log('Submit new')}}
                 />
             </Col>
         );
     }
 }
 
-User.propTypes = {
+UserNew.propTypes = {
     currentUserRole: PropTypes.string,
     currentUserId: PropTypes.number,
-    activeUser: PropTypes.object
+    onSubmit: PropTypes.func
 };
 
 function mapStateToProps(state) {
     return {
         currentUserRole: state.auth.user.role,
-        currentUserId: state.auth.user.id,
-        activeUser: state.usersManager.activeUser
+        currentUserId: state.auth.user.id
     }
 }
 
@@ -65,4 +51,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(User)
+export default connect(mapStateToProps, mapDispatchToProps)(UserNew)

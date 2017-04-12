@@ -1,11 +1,10 @@
 import React, {PropTypes} from 'react'
 import {AuthorizedComponent} from 'react-router-role-authorization';
 import {connect} from "react-redux";
-import {Alert, ListGroup, ListGroupItem} from "react-bootstrap";
+import {Alert, Button, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {getUsers} from "./userActions";
 import {bindActionCreators} from "redux";
 import {LinkContainer} from "react-router-bootstrap";
-
 
 class UsersList extends AuthorizedComponent {
     constructor(props) {
@@ -44,9 +43,21 @@ class UsersList extends AuthorizedComponent {
         const usersList = this.props.usersList;
 
         return (
-            <ListGroup>
-                {this.renderList(usersList)}
-            </ListGroup>
+            <Col smOffset={2} sm={7}>
+                <Row>
+                    <LinkContainer to="users/new">
+                        <Button>
+                            Add user
+                        </Button>
+                    </LinkContainer>
+                </Row>
+                <br/>
+                <Row>
+                    <ListGroup>
+                        {this.renderList(usersList)}
+                    </ListGroup>
+                </Row>
+            </Col>
         )
     }
 }
