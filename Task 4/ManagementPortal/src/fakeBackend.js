@@ -9,28 +9,32 @@ const fakeDatabase = {
         password: '1',
         department: null,
         mentor: null,
-        role: 'admin'
+        role: 'admin',
+        plan: null
     }, {
         id: 2,
         username: 'dima',
         password: '1',
         department: 1,
         mentor: 4,
-        role: 'student'
+        role: 'student',
+        plan: 1
     }, {
         id: 3,
         username: 'misha',
         password: '1',
         department: 1,
         mentor: 4,
-        role: 'student'
+        role: 'student',
+        plan: 2
     }, {
         id: 4,
         username: 'denis',
         password: '1',
         department: 1,
         mentor: null,
-        role: 'mentor'
+        role: 'mentor',
+        plan: null
     }],
     departments: [{
         id: 1,
@@ -42,6 +46,17 @@ const fakeDatabase = {
         id: 3,
         title: 'D3'
     }],
+    plans: [{
+        id: 1,
+        title: 'Plan1'
+    }, {
+        id: 2,
+        title: 'Plan2'
+    }, {
+        id: 3,
+        title: 'Plan3'
+    }],
+
 };
 
 export const verifyToken = function (token) {
@@ -113,6 +128,7 @@ export const getUserById = (mentorId, userId) =>
                 errorMessage: "User doesn't exist"
             });
         }
+        user.plan = fakeDatabase.plans.find((plan) => plan.id === user.plan);
         if (isAdmin(mentorId) || user.mentor === mentorId) {
             return {
                 status: 200,
@@ -122,4 +138,13 @@ export const getUserById = (mentorId, userId) =>
         return Promise.reject({
             errorMessage: '403 Forbidden'
         });
+    });
+
+export const getPlans = () =>
+    delay(500).then(() => {
+        const plans = fakeDatabase.plans;
+        return {
+            status: 200,
+            plans
+        };
     });

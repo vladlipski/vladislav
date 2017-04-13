@@ -20,7 +20,7 @@ class AdminUserForm extends RoleAwareComponent {
     }
 
     render() {
-        const roles = [
+        const rolesOptions = [
             {value: 'admin', label: 'Admin'},
             {value: 'mentor', label: 'Mentor'},
             {value: 'student', label: 'Student'}
@@ -33,7 +33,7 @@ class AdminUserForm extends RoleAwareComponent {
                     name="roles"
                     value={user.role}
                     label="Roles: "
-                    options={roles}
+                    options={rolesOptions}
                     onChange={this.changeRole}
                     required
                 />

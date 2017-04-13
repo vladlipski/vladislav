@@ -15,7 +15,7 @@ class UserNew extends AuthorizedComponent {
 
     componentWillMount() {
         super.componentWillMount();
-        //this.props.getUser(this.props.currentUserId, this.props.params.id);
+
     }
 
     render() {

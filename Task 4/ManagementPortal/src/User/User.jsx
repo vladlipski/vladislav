@@ -5,6 +5,7 @@ import {getUser} from "./userActions";
 import {bindActionCreators} from "redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForms/UserForm";
+import {getPlans} from "../Plan/planActions";
 
 class User extends AuthorizedComponent {
     constructor(props) {
@@ -15,11 +16,15 @@ class User extends AuthorizedComponent {
 
     componentWillMount() {
         super.componentWillMount();
-        this.props.getUser(this.props.currentUserId, this.props.params.id);
+        const userId = this.props.params.id;
+        if (userId) {
+            this.props.getUser(this.props.currentUserId, userId);
+        }
+        this.props.getPlans();
     }
 
     render() {
-        const activeUser = this.props.activeUser;
+        const {activeUser, plansList} = this.props;
 
         if (activeUser.isFetching) {
             return <h1>Loading...</h1>;
@@ -32,6 +37,7 @@ class User extends AuthorizedComponent {
         } else if(!activeUser.user) {
             return <span />
         }
+
         return (
             <Col smOffset={2} sm={7}>
                 <PageHeader>User: {activeUser.user.username}</PageHeader>
@@ -39,6 +45,7 @@ class User extends AuthorizedComponent {
                     currentUserRole={this.props.currentUserRole}
                     user={activeUser.user}
                     onSubmit={() => {console.log('Submit')}}
+                    plans={plansList.plans}
                 />
             </Col>
         );
@@ -55,13 +62,15 @@ function mapStateToProps(state) {
     return {
         currentUserRole: state.auth.user.role,
         currentUserId: state.auth.user.id,
-        activeUser: state.usersManager.activeUser
+        activeUser: state.usersManager.activeUser,
+        plansList: state.plansManager.plansList
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUser: bindActionCreators(getUser, dispatch)
+        getUser: bindActionCreators(getUser, dispatch),
+        getPlans: bindActionCreators(getPlans, dispatch)
     }
 }
 
