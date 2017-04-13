@@ -15,23 +15,23 @@ const fakeDatabase = {
         id: 2,
         username: 'dima',
         password: '1',
-        department: 1,
-        mentor: 4,
-        role: 'student',
-        plan: 1
-    }, {
-        id: 3,
-        username: 'misha',
-        password: '1',
-        department: 1,
+        department: 2,
         mentor: 4,
         role: 'student',
         plan: 2
     }, {
+        id: 3,
+        username: 'misha',
+        password: '1',
+        department: 2,
+        mentor: 4,
+        role: 'student',
+        plan: 3
+    }, {
         id: 4,
         username: 'denis',
         password: '1',
-        department: 1,
+        department: 2,
         mentor: null,
         role: 'mentor',
         plan: null
@@ -122,13 +122,16 @@ export const getUsersByMentor = (mentorId) =>
 
 export const getUserById = (mentorId, userId) =>
     delay(500).then(() => {
-        const user = fakeDatabase.users.find((user) => String(user.id) === userId);
+        const user = Object.assign({}, fakeDatabase.users.find((user) => String(user.id) === userId));
         if (!user) {
             return Promise.reject({
                 errorMessage: "User doesn't exist"
             });
         }
+
         user.plan = fakeDatabase.plans.find((plan) => plan.id === user.plan);
+        user.department = fakeDatabase.departments.find((department) => department.id === user.department);
+
         if (isAdmin(mentorId) || user.mentor === mentorId) {
             return {
                 status: 200,
@@ -146,5 +149,14 @@ export const getPlans = () =>
         return {
             status: 200,
             plans
+        };
+    });
+
+export const getDepartments = () =>
+    delay(500).then(() => {
+        const departments = fakeDatabase.departments;
+        return {
+            status: 200,
+            departments
         };
     });

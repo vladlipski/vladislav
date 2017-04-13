@@ -5,7 +5,6 @@ import {getUser} from "./userActions";
 import {bindActionCreators} from "redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForms/UserForm";
-import {getPlans} from "../Plan/planActions";
 
 class User extends AuthorizedComponent {
     constructor(props) {
@@ -20,11 +19,10 @@ class User extends AuthorizedComponent {
         if (userId) {
             this.props.getUser(this.props.currentUserId, userId);
         }
-        this.props.getPlans();
     }
 
     render() {
-        const {activeUser, plansList} = this.props;
+        const activeUser = this.props.activeUser;
 
         if (activeUser.isFetching) {
             return <h1>Loading...</h1>;
@@ -43,9 +41,8 @@ class User extends AuthorizedComponent {
                 <PageHeader>User: {activeUser.user.username}</PageHeader>
                 <UserForm
                     currentUserRole={this.props.currentUserRole}
-                    user={activeUser.user}
+                    user={activeUser.user || {}}
                     onSubmit={() => {console.log('Submit')}}
-                    plans={plansList.plans}
                 />
             </Col>
         );
@@ -62,15 +59,13 @@ function mapStateToProps(state) {
     return {
         currentUserRole: state.auth.user.role,
         currentUserId: state.auth.user.id,
-        activeUser: state.usersManager.activeUser,
-        plansList: state.plansManager.plansList
+        activeUser: state.usersManager.activeUser
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUser: bindActionCreators(getUser, dispatch),
-        getPlans: bindActionCreators(getPlans, dispatch)
+        getUser: bindActionCreators(getUser, dispatch)
     }
 }
 

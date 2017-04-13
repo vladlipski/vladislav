@@ -1,23 +1,22 @@
 import React, {Component, PropTypes} from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import {Form, Input, Row, Select} from 'formsy-react-components';
-import AdminUserForm from "./AdminUserForm";
+import {getDepartments} from "../../Departament/deprtmentActions";
+import {connect} from "react-redux";
+import {getPlans} from "../../Plan/planActions";
+import {bindActionCreators} from "redux";
 
 
 class UserForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { userRole: this.props.user.role };
+        this.state = { userRole: this.props.user.role || 'student' };
         this.changeRole = this.changeRole.bind(this);
     }
 
-    getPlansOptions() {
-        return this.props.plans.map((plan) => {
-            return ({
-                value: plan.id,
-                label: plan.title
-            });
-        });
+    componentWillMount() {
+        this.props.getPlans();
+        this.props.getDepartments();
     }
 
     changeRole(event, value) {
@@ -26,14 +25,55 @@ class UserForm extends Component {
         })
     }
 
-    render() {
-        const {currentUserRole, user} =  this.props;
-        const plansOptions = this.getPlansOptions();
+    getOptions(array) {
+        return array.map((element) => {
+            return ({
+                value: element.id,
+                label: element.title
+            });
+        });
+    }
+
+    renderAdminInputs() {
         const rolesOptions = [
             {value: 'admin', label: 'Admin'},
             {value: 'mentor', label: 'Mentor'},
             {value: 'student', label: 'Student'}
         ];
+        const user = this.props.user;
+
+        return (
+            <fieldset>
+                <Select
+                    name="roles"
+                    value={user.role}
+                    label="Roles: "
+                    options={rolesOptions}
+                    onChange={this.changeRole}
+                    required
+                />
+                {this.state.userRole === 'mentor' &&
+                < Select
+                    name="department"
+                    label="Department: "
+                    value={user.department.id || ''}
+                    options={this.getOptions(this.props.departmentsList.departments)}
+                    required
+                />
+                }
+                {this.state.userRole === 'student' &&
+                <Select
+                    name="mentor"
+                    label="Mentor: "
+                    options={[]}
+                />
+                }
+            </fieldset>
+        )
+    }
+
+    render() {
+        const {currentUserRole, user, plansList} =  this.props;
 
         return (
             <Form
@@ -57,38 +97,16 @@ class UserForm extends Component {
                         placeholder="password"
                         required
                     />
-                    <Select
-                        name="roles"
-                        value={user.role}
-                        label="Roles: "
-                        options={rolesOptions}
-                        onChange={this.changeRole}
-                        required
-                        disabled={currentUserRole !== 'admin'}
-                    />
-                    {this.state.userRole === 'mentor' &&
-                        < Select
-                            name="department"
-                            label="Department: "
-                            options={[]}
-                            required
-                        />
+                    {currentUserRole === 'admin' &&
+                        this.renderAdminInputs()
                     }
                     {this.state.userRole === 'student' &&
-                    <fieldset>
-                        <Select
-                            name="mentor"
-                            label="Mentor: "
-                            options={[]}
-                            disabled={currentUserRole !== 'admin'}
-                        />
                         <Select
                             name="plan"
                             label="Plan: "
                             value={user.plan ? user.plan.id : ''}
-                            options={plansOptions}
+                            options={this.getOptions(plansList.plans)}
                         />
-                    </fieldset>
                     }
                 </fieldset>
                 <Row layout={'horizontal'}>
@@ -104,8 +122,21 @@ class UserForm extends Component {
 UserForm.propTypes = {
     currentUserRole: PropTypes.string,
     user: PropTypes.object,
-    onSubmit: PropTypes.func,
-    plans: PropTypes.array
+    onSubmit: PropTypes.func
 };
 
-export default UserForm
+function mapStateToProps(state) {
+    return {
+        departmentsList: state.departmentsManager.departmentsList,
+        plansList: state.plansManager.plansList
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getDepartments: bindActionCreators(getDepartments, dispatch),
+        getPlans: bindActionCreators(getPlans, dispatch)
+    }
+}
+
+export default  connect(mapStateToProps, mapDispatchToProps)(UserForm)

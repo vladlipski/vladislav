@@ -25,7 +25,7 @@ class AdminUserForm extends RoleAwareComponent {
             {value: 'mentor', label: 'Mentor'},
             {value: 'student', label: 'Student'}
         ];
-        const user =  this.props.user;
+        const {user, plansOptions} =  this.props;
 
         const jsx = (
             <fieldset>
@@ -55,7 +55,8 @@ class AdminUserForm extends RoleAwareComponent {
                         <Select
                             name="plan"
                             label="Plan: "
-                            options={[]}
+                            value={user.plan ? user.plan.id : ''}
+                            options={plansOptions}
                         />
                     </fieldset>
                 }
