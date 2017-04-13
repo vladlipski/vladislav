@@ -1,7 +1,7 @@
 import * as fakeBackend from "../fakeBackend";
 export const FETCH_DEPARTMENTS = 'FETCH_DEPARTMENTS';
-export const FETCH_DEPARTMENTS_SUCCESS = 'FETCH_PLANS_SUCCESS';
-export const FETCH_DEPARTMENTS_FAILURE = 'FETCH_PLANS_FAILURE';
+export const FETCH_DEPARTMENTS_SUCCESS = 'FETCH_DEPARTMENTS_SUCCESS';
+export const FETCH_DEPARTMENTS_FAILURE = 'FETCH_DEPARTMENTS_FAILURE';
 
 export function fetchDepartments() {
     return {

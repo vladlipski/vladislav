@@ -40,6 +40,7 @@ class UserForm extends Component {
             {value: 'mentor', label: 'Mentor'},
             {value: 'student', label: 'Student'}
         ];
+        const departmentsOptions = this.getOptions(this.props.departmentsList.departments);
         const user = this.props.user;
 
         return (
@@ -57,7 +58,7 @@ class UserForm extends Component {
                     name="department"
                     label="Department: "
                     value={user.department.id || ''}
-                    options={this.getOptions(this.props.departmentsList.departments)}
+                    options={departmentsOptions}
                     required
                 />
                 }
@@ -74,7 +75,10 @@ class UserForm extends Component {
 
     render() {
         const {currentUserRole, user, plansList} =  this.props;
+        const plansOptions = this.getOptions(plansList.plans);
+        const departmentsOptions = this.getOptions(this.props.departmentsList.departments);
 
+        console.dir(plansOptions);
         return (
             <Form
                 onValidSubmit={this.props.onSubmit}
@@ -105,7 +109,7 @@ class UserForm extends Component {
                             name="plan"
                             label="Plan: "
                             value={user.plan ? user.plan.id : ''}
-                            options={this.getOptions(plansList.plans)}
+                            options={plansOptions}
                         />
                     }
                 </fieldset>
