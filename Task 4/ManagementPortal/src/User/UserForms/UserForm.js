@@ -12,7 +12,7 @@ import {getAllUsers} from "../userActions";
 class UserForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { userRole: this.props.user.role || 'student' };
+        this.state = {userRole: this.props.user.role || 'student'};
         this.changeRole = this.changeRole.bind(this);
     }
 
@@ -54,28 +54,32 @@ class UserForm extends Component {
         return (
             <fieldset>
                 <Select
-                    name="roles"
-                    value={user.role}
+                    name="role"
+                    value={user.role || 'student'}
                     label="Roles: "
                     options={rolesOptions}
                     onChange={this.changeRole}
-                    required
                 />
                 {this.state.userRole === 'mentor' &&
                 < Select
                     name="department"
                     label="Department: "
-                    value={user.department || ''}
+                    value={user.department || (departmentsOptions.length > 0 ?
+                        departmentsOptions[0].value :
+                        '')}
                     options={departmentsOptions}
-                    required
+                    disabled={departmentsOptions.length === 0}
                 />
                 }
                 {this.state.userRole === 'student' &&
                 <Select
                     name="mentor"
                     label="Mentor: "
-                    value={user.mentor || ''}
+                    value={user.mentor || (mentorsOptions.length > 0 ?
+                        mentorsOptions[0].value :
+                        '')}
                     options={mentorsOptions}
+                    disabled={mentorsOptions.length === 0}
                 />
                 }
             </fieldset>
@@ -115,8 +119,11 @@ class UserForm extends Component {
                         <Select
                             name="plan"
                             label="Plan: "
-                            value={user.plan || ''}
+                            value={user.plan || (plansOptions.length > 0 ?
+                                plansOptions[0].value :
+                                '')}
                             options={plansOptions}
+                            disabled={plansOptions.length === 0}
                         />
                     }
                 </fieldset>
@@ -138,6 +145,7 @@ UserForm.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        currentUserRole: state.auth.user.role,
         departmentsList: state.departmentsManager.departmentsList,
         plansList: state.plansManager.plansList,
         mentors: getCertainUsers(state, GET_MENTORS)

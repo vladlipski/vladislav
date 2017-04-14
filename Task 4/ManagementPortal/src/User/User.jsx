@@ -40,9 +40,8 @@ class User extends AuthorizedComponent {
             <Col smOffset={2} sm={7}>
                 <PageHeader>User: {activeUser.user.username}</PageHeader>
                 <UserForm
-                    currentUserRole={this.props.currentUserRole}
-                    user={activeUser.user || {}}
-                    onSubmit={() => {console.log('Submit')}}
+                    user={activeUser.user}
+                    onSubmit={(values) => {console.dir(values)}}
                 />
             </Col>
         );

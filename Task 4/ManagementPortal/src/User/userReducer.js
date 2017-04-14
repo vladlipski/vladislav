@@ -1,6 +1,6 @@
 import {
     FETCH_USERS, FETCH_USERS_FAILURE, FETCH_USERS_SUCCESS,
-    FETCH_USER, FETCH_USER_FAILURE, FETCH_USER_SUCCESS
+    FETCH_USER, FETCH_USER_FAILURE, FETCH_USER_SUCCESS, CREATE_USER_FAILURE, CREATE_USER_SUCCESS, CREATE_USER
 } from "./userActions";
 
 export default function(state = {
@@ -11,6 +11,11 @@ export default function(state = {
                             },
                             activeUser:{
                                 user: null,
+                                errorMessage: null,
+                                isFetching: false
+                            },
+                            newUser:{
+                                success: false,
                                 errorMessage: null,
                                 isFetching: false
                             }
@@ -28,7 +33,7 @@ export default function(state = {
                 usersList: {
                     isFetching: false,
                     users: action.payload,
-                    errorMessage: ''
+                    errorMessage: null
                 }
             });
         case FETCH_USERS_FAILURE:
@@ -51,7 +56,7 @@ export default function(state = {
                 activeUser: {
                     isFetching: false,
                     user: action.payload,
-                    errorMessage: ''
+                    errorMessage: null
                 }
             });
         case FETCH_USER_FAILURE:
@@ -60,6 +65,30 @@ export default function(state = {
                     isFetching: false,
                     user: null,
                     errorMessage: action.payload
+                }
+            });
+        case CREATE_USER:
+            return Object.assign({}, state, {
+                newUser: {
+                    success: false,
+                    errorMessage: null,
+                    isFetching: true
+                }
+            });
+        case CREATE_USER_SUCCESS:
+            return Object.assign({}, state, {
+                newUser: {
+                    success: true,
+                    errorMessage: null,
+                    isFetching: false
+                }
+            });
+        case CREATE_USER_FAILURE:
+            return Object.assign({}, state, {
+                newUser: {
+                    success: false,
+                    errorMessage: action.payload,
+                    isFetching: false
                 }
             });
         default:

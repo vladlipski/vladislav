@@ -8,6 +8,10 @@ export const FETCH_USER = 'FETCH_USER';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 
+export const CREATE_USER = 'CREATE_USER';
+export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
+export const CREATE_USER_FAILURE = 'CREATE_USER_FAILURE';
+
 export function fetchUsers() {
     return {
         type: FETCH_USERS
@@ -77,6 +81,36 @@ export function getUser(mentorId, userId) {
             dispatch(fetchUserSuccess(response.user));
         }).catch(response => {
             dispatch(fetchUserFailure(response.errorMessage));
+        })
+    }
+}
+
+export function createUser() {
+    return {
+        type: CREATE_USER
+    };
+}
+
+export function createUserSuccess() {
+    return {
+        type: CREATE_USER_SUCCESS
+    };
+}
+
+export function createUserFailure(message) {
+    return {
+        type: CREATE_USER_FAILURE,
+        payload: message
+    };
+}
+
+export function addUser(user) {
+    return (dispatch) => {
+        dispatch(createUser());
+        return fakeBackend.createUser(user).then(response => {
+            dispatch(createUserSuccess());
+        }).catch(response => {
+            dispatch(createUserFailure(response.errorMessage));
         })
     }
 }

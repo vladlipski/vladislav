@@ -169,3 +169,13 @@ export const getDepartments = () =>
             departments
         };
     });
+
+export const createUser = (user) =>
+    delay(500).then(() => {
+        user.id = fakeDatabase.users.length + 1;
+        fakeDatabase.users.push(user);
+        console.log('User created!');
+        return {
+            status: 200
+        };
+    });

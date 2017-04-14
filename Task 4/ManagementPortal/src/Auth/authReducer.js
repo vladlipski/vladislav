@@ -6,6 +6,7 @@ import {verifyToken} from "../fakeBackend";
 
 
 export default function(state = {
+                            errorMessage: null,
                             isFetching: false,
                             user: verifyToken(Cookies.get('id_token'))
                         }, action) {
@@ -19,7 +20,7 @@ export default function(state = {
             return Object.assign({}, state, {
                 isFetching: false,
                 user: action.payload,
-                errorMessage: ''
+                errorMessage: null
             });
         case LOGIN_FAILURE:
             return Object.assign({}, state, {
