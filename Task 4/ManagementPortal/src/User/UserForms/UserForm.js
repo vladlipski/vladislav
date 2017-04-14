@@ -5,6 +5,8 @@ import {getDepartments} from "../../Departament/deprtmentActions";
 import {connect} from "react-redux";
 import {getPlans} from "../../Plan/planActions";
 import {bindActionCreators} from "redux";
+import {GET_MENTORS, getCertainUsers} from "../selectors";
+import {getAllUsers} from "../userActions";
 
 
 class UserForm extends Component {
@@ -15,8 +17,13 @@ class UserForm extends Component {
     }
 
     componentWillMount() {
+        if (this.props.currentUserRole === 'admin') {
+            this.props.getDepartments();
+            if (this.props.mentors.length === 0) {
+                this.props.getAllUsers();
+            }
+        }
         this.props.getPlans();
-        this.props.getDepartments();
     }
 
     changeRole(event, value) {
@@ -29,7 +36,7 @@ class UserForm extends Component {
         return array.map((element) => {
             return ({
                 value: element.id,
-                label: element.title
+                label: element.title || element.username
             });
         });
     }
@@ -41,6 +48,7 @@ class UserForm extends Component {
             {value: 'student', label: 'Student'}
         ];
         const departmentsOptions = this.getOptions(this.props.departmentsList.departments);
+        const mentorsOptions = this.getOptions(this.props.mentors);
         const user = this.props.user;
 
         return (
@@ -57,7 +65,7 @@ class UserForm extends Component {
                 < Select
                     name="department"
                     label="Department: "
-                    value={user.department.id || ''}
+                    value={user.department || ''}
                     options={departmentsOptions}
                     required
                 />
@@ -66,7 +74,8 @@ class UserForm extends Component {
                 <Select
                     name="mentor"
                     label="Mentor: "
-                    options={[]}
+                    value={user.mentor || ''}
+                    options={mentorsOptions}
                 />
                 }
             </fieldset>
@@ -76,9 +85,7 @@ class UserForm extends Component {
     render() {
         const {currentUserRole, user, plansList} =  this.props;
         const plansOptions = this.getOptions(plansList.plans);
-        const departmentsOptions = this.getOptions(this.props.departmentsList.departments);
 
-        console.dir(plansOptions);
         return (
             <Form
                 onValidSubmit={this.props.onSubmit}
@@ -108,7 +115,7 @@ class UserForm extends Component {
                         <Select
                             name="plan"
                             label="Plan: "
-                            value={user.plan ? user.plan.id : ''}
+                            value={user.plan || ''}
                             options={plansOptions}
                         />
                     }
@@ -132,14 +139,16 @@ UserForm.propTypes = {
 function mapStateToProps(state) {
     return {
         departmentsList: state.departmentsManager.departmentsList,
-        plansList: state.plansManager.plansList
+        plansList: state.plansManager.plansList,
+        mentors: getCertainUsers(state, GET_MENTORS)
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getDepartments: bindActionCreators(getDepartments, dispatch),
-        getPlans: bindActionCreators(getPlans, dispatch)
+        getPlans: bindActionCreators(getPlans, dispatch),
+        getAllUsers: bindActionCreators(getAllUsers, dispatch)
     }
 }
 

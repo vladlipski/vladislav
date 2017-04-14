@@ -1,4 +1,5 @@
 import * as fakeBackend from "../fakeBackend";
+
 export const FETCH_USERS = 'FETCH_USERS';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
 export const FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE';
@@ -27,7 +28,18 @@ export function fetchUsersFailure(message) {
     };
 }
 
-export function getUsers(id) {
+export function getAllUsers() {
+    return (dispatch) => {
+        dispatch(fetchUsers());
+        return fakeBackend.getAllUsers().then(response => {
+            dispatch(fetchUsersSuccess(response.users));
+        }).catch(response => {
+            dispatch(fetchUsersFailure(response.errorMessage));
+        })
+    }
+}
+
+export function getUsersByMentor(id) {
     return (dispatch) => {
         dispatch(fetchUsers());
         return fakeBackend.getUsersByMentor(id).then(response => {

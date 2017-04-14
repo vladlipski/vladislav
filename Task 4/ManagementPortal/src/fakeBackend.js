@@ -23,8 +23,8 @@ const fakeDatabase = {
         id: 3,
         username: 'misha',
         password: '1',
-        department: 2,
-        mentor: 4,
+        department: 3,
+        mentor: 5,
         role: 'student',
         plan: 3
     }, {
@@ -32,6 +32,14 @@ const fakeDatabase = {
         username: 'denis',
         password: '1',
         department: 2,
+        mentor: null,
+        role: 'mentor',
+        plan: null
+    }, {
+        id: 5,
+        username: 'ilya',
+        password: '1',
+        department: 3,
         mentor: null,
         role: 'mentor',
         plan: null
@@ -106,14 +114,18 @@ function isAdmin(id) {
     return user.role === 'admin';
 }
 
+export const getAllUsers = () =>
+    delay(500).then(() => {
+        const users = fakeDatabase.users;
+        return {
+            status: 200,
+            users
+        };
+    });
+
 export const getUsersByMentor = (mentorId) =>
     delay(500).then(() => {
-        var users;
-        if (isAdmin(mentorId)) {
-            users = fakeDatabase.users;
-        } else {
-            users = fakeDatabase.users.filter((user) => user.mentor === mentorId);
-        }
+        const users = fakeDatabase.users.filter((user) => user.mentor === mentorId);
         return {
             status: 200,
             users
@@ -128,9 +140,6 @@ export const getUserById = (mentorId, userId) =>
                 errorMessage: "User doesn't exist"
             });
         }
-
-        user.plan = fakeDatabase.plans.find((plan) => plan.id === user.plan);
-        user.department = fakeDatabase.departments.find((department) => department.id === user.department);
 
         if (isAdmin(mentorId) || user.mentor === mentorId) {
             return {
