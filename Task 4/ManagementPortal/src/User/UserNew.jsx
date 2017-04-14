@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForms/UserForm";
 import {bindActionCreators} from "redux";
-import {addUser} from "./userActions";
+import {addUser, resetNewUser} from "./userActions";
 import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
 
@@ -16,10 +16,14 @@ class UserNew extends AuthorizedComponent {
         this.notAuthorizedPath = '/forbidden';
     }
 
+    componentWillMount() {
+        super.componentWillMount();
+        this.props.resetNewUser();
+    }
+
     componentWillReceiveProps(nextProps) {
-        console.dir(nextProps.newUser);
         if (nextProps.newUser.success) {
-            browserHistory.push('/');
+            browserHistory.push('/users');
         }
     }
 
@@ -57,7 +61,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addUser: bindActionCreators(addUser, dispatch)
+        addUser: bindActionCreators(addUser, dispatch),
+        resetNewUser: bindActionCreators(resetNewUser, dispatch)
     }
 }
 

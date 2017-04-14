@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {AuthorizedComponent} from 'react-router-role-authorization';
 import {connect} from "react-redux";
 import {Alert, Button, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap";
-import {getAllUsers, getUsersByMentor} from "./userActions";
+import {getAllUsers, getUsersByMentor, resetUsers} from "./userActions";
 import {bindActionCreators} from "redux";
 import {LinkContainer} from "react-router-bootstrap";
 
@@ -15,6 +15,7 @@ class UsersList extends AuthorizedComponent {
 
     componentWillMount() {
         super.componentWillMount();
+        this.props.resetUsers();
         if (this.props.currentUserRole === 'admin') {
             this.props.getAllUsers();
         } else {
@@ -83,7 +84,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getUsersByMentor: bindActionCreators(getUsersByMentor, dispatch),
-        getAllUsers: bindActionCreators(getAllUsers, dispatch)
+        getAllUsers: bindActionCreators(getAllUsers, dispatch),
+        resetUsers: bindActionCreators(resetUsers, dispatch)
     }
 }
 

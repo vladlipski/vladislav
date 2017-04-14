@@ -3,14 +3,22 @@ import * as fakeBackend from "../fakeBackend";
 export const FETCH_USERS = 'FETCH_USERS';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
 export const FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE';
+export const RESET_USERS = 'RESET_USERS';
 
 export const FETCH_USER = 'FETCH_USER';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
+export const RESET_ACTIVE_USER = 'RESET_ACTIVE_USER';
 
 export const CREATE_USER = 'CREATE_USER';
 export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
 export const CREATE_USER_FAILURE = 'CREATE_USER_FAILURE';
+export const RESET_NEW_USER = 'RESET_NEW_USER';
+
+export const UPDATE_USER = 'UPDATE_USER';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
+export const RESET_UPDATED_USER = 'RESET_UPDATED_USER';
 
 export function fetchUsers() {
     return {
@@ -29,6 +37,12 @@ export function fetchUsersFailure(message) {
     return {
         type: FETCH_USERS_FAILURE,
         payload: message
+    };
+}
+
+export function resetUsers() {
+    return {
+        type: RESET_USERS
     };
 }
 
@@ -74,6 +88,13 @@ export function fetchUserFailure(message) {
     };
 }
 
+export function resetActiveUser() {
+    return {
+        type: RESET_ACTIVE_USER
+    };
+}
+
+
 export function getUser(mentorId, userId) {
     return (dispatch) => {
         dispatch(fetchUser());
@@ -104,6 +125,12 @@ export function createUserFailure(message) {
     };
 }
 
+export function resetNewUser() {
+    return {
+        type: RESET_NEW_USER
+    };
+}
+
 export function addUser(user) {
     return (dispatch) => {
         dispatch(createUser());
@@ -111,6 +138,43 @@ export function addUser(user) {
             dispatch(createUserSuccess());
         }).catch(response => {
             dispatch(createUserFailure(response.errorMessage));
+        })
+    }
+}
+
+export function updateUser() {
+    return {
+        type: UPDATE_USER
+    };
+}
+
+export function updateUserSuccess() {
+    return {
+        type: UPDATE_USER_SUCCESS
+    };
+}
+
+export function updateUserFailure(message) {
+    return {
+        type: UPDATE_USER_FAILURE,
+        payload: message
+    };
+}
+
+export function resetUpdatedUser() {
+    return {
+        type: RESET_UPDATED_USER
+    };
+}
+
+
+export function editUser(user) {
+    return (dispatch) => {
+        dispatch(updateUser());
+        return fakeBackend.updateUser(user).then(response => {
+            dispatch(updateUserSuccess());
+        }).catch(response => {
+            dispatch(updateUserFailure(response.errorMessage));
         })
     }
 }

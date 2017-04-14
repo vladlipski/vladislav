@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Grid  from 'react-bootstrap/lib/Grid';
 import Header from "../Header";
-import {Row} from "react-bootstrap";
 
 class App extends Component {
     render() {
@@ -9,9 +8,7 @@ class App extends Component {
             <div>
                 <Header/>
                 <Grid>
-                    <Row>
-                        {this.props.children}
-                    </Row>
+                    {this.props.children}
                 </Grid>
             </div>
         );

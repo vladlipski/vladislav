@@ -174,7 +174,14 @@ export const createUser = (user) =>
     delay(500).then(() => {
         user.id = fakeDatabase.users.length + 1;
         fakeDatabase.users.push(user);
-        console.log('User created!');
+        return {
+            status: 200
+        };
+    });
+
+export const updateUser = (updatedUser) =>
+    delay(500).then(() => {
+        fakeDatabase.users[updatedUser.id - 1] = updatedUser;
         return {
             status: 200
         };
