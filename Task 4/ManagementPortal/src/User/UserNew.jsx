@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForms/UserForm";
 import {bindActionCreators} from "redux";
-import {addUser, resetNewUser} from "./userActions";
+import {requestUserCreation, resetNewUser} from "./userActions";
 import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
 
@@ -34,7 +34,7 @@ class UserNew extends AuthorizedComponent {
             newUser.mentor = currentUser.id;
             newUser.department = currentUser.department;
         }
-        this.props.addUser(newUser);
+        this.props.createUser(newUser);
     }
 
     render() {
@@ -71,7 +71,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addUser: bindActionCreators(addUser, dispatch),
+        createUser: bindActionCreators(requestUserCreation, dispatch),
         resetNewUser: bindActionCreators(resetNewUser, dispatch)
     }
 }

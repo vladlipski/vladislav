@@ -187,3 +187,11 @@ export const updateUser = (updatedUser) =>
             status: 200
         };
     });
+
+export const deleteUser = (id) =>
+    delay(500).then(() => {
+        fakeDatabase.users = fakeDatabase.users.filter(user => user.id != id);
+        return {
+            status: 200
+        };
+    });

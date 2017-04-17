@@ -20,6 +20,11 @@ export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
 export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
 export const RESET_UPDATED_USER = 'RESET_UPDATED_USER';
 
+export const DELETE_USER = 'DELETE_USER';
+export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
+export const DELETE_USER_FAILURE = 'DELETE_USER_FAILURE';
+export const RESET_DELETED_USER = 'RESET_DELETED_USER';
+
 export function fetchUsers() {
     return {
         type: FETCH_USERS
@@ -130,7 +135,7 @@ export function resetNewUser() {
     };
 }
 
-export function addUser(user) {
+export function requestUserCreation(user) {
     return (dispatch) => {
         dispatch(createUser());
         return fakeBackend.createUser(user).then(response => {
@@ -166,13 +171,49 @@ export function resetUpdatedUser() {
     };
 }
 
-export function editUser(user) {
+export function requestUserUpdate(user) {
     return (dispatch) => {
         dispatch(updateUser());
         return fakeBackend.updateUser(user).then(response => {
             dispatch(updateUserSuccess());
         }).catch(response => {
             dispatch(updateUserFailure(response.errorMessage));
+        })
+    }
+}
+
+export function deleteUser() {
+    return {
+        type: DELETE_USER
+    };
+}
+
+export function deleteUserSuccess() {
+    return {
+        type: DELETE_USER_SUCCESS
+    };
+}
+
+export function deleteUserFailure(message) {
+    return {
+        type: DELETE_USER_FAILURE,
+        payload: message
+    };
+}
+
+export function resetDeletedUser() {
+    return {
+        type: RESET_DELETED_USER
+    };
+}
+
+export function requestUserDeletion (id) {
+    return (dispatch) => {
+        dispatch(deleteUser());
+        return fakeBackend.deleteUser(id).then(response => {
+            dispatch(deleteUserSuccess());
+        }).catch(response => {
+            dispatch(deleteUserFailure(response.errorMessage));
         })
     }
 }

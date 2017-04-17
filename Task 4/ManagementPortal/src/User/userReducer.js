@@ -2,7 +2,7 @@ import {
     FETCH_USERS, FETCH_USERS_FAILURE, FETCH_USERS_SUCCESS,
     FETCH_USER, FETCH_USER_FAILURE, FETCH_USER_SUCCESS, CREATE_USER_FAILURE, CREATE_USER_SUCCESS, CREATE_USER,
     UPDATE_USER, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, RESET_USERS, RESET_ACTIVE_USER, RESET_NEW_USER,
-    RESET_UPDATED_USER
+    RESET_UPDATED_USER, DELETE_USER, DELETE_USER_SUCCESS, DELETE_USER_FAILURE, RESET_DELETED_USER
 } from "./userActions";
 
 export default function(state = {
@@ -22,6 +22,11 @@ export default function(state = {
                                 isFetching: false
                             },
                             updatedUser:{
+                                success: false,
+                                errorMessage: null,
+                                isFetching: false
+                            },
+                            deletedUser:{
                                 success: false,
                                 errorMessage: null,
                                 isFetching: false
@@ -149,6 +154,38 @@ export default function(state = {
         case RESET_UPDATED_USER:
             return Object.assign({}, state, {
                 updatedUser: {
+                    success: false,
+                    errorMessage: null,
+                    isFetching: false
+                }
+            });
+        case DELETE_USER:
+            return Object.assign({}, state, {
+                deletedUser: {
+                    success: false,
+                    errorMessage: null,
+                    isFetching: true
+                }
+            });
+        case DELETE_USER_SUCCESS:
+            return Object.assign({}, state, {
+                deletedUser: {
+                    success: true,
+                    errorMessage: null,
+                    isFetching: false
+                }
+            });
+        case DELETE_USER_FAILURE:
+            return Object.assign({}, state, {
+                deletedUser: {
+                    success: false,
+                    errorMessage: action.payload,
+                    isFetching: false
+                }
+            });
+        case RESET_DELETED_USER:
+            return Object.assign({}, state, {
+                deletedUser: {
                     success: false,
                     errorMessage: null,
                     isFetching: false

@@ -1,7 +1,10 @@
 import React, {PropTypes} from 'react'
 import {AuthorizedComponent} from 'react-router-role-authorization';
 import {connect} from "react-redux";
-import {getUser, editUser, resetActiveUser, resetUpdatedUser} from "./userActions";
+import {
+    getUser, requestUserDeletion, requestUserUpdate, resetActiveUser, resetDeletedUser,
+    resetUpdatedUser
+} from "./userActions";
 import {bindActionCreators} from "redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForms/UserForm";
@@ -15,12 +18,18 @@ class User extends AuthorizedComponent {
         this.userRoles =  [this.props.currentUserRole];
         this.notAuthorizedPath = '/forbidden';
         this.submitUpdatedUser = this.submitUpdatedUser.bind(this);
+        this.deleteUserClick = this.deleteUserClick.bind(this);
+    }
+
+    reset() {
+        this.props.resetActiveUser();
+        this.props.resetUpdatedUser();
+        this.props.resetDeletedUser();
     }
 
     componentWillMount() {
         super.componentWillMount();
-        this.props.resetActiveUser();
-        this.props.resetUpdatedUser();
+        this.reset();
         const userId = this.props.params.id;
         if (userId) {
             this.props.getUser(this.props.currentUserId, userId);
@@ -28,7 +37,7 @@ class User extends AuthorizedComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.updatedUser.success) {
+        if (nextProps.updatedUser.success || nextProps.deletedUser.success) {
             browserHistory.push('/users');
         }
     }
@@ -36,12 +45,17 @@ class User extends AuthorizedComponent {
     submitUpdatedUser(updatedUser) {
         const user = this.props.activeUser.user;
         updatedUser.id = user.id;
-        this.props.editUser(updatedUser);
+        this.props.updateUser(updatedUser);
+    }
+
+    deleteUserClick() {
+        const user = this.props.activeUser.user;
+        this.props.deleteUser(user.id);
     }
 
     render() {
         const activeUser = this.props.activeUser;
-        const errorMessage = this.props.updatedUser.errorMessage;
+        const errorMessage = this.props.updatedUser.errorMessage || this.props.deletedUser.errorMessage;
 
         if (activeUser.isFetching) {
             return <h1>Loading...</h1>;
@@ -68,6 +82,7 @@ class User extends AuthorizedComponent {
                 <UserForm
                     user={activeUser.user}
                     onSubmit={this.submitUpdatedUser}
+                    onDeleteClick={this.deleteUserClick}
                 />
             </Col>
         );
@@ -85,16 +100,19 @@ function mapStateToProps(state) {
         currentUserRole: state.auth.user.role,
         currentUserId: state.auth.user.id,
         activeUser: state.usersManager.activeUser,
-        updatedUser: state.usersManager.updatedUser
+        updatedUser: state.usersManager.updatedUser,
+        deletedUser: state.usersManager.deletedUser
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getUser: bindActionCreators(getUser, dispatch),
-        editUser: bindActionCreators(editUser, dispatch),
+        updateUser: bindActionCreators(requestUserUpdate, dispatch),
+        deleteUser: bindActionCreators(requestUserDeletion, dispatch),
         resetActiveUser: bindActionCreators(resetActiveUser, dispatch),
         resetUpdatedUser: bindActionCreators(resetUpdatedUser, dispatch),
+        resetDeletedUser: bindActionCreators(resetDeletedUser, dispatch),
     }
 }
 

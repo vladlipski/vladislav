@@ -7,13 +7,26 @@ import {getPlans} from "../../Plan/planActions";
 import {bindActionCreators} from "redux";
 import {GET_MENTORS, getCertainUsers} from "../selectors";
 import {getAllUsers} from "../userActions";
-
+import {ButtonToolbar, Modal} from "react-bootstrap";
 
 class UserForm extends Component {
     constructor(props) {
         super(props);
-        this.state = {userRole: this.props.user.role || 'student'};
+        this.state = {
+            userRole: this.props.user.role || 'student',
+            showModal: false
+        };
         this.changeRole = this.changeRole.bind(this);
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    openModal() {
+        this.setState({showModal: true});
+    }
+
+    closeModal() {
+        this.setState({showModal: false});
     }
 
     componentWillMount() {
@@ -128,11 +141,39 @@ class UserForm extends Component {
                             disabled={plansOptions.length === 0}
                         />
                     }
+
+                    <Modal show={this.state.showModal} onHide={this.closeModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Delete user</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            Would you like to delete {this.props.user.username}?
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button
+                                onClick={() => {
+                                    this.props.onDeleteClick();
+                                    this.closeModal();
+                                }}
+                                bsStyle="danger"
+                            >
+                                Yes
+                            </Button>
+                            <Button onClick={this.closeModal}>No</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </fieldset>
                 <Row layout={'horizontal'}>
-                    <Button type="submit">
-                        Ok
-                    </Button>
+                    <ButtonToolbar>
+                        <Button type="submit">Ok</Button>
+                        <Button
+                            onClick={this.openModal}
+                            bsStyle="danger"
+                            className={this.props.user.id ? '' : 'hidden'}
+                        >
+                            Delete
+                        </Button>
+                    </ButtonToolbar>
                 </Row>
             </Form>
         );
@@ -142,7 +183,8 @@ class UserForm extends Component {
 UserForm.propTypes = {
     currentUserRole: PropTypes.string,
     user: PropTypes.object,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    onDeleteClick: PropTypes.func
 };
 
 function mapStateToProps(state) {
