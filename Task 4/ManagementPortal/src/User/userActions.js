@@ -94,7 +94,6 @@ export function resetActiveUser() {
     };
 }
 
-
 export function getUser(mentorId, userId) {
     return (dispatch) => {
         dispatch(fetchUser());
@@ -166,7 +165,6 @@ export function resetUpdatedUser() {
         type: RESET_UPDATED_USER
     };
 }
-
 
 export function editUser(user) {
     return (dispatch) => {

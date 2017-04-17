@@ -12,8 +12,9 @@ import {Row} from "formsy-react-components";
 class UserNew extends AuthorizedComponent {
     constructor(props) {
         super(props);
-        this.userRoles =  [this.props.currentUserRole];
+        this.userRoles =  [this.props.currentUser.role];
         this.notAuthorizedPath = '/forbidden';
+        this.submitNewUser = this.submitNewUser.bind(this);
     }
 
     componentWillMount() {
@@ -25,6 +26,15 @@ class UserNew extends AuthorizedComponent {
         if (nextProps.newUser.success) {
             browserHistory.push('/users');
         }
+    }
+
+    submitNewUser(newUser) {
+        const currentUser = this.props.currentUser;
+        if (currentUser.role === 'mentor') {
+            newUser.mentor = currentUser.id;
+            newUser.department = currentUser.department;
+        }
+        this.props.addUser(newUser);
     }
 
     render() {
@@ -41,7 +51,7 @@ class UserNew extends AuthorizedComponent {
                 }
                 <UserForm
                     user={{}}
-                    onSubmit={(user) => {this.props.addUser(user)}}
+                    onSubmit={this.submitNewUser}
                 />
             </Col>
         );
@@ -54,7 +64,7 @@ UserNew.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        currentUserRole: state.auth.user.role,
+        currentUser: state.auth.user,
         newUser: state.usersManager.newUser
     }
 }

@@ -32,11 +32,11 @@ class UserForm extends Component {
         })
     }
 
-    getOptions(array) {
+    generateOptions(array, labelProperty) {
         return array.map((element) => {
             return ({
                 value: element.id,
-                label: element.title || element.username
+                label: element[labelProperty]
             });
         });
     }
@@ -47,12 +47,14 @@ class UserForm extends Component {
             {value: 'mentor', label: 'Mentor'},
             {value: 'student', label: 'Student'}
         ];
-        const departmentsOptions = this.getOptions(this.props.departmentsList.departments);
-        const mentorsOptions = this.getOptions(this.props.mentors);
-        const user = this.props.user;
+        const departmentsOptions = this.generateOptions(this.props.departmentsList.departments, 'title');
+        const mentorsOptions = this.generateOptions(this.props.mentors, 'username');
+        const {currentUserRole, user} = this.props;
 
         return (
-            <fieldset>
+            <fieldset
+                className={currentUserRole === 'admin' ? '' : 'hidden'}
+            >
                 <Select
                     name="role"
                     value={user.role || 'student'}
@@ -87,8 +89,8 @@ class UserForm extends Component {
     }
 
     render() {
-        const {currentUserRole, user, plansList} =  this.props;
-        const plansOptions = this.getOptions(plansList.plans);
+        const {user, plansList} =  this.props;
+        const plansOptions = this.generateOptions(plansList.plans, 'title');
 
         return (
             <Form
@@ -108,13 +110,13 @@ class UserForm extends Component {
                         name="password"
                         value={user.password || ''}
                         label="Password:"
-                        type="text"
+                        type="password"
                         placeholder="password"
                         required
                     />
-                    {currentUserRole === 'admin' &&
-                        this.renderAdminInputs()
-                    }
+
+                    {this.renderAdminInputs()}
+
                     {this.state.userRole === 'student' &&
                         <Select
                             name="plan"

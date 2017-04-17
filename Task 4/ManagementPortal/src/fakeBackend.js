@@ -24,7 +24,7 @@ const fakeDatabase = {
         username: 'misha',
         password: '1',
         department: 3,
-        mentor: 5,
+        mentor: 4,
         role: 'student',
         plan: 3
     }, {
@@ -97,7 +97,8 @@ export const login = (username, password) =>
             const userData = {
                 id: user.id,
                 username: user.username,
-                role: user.role
+                role: user.role,
+                department: user.department
             };
             const id_token = createToken(userData);
             Cookies.set('id_token', id_token);
@@ -125,7 +126,7 @@ export const getAllUsers = () =>
 
 export const getUsersByMentor = (mentorId) =>
     delay(500).then(() => {
-        const users = fakeDatabase.users.filter((user) => user.mentor === mentorId);
+        const users = fakeDatabase.users.filter((user) => user.mentor == mentorId);
         return {
             status: 200,
             users
@@ -134,14 +135,14 @@ export const getUsersByMentor = (mentorId) =>
 
 export const getUserById = (mentorId, userId) =>
     delay(500).then(() => {
-        const user = Object.assign({}, fakeDatabase.users.find((user) => String(user.id) === userId));
-        if (!user) {
+
+        const user = Object.assign({}, fakeDatabase.users.find((user) => user.id == userId));
+        if (!user.id) {
             return Promise.reject({
                 errorMessage: "User doesn't exist"
             });
         }
-
-        if (isAdmin(mentorId) || user.mentor === mentorId) {
+        if (isAdmin(mentorId) || user.mentor == mentorId) {
             return {
                 status: 200,
                 user

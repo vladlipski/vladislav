@@ -14,6 +14,7 @@ class User extends AuthorizedComponent {
         super(props);
         this.userRoles =  [this.props.currentUserRole];
         this.notAuthorizedPath = '/forbidden';
+        this.submitUpdatedUser = this.submitUpdatedUser.bind(this);
     }
 
     componentWillMount() {
@@ -30,6 +31,12 @@ class User extends AuthorizedComponent {
         if (nextProps.updatedUser.success) {
             browserHistory.push('/users');
         }
+    }
+
+    submitUpdatedUser(updatedUser) {
+        const user = this.props.activeUser.user;
+        updatedUser.id = user.id;
+        this.props.editUser(updatedUser);
     }
 
     render() {
@@ -60,10 +67,7 @@ class User extends AuthorizedComponent {
                 }
                 <UserForm
                     user={activeUser.user}
-                    onSubmit={(user) => {
-                        user.id = activeUser.user.id;
-                        this.props.editUser(user);
-                    }}
+                    onSubmit={this.submitUpdatedUser}
                 />
             </Col>
         );

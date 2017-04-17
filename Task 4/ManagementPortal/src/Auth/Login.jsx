@@ -64,7 +64,7 @@ class Login extends Component {
 
                         <Row layout={'horizontal'}>
                             <Button type="submit">
-                                Sign in
+                                Log in
                             </Button>
                         </Row>
                     </Form>
