@@ -1,6 +1,7 @@
 import * as jwt from "jsonwebtoken";
 const JWT_SECRET = 'suzukigsf600s';
 import Cookies from 'js-cookie';
+import {Role} from "./Auth/roles";
 
 const fakeDatabase = {
     users: [{
@@ -9,7 +10,7 @@ const fakeDatabase = {
         password: '1',
         department: null,
         mentor: null,
-        role: 'admin',
+        role: Role.ADMIN,
         plan: null
     }, {
         id: 2,
@@ -17,7 +18,7 @@ const fakeDatabase = {
         password: '1',
         department: 2,
         mentor: 4,
-        role: 'student',
+        role: Role.STUDENT,
         plan: 2
     }, {
         id: 3,
@@ -25,7 +26,7 @@ const fakeDatabase = {
         password: '1',
         department: 3,
         mentor: 4,
-        role: 'student',
+        role: Role.STUDENT,
         plan: 3
     }, {
         id: 4,
@@ -33,7 +34,7 @@ const fakeDatabase = {
         password: '1',
         department: 2,
         mentor: null,
-        role: 'mentor',
+        role: Role.MENTOR,
         plan: null
     }, {
         id: 5,
@@ -41,7 +42,7 @@ const fakeDatabase = {
         password: '1',
         department: 3,
         mentor: null,
-        role: 'mentor',
+        role:  Role.MENTOR,
         plan: null
     }],
     departments: [{
@@ -112,7 +113,7 @@ export const login = (username, password) =>
 
 function isAdmin(id) {
     const user = fakeDatabase.users.find((user) => user.id === id);
-    return user.role === 'admin';
+    return Role.isAdmin(user.role);
 }
 
 export const getAllUsers = () =>

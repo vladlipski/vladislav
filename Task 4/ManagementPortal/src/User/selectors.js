@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import {Role} from "../Auth/roles";
 
 export const GET_MENTORS = 'GET_MENTORS';
 
@@ -10,7 +11,7 @@ export const getCertainUsers = createSelector(
     (userFilter, users) => {
         switch (userFilter) {
             case GET_MENTORS:
-                return users.filter((user) => user.role === 'mentor')
+                return users.filter((user) => Role.isMentor(user.role))
         }
     }
 );

@@ -5,6 +5,8 @@ import {logoutUser} from "../Auth/authActions";
 import {connect} from "react-redux";
 import {IndexLinkContainer, LinkContainer} from "react-router-bootstrap";
 import {browserHistory} from 'react-router';
+import {Role} from "../Auth/roles";
+
 
 class Header extends Component {
     logoutClick() {
@@ -28,12 +30,12 @@ class Header extends Component {
                     <IndexLinkContainer to="/">
                         <NavItem>Home</NavItem>
                     </IndexLinkContainer>
-                    {user && (user.role === 'admin' || user.role === 'mentor') &&
+                    {user && (Role.isAdmin(user.role) || Role.isMentor(user.role)) &&
                         <LinkContainer to="/users">
                             <NavItem>Users</NavItem>
                         </LinkContainer>
                     }
-                    {user && user.role === 'admin' &&
+                    {user && Role.isAdmin(user.role) &&
                         <LinkContainer to="/departments">
                             <NavItem>Departments</NavItem>
                         </LinkContainer>

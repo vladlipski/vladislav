@@ -8,12 +8,14 @@ import {bindActionCreators} from "redux";
 import {GET_MENTORS, getCertainUsers} from "../selectors";
 import {getAllUsers} from "../userActions";
 import {ButtonToolbar, Modal} from "react-bootstrap";
+import {Role} from "../../Auth/roles";
+
 
 class UserForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userRole: this.props.user.role || 'student',
+            userRole: this.props.user.role || Role.STUDENT,
             showModal: false
         };
         this.changeRole = this.changeRole.bind(this);
@@ -30,7 +32,7 @@ class UserForm extends Component {
     }
 
     componentWillMount() {
-        if (this.props.currentUserRole === 'admin') {
+        if (Role.isAdmin(this.props.currentUserRole)) {
             this.props.getDepartments();
             if (this.props.mentors.length === 0) {
                 this.props.getAllUsers();
@@ -56,9 +58,9 @@ class UserForm extends Component {
 
     renderAdminInputs() {
         const rolesOptions = [
-            {value: 'admin', label: 'Admin'},
-            {value: 'mentor', label: 'Mentor'},
-            {value: 'student', label: 'Student'}
+            {value: Role.ADMIN, label: 'Admin'},
+            {value: Role.MENTOR, label: 'Mentor'},
+            {value: Role.STUDENT, label: 'Student'}
         ];
         const departmentsOptions = this.generateOptions(this.props.departmentsList.departments, 'title');
         const mentorsOptions = this.generateOptions(this.props.mentors, 'username');
@@ -66,16 +68,16 @@ class UserForm extends Component {
 
         return (
             <fieldset
-                className={currentUserRole === 'admin' ? '' : 'hidden'}
+                className={Role.isAdmin(currentUserRole) ? '' : 'hidden'}
             >
                 <Select
                     name="role"
-                    value={user.role || 'student'}
+                    value={user.role || Role.STUDENT}
                     label="Roles: "
                     options={rolesOptions}
                     onChange={this.changeRole}
                 />
-                {this.state.userRole === 'mentor' &&
+                {Role.isMentor(this.state.userRole) &&
                 < Select
                     name="department"
                     label="Department: "
@@ -86,7 +88,7 @@ class UserForm extends Component {
                     disabled={departmentsOptions.length === 0}
                 />
                 }
-                {this.state.userRole === 'student' &&
+                {Role.isStudent(this.state.userRole) &&
                 <Select
                     name="mentor"
                     label="Mentor: "
@@ -130,7 +132,7 @@ class UserForm extends Component {
 
                     {this.renderAdminInputs()}
 
-                    {this.state.userRole === 'student' &&
+                    {Role.isStudent(this.state.userRole) &&
                         <Select
                             name="plan"
                             label="Plan: "

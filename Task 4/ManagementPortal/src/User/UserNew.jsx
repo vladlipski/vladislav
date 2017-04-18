@@ -7,6 +7,7 @@ import {bindActionCreators} from "redux";
 import {requestUserCreation, resetNewUser} from "./userActions";
 import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
+import {Role} from "../Auth/roles";
 
 
 class UserNew extends AuthorizedComponent {
@@ -30,7 +31,7 @@ class UserNew extends AuthorizedComponent {
 
     submitNewUser(newUser) {
         const currentUser = this.props.currentUser;
-        if (currentUser.role === 'mentor') {
+        if (Role.isMentor(currentUser.role)) {
             newUser.mentor = currentUser.id;
             newUser.department = currentUser.department;
         }

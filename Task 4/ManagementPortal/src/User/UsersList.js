@@ -5,6 +5,8 @@ import {Alert, Button, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap
 import {getAllUsers, getUsersByMentor, resetUsers} from "./userActions";
 import {bindActionCreators} from "redux";
 import {LinkContainer} from "react-router-bootstrap";
+import {Role} from "../Auth/roles";
+
 
 class UsersList extends AuthorizedComponent {
     constructor(props) {
@@ -16,7 +18,7 @@ class UsersList extends AuthorizedComponent {
     componentWillMount() {
         super.componentWillMount();
         this.props.resetUsers();
-        if (this.props.currentUserRole === 'admin') {
+        if (Role.isAdmin(this.props.currentUserRole)) {
             this.props.getAllUsers();
         } else {
             this.props.getUsersByMentor(this.props.currentUserId);
