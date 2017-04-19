@@ -1,7 +1,7 @@
 import {
     FETCH_USERS, FETCH_USERS_FAILURE, FETCH_USERS_SUCCESS,
     FETCH_USER, FETCH_USER_FAILURE, FETCH_USER_SUCCESS, CREATE_USER_FAILURE, CREATE_USER_SUCCESS, CREATE_USER,
-    UPDATE_USER, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, RESET_USERS, RESET_ACTIVE_USER, RESET_NEW_USER,
+    UPDATE_USER, UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE, RESET_USERS, RESET_SELECTED_USER, RESET_NEW_USER,
     RESET_UPDATED_USER, DELETE_USER, DELETE_USER_SUCCESS, DELETE_USER_FAILURE, RESET_DELETED_USER
 } from "./userActions";
 
@@ -11,7 +11,7 @@ export default function(state = {
                                 errorMessage: null,
                                 isFetching: false
                             },
-                            activeUser:{
+                            selectedUser:{
                                 user: null,
                                 errorMessage: null,
                                 isFetching: false
@@ -66,14 +66,14 @@ export default function(state = {
             });
         case FETCH_USER:
             return Object.assign({}, state, {
-                activeUser: {
+                selectedUser: {
                     isFetching: true,
                     user: null
                 }
             });
         case FETCH_USER_SUCCESS:
             return Object.assign({}, state, {
-                activeUser: {
+                selectedUser: {
                     isFetching: false,
                     user: action.payload,
                     errorMessage: null
@@ -81,15 +81,15 @@ export default function(state = {
             });
         case FETCH_USER_FAILURE:
             return Object.assign({}, state, {
-                activeUser: {
+                selectedUser: {
                     isFetching: false,
                     user: null,
                     errorMessage: action.payload
                 }
             });
-        case RESET_ACTIVE_USER:
+        case RESET_SELECTED_USER:
             return Object.assign({}, state, {
-                activeUser: {
+                selectedUser: {
                     isFetching: false,
                     user: {},
                     errorMessage: null

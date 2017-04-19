@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 import {AuthorizedComponent} from 'react-router-role-authorization';
 import {connect} from "react-redux";
 import {
-    getUser, requestUserDeletion, requestUserUpdate, resetActiveUser, resetDeletedUser,
+    getUser, requestUserDeletion, requestUserUpdate, resetSelectedUser, resetDeletedUser,
     resetUpdatedUser
 } from "./userActions";
 import {bindActionCreators} from "redux";
@@ -22,7 +22,7 @@ class User extends AuthorizedComponent {
     }
 
     reset() {
-        this.props.resetActiveUser();
+        this.props.resetSelectedUser();
         this.props.resetUpdatedUser();
         this.props.resetDeletedUser();
     }
@@ -43,35 +43,35 @@ class User extends AuthorizedComponent {
     }
 
     submitUpdatedUser(updatedUser) {
-        const user = this.props.activeUser.user;
+        const user = this.props.selectedUser.user;
         updatedUser.id = user.id;
         this.props.updateUser(updatedUser);
     }
 
     deleteUserClick() {
-        const user = this.props.activeUser.user;
+        const user = this.props.selectedUser.user;
         this.props.deleteUser(user.id);
     }
 
     render() {
-        const activeUser = this.props.activeUser;
+        const selectedUser = this.props.selectedUser;
         const errorMessage = this.props.updatedUser.errorMessage || this.props.deletedUser.errorMessage;
 
-        if (activeUser.isFetching) {
+        if (selectedUser.isFetching) {
             return <h1>Loading...</h1>;
-        } else if(activeUser.errorMessage) {
+        } else if(selectedUser.errorMessage) {
             return (
                 <Alert bsStyle="danger">
-                    {activeUser.errorMessage}
+                    {selectedUser.errorMessage}
                 </Alert>
             )
-        } else if(!activeUser.user) {
+        } else if(!selectedUser.user) {
             return <span />
         }
 
         return (
             <Col smOffset={2} sm={7}>
-                <PageHeader>User: {activeUser.user.username}</PageHeader>
+                <PageHeader>User: {selectedUser.user.username}</PageHeader>
                 {errorMessage &&
                     <Row>
                         <Alert bsStyle="danger">
@@ -80,7 +80,7 @@ class User extends AuthorizedComponent {
                     </Row>
                 }
                 <UserForm
-                    user={activeUser.user}
+                    user={selectedUser.user}
                     onSubmit={this.submitUpdatedUser}
                     onDeleteClick={this.deleteUserClick}
                 />
@@ -92,14 +92,14 @@ class User extends AuthorizedComponent {
 User.propTypes = {
     currentUserRole: PropTypes.string,
     currentUserId: PropTypes.number,
-    activeUser: PropTypes.object
+    selectedUser: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         currentUserRole: state.auth.user.role,
         currentUserId: state.auth.user.id,
-        activeUser: state.usersManager.activeUser,
+        selectedUser: state.usersManager.selectedUser,
         updatedUser: state.usersManager.updatedUser,
         deletedUser: state.usersManager.deletedUser
     }
@@ -110,7 +110,7 @@ function mapDispatchToProps(dispatch) {
         getUser: bindActionCreators(getUser, dispatch),
         updateUser: bindActionCreators(requestUserUpdate, dispatch),
         deleteUser: bindActionCreators(requestUserDeletion, dispatch),
-        resetActiveUser: bindActionCreators(resetActiveUser, dispatch),
+        resetSelectedUser: bindActionCreators(resetSelectedUser, dispatch),
         resetUpdatedUser: bindActionCreators(resetUpdatedUser, dispatch),
         resetDeletedUser: bindActionCreators(resetDeletedUser, dispatch),
     }

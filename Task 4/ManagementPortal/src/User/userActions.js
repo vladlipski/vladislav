@@ -8,7 +8,7 @@ export const RESET_USERS = 'RESET_USERS';
 export const FETCH_USER = 'FETCH_USER';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
-export const RESET_ACTIVE_USER = 'RESET_ACTIVE_USER';
+export const RESET_SELECTED_USER = 'RESET_SELECTED_USER';
 
 export const CREATE_USER = 'CREATE_USER';
 export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
@@ -93,9 +93,9 @@ export function fetchUserFailure(message) {
     };
 }
 
-export function resetActiveUser() {
+export function resetSelectedUser() {
     return {
-        type: RESET_ACTIVE_USER
+        type: RESET_SELECTED_USER
     };
 }
 
