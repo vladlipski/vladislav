@@ -15,7 +15,7 @@ class UserForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userRole: this.props.user.role || Role.STUDENT,
+            userRole: this.props.user.role || Role.DEFAULT_ROLE,
             showModal: false
         };
         this.changeRole = this.changeRole.bind(this);
