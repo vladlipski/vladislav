@@ -9,6 +9,7 @@ import {GET_MENTORS, getCertainUsers} from "../selectors";
 import {getAllUsers} from "../userActions";
 import {ButtonToolbar, Modal} from "react-bootstrap";
 import {Role} from "../../Auth/roles";
+import Popup from "../../Popup";
 
 
 class UserForm extends Component {
@@ -144,26 +145,14 @@ class UserForm extends Component {
                         />
                     }
 
-                    <Modal show={this.state.showModal} onHide={this.closeModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Delete user</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            Would you like to delete {this.props.user.username}?
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button
-                                onClick={() => {
-                                    this.props.onDeleteClick();
-                                    this.closeModal();
-                                }}
-                                bsStyle="danger"
-                            >
-                                Yes
-                            </Button>
-                            <Button onClick={this.closeModal}>No</Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <Popup
+                        header={'Delete user'}
+                        body={'Would you like to delete ' + this.props.user.username + '?'}
+                        showModal={this.state.showModal}
+                        confirmClickHandler={this.props.onDeleteClick}
+                        closeClickHandler={this.closeModal}
+                    />
+
                 </fieldset>
                 <Row layout={'horizontal'}>
                     <ButtonToolbar>
