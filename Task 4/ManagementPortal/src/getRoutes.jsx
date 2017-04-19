@@ -12,10 +12,19 @@ import {Role} from "./Auth/roles";
 
 
 export default (store) => {
+    const NOT_AUTHORIZED_PATH = '/forbidden';
+
     function requireAuth(nextState, replace) {
         const state = store.getState();
         if (!state.auth.user) {
             replace("/login");
+        }
+    }
+
+    function checkRole(nextState, replace) {
+        const state = store.getState();
+        if (this.authorize.indexOf(state.auth.user.role) === -1) {
+            replace(NOT_AUTHORIZED_PATH);
         }
     }
 
@@ -29,14 +38,14 @@ export default (store) => {
     return(
         <Router history={browserHistory}>
             <Route component={App} path='/' onEnter={requireAuth}>
-                <IndexRoute authorize={[Role.STUDENT, Role.MENTOR, Role.ADMIN]} component={Home}/>
-                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={UsersList} path='users'/>
-                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={UserNew} path='users/new'/>
-                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={User} path='users/:id'/>
-                <Route authorize={[Role.ADMIN]} component={DepartmentsList} path='departments'/>
+                <IndexRoute authorize={[Role.STUDENT, Role.MENTOR, Role.ADMIN]} component={Home} onEnter={checkRole}/>
+                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={UsersList} path='users' onEnter={checkRole}/>
+                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={UserNew} path='users/new' onEnter={checkRole}/>
+                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={User} path='users/:id' onEnter={checkRole}/>
+                <Route authorize={[Role.ADMIN]} component={DepartmentsList} path='departments' onEnter={checkRole}/>
             </Route>
             <Route component={Login} path='/login' onEnter={checkAuth}/>
-            <Route component={Forbidden} path="/forbidden" />
+            <Route component={Forbidden} path={NOT_AUTHORIZED_PATH} />
         </Router>
     );
 }

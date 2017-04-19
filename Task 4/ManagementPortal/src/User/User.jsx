@@ -1,5 +1,4 @@
-import React, {PropTypes} from 'react'
-import {AuthorizedComponent} from 'react-router-role-authorization';
+import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
 import {
     getUser, requestUserDeletion, requestUserUpdate, resetSelectedUser, resetDeletedUser,
@@ -12,11 +11,9 @@ import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
 
 
-class User extends AuthorizedComponent {
+class User extends Component {
     constructor(props) {
         super(props);
-        this.userRoles =  [this.props.currentUserRole];
-        this.notAuthorizedPath = '/forbidden';
         this.submitUpdatedUser = this.submitUpdatedUser.bind(this);
         this.deleteUserClick = this.deleteUserClick.bind(this);
     }
@@ -28,7 +25,6 @@ class User extends AuthorizedComponent {
     }
 
     componentWillMount() {
-        super.componentWillMount();
         this.reset();
         const userId = this.props.params.id;
         if (userId) {

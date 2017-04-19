@@ -1,5 +1,4 @@
-import React, {PropTypes} from 'react'
-import {AuthorizedComponent} from 'react-router-role-authorization';
+import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForms/UserForm";
@@ -10,16 +9,13 @@ import {Row} from "formsy-react-components";
 import {Role} from "../Auth/roles";
 
 
-class UserNew extends AuthorizedComponent {
+class UserNew extends Component {
     constructor(props) {
         super(props);
-        this.userRoles =  [this.props.currentUser.role];
-        this.notAuthorizedPath = '/forbidden';
         this.submitNewUser = this.submitNewUser.bind(this);
     }
 
     componentWillMount() {
-        super.componentWillMount();
         this.props.resetNewUser();
     }
 

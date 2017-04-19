@@ -1,5 +1,4 @@
-import React, {PropTypes} from 'react'
-import {AuthorizedComponent} from 'react-router-role-authorization';
+import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
 import {Alert, Button, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {getAllUsers, getUsersByMentor, resetUsers} from "./userActions";
@@ -8,15 +7,8 @@ import {LinkContainer} from "react-router-bootstrap";
 import {Role} from "../Auth/roles";
 
 
-class UsersList extends AuthorizedComponent {
-    constructor(props) {
-        super(props);
-        this.userRoles = [this.props.currentUserRole];
-        this.notAuthorizedPath = '/forbidden';
-    }
-
+class UsersList extends Component {
     componentWillMount() {
-        super.componentWillMount();
         this.props.resetUsers();
         if (Role.isAdmin(this.props.currentUserRole)) {
             this.props.getAllUsers();

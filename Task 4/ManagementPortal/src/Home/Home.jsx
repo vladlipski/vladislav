@@ -1,15 +1,8 @@
-import React, {PropTypes} from 'react';
-import {AuthorizedComponent} from 'react-router-role-authorization';
+import React, {PropTypes, Component} from 'react';
 import {connect} from "react-redux";
 
 
-class Home extends AuthorizedComponent {
-    constructor(props) {
-        super(props);
-        this.userRoles =  [this.props.user.role];
-        this.notAuthorizedPath = '/forbidden';
-    }
-
+class Home extends Component {
     render() {
         return (
             <div>
