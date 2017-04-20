@@ -1,8 +1,7 @@
 const ROLES = {
     ADMIN: 'admin',
     MENTOR: 'mentor',
-    STUDENT: 'student',
-    DEFAULT_ROLE: 'student'
+    STUDENT: 'student'
 };
 
 ROLES.isAdmin = role =>  role === ROLES.ADMIN;

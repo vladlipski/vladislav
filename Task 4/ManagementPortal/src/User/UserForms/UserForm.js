@@ -7,16 +7,18 @@ import {getPlans} from "../../Plan/planActions";
 import {bindActionCreators} from "redux";
 import {GET_MENTORS, getCertainUsers} from "../selectors";
 import {getAllUsers} from "../userActions";
-import {ButtonToolbar, Modal} from "react-bootstrap";
+import {ButtonToolbar} from "react-bootstrap";
 import {Role} from "../../Auth/roles";
-import Popup from "../../Popup";
+import ConfirmationPopup from "../../ConfirmationPopup";
+
+const DEFAULT_ROLE = Role.STUDENT;
 
 
 class UserForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userRole: this.props.user.role || Role.DEFAULT_ROLE,
+            userRole: this.props.user.role || DEFAULT_ROLE,
             showModal: false
         };
         this.changeRole = this.changeRole.bind(this);
@@ -145,7 +147,7 @@ class UserForm extends Component {
                         />
                     }
 
-                    <Popup
+                    <ConfirmationPopup
                         header={'Delete user'}
                         body={'Would you like to delete ' + this.props.user.username + '?'}
                         showModal={this.state.showModal}

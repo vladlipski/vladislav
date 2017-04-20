@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {Button, Modal} from "react-bootstrap";
 
-class Popup extends Component {
+class ConfirmationPopup extends Component {
     render() {
         return (
             <Modal show={this.props.showModal} onHide={this.props.closeClickHandler}>
@@ -28,7 +28,7 @@ class Popup extends Component {
     }
 }
 
-Popup.propTypes = {
+ConfirmationPopup.propTypes = {
     header: PropTypes.string,
     body: PropTypes.string,
     closeClickHandler: PropTypes.func,
@@ -36,4 +36,4 @@ Popup.propTypes = {
     showModal: PropTypes.bool
 };
 
-export default Popup
+export default ConfirmationPopup
