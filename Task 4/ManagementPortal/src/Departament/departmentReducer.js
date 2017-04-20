@@ -1,5 +1,5 @@
 import {
-    FETCH_DEPARTMENTS, FETCH_DEPARTMENTS_FAILURE, FETCH_DEPARTMENTS_SUCCESS
+    FETCH_DEPARTMENTS, FETCH_DEPARTMENTS_FAILURE, FETCH_DEPARTMENTS_SUCCESS, RESET_DEPARTMENTS
 } from "./deprtmentActions";
 
 export default function(state = {
@@ -31,6 +31,14 @@ export default function(state = {
                     isFetching: false,
                     departments: [],
                     errorMessage: action.payload
+                }
+            });
+        case RESET_DEPARTMENTS:
+            return Object.assign({}, state, {
+                departmentsList: {
+                    isFetching: false,
+                    departments: [],
+                    errorMessage: ''
                 }
             });
         default:

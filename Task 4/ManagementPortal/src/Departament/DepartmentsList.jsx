@@ -1,34 +1,75 @@
-import React, {PropTypes} from 'react'
-import {AuthorizedComponent} from 'react-router-role-authorization';
+import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {ListGroup, ListGroupItem} from "react-bootstrap";
+import {Button, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap";
+import {bindActionCreators} from "redux";
+import {getDepartments, resetDepartments} from "./deprtmentActions";
+import {LinkContainer} from "react-router-bootstrap";
 
-class DepartmentsList extends AuthorizedComponent {
-    constructor(props) {
-        super(props);
-        this.userRoles =  [this.props.role];
-        this.notAuthorizedPath = '/forbidden';
+class DepartmentsList extends Component {
+    componentWillMount() {
+        this.props.resetDepartments();
+        this.props.getDepartments();
+    }
+
+    renderList(departmentsList){
+        if (departmentsList.isFetching) {
+            return <h1>Loading...</h1>;
+        } else if(departmentsList.errorMessage) {
+            return (
+                <Alert bsStyle="danger">
+                    {departmentsList.errorMessage}
+                </Alert>
+            )
+        } else if(!departmentsList.departments) {
+            return <span />
+        }
+        return departmentsList.departments.map((department) => {
+            return (
+                <LinkContainer key={department.id} to={"/departments/".concat(department.id)}>
+                    <ListGroupItem>{department.title}</ListGroupItem>
+                </LinkContainer>
+            );
+        });
     }
 
     render() {
+        const departmentsList = this.props.departmentsList;
         return (
-            <ListGroup>
-                <ListGroupItem href="#">Link 1</ListGroupItem>
-                <ListGroupItem href="#">Link 2</ListGroupItem>
-                <ListGroupItem href="#">Link 2</ListGroupItem>
-            </ListGroup>
+            <Col smOffset={2} sm={7}>
+                <Row>
+                    <LinkContainer to="departments/new">
+                        <Button>
+                            Add department
+                        </Button>
+                    </LinkContainer>
+                </Row>
+                <br/>
+                <Row>
+                    <ListGroup>
+                        {this.renderList(departmentsList)}
+                    </ListGroup>
+                </Row>
+            </Col>
         )
     }
 }
 
 DepartmentsList.propTypes = {
-    role: PropTypes.string
+    currentUserRole: PropTypes.string
 };
 
 function mapStateToProps(state) {
     return {
-        role: state.auth.user.role
+        currentUserRole: state.auth.user.role,
+        departmentsList: state.departmentsManager.departmentsList
     }
 }
 
-export default connect(mapStateToProps)(DepartmentsList)
+function mapDispatchToProps(dispatch) {
+    return {
+        getDepartments: bindActionCreators(getDepartments, dispatch),
+        resetDepartments: bindActionCreators(resetDepartments, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DepartmentsList)
