@@ -5,7 +5,6 @@ import {logoutUser} from "../Auth/authActions";
 import {connect} from "react-redux";
 import {IndexLinkContainer, LinkContainer} from "react-router-bootstrap";
 import {browserHistory} from 'react-router';
-import {Role} from "../Auth/roles";
 
 
 class Header extends Component {
@@ -14,8 +13,18 @@ class Header extends Component {
         browserHistory.push('/login');
     }
 
+    checkAccessToRoute(role, routePath) {
+        const allRoutes = this.props.routes;
+        const route = allRoutes.find(route => route.path === routePath);
+        return route && route.authorize.indexOf(role) !== -1
+    }
+
     render() {
-        const user = this.props.user;
+        const {user} = this.props;
+        const paths = {
+            users: '/users',
+            departments: '/departments'
+        };
 
         return (
             <Navbar>
@@ -30,13 +39,13 @@ class Header extends Component {
                     <IndexLinkContainer to="/">
                         <NavItem>Home</NavItem>
                     </IndexLinkContainer>
-                    {user && (Role.isAdmin(user.role) || Role.isMentor(user.role)) &&
-                        <LinkContainer to="/users">
+                    {user && this.checkAccessToRoute(user.role, paths.users) &&
+                        <LinkContainer to={paths.users}>
                             <NavItem>Users</NavItem>
                         </LinkContainer>
                     }
-                    {user && Role.isAdmin(user.role) &&
-                        <LinkContainer to="/departments">
+                    {user && this.checkAccessToRoute(user.role, paths.departments) &&
+                        <LinkContainer to={paths.departments}>
                             <NavItem>Departments</NavItem>
                         </LinkContainer>
                     }
@@ -54,7 +63,8 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    routes: PropTypes.array
 };
 
 function mapStateToProps(state) {

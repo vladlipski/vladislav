@@ -39,10 +39,10 @@ export default (store) => {
         <Router history={browserHistory}>
             <Route component={App} path='/' onEnter={requireAuth}>
                 <IndexRoute authorize={[Role.STUDENT, Role.MENTOR, Role.ADMIN]} component={Home} onEnter={checkRole}/>
-                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={UsersList} path='users' onEnter={checkRole}/>
-                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={UserNew} path='users/new' onEnter={checkRole}/>
-                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={User} path='users/:id' onEnter={checkRole}/>
-                <Route authorize={[Role.ADMIN]} component={DepartmentsList} path='departments' onEnter={checkRole}/>
+                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={UsersList} path='/users' onEnter={checkRole}/>
+                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={UserNew} path='/users/new' onEnter={checkRole}/>
+                <Route authorize={[Role.MENTOR, Role.ADMIN]} component={User} path='/users/:id' onEnter={checkRole}/>
+                <Route authorize={[Role.ADMIN]} component={DepartmentsList} path='/departments' onEnter={checkRole}/>
             </Route>
             <Route component={Login} path='/login' onEnter={checkAuth}/>
             <Route component={Forbidden} path={NOT_AUTHORIZED_PATH} />

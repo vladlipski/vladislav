@@ -6,7 +6,9 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header
+                    routes={this.props.route.childRoutes}
+                />
                 <Grid>
                     {this.props.children}
                 </Grid>
