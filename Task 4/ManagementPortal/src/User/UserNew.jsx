@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
-import UserForm from "./UserForms/UserForm";
+import UserForm from "./UserForm";
 import {bindActionCreators} from "redux";
 import {requestUserCreation, resetNewUser} from "./userActions";
 import {browserHistory} from 'react-router';

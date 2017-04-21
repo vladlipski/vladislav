@@ -33,7 +33,7 @@ class UsersList extends Component {
                 <br/>
                 <Row>
                     <List
-                        displayedProp={'mentor'}
+                        displayedProp={'username'}
                         entityList={usersList}
                         entityName={'users'}
                     />

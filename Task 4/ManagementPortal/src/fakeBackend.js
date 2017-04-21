@@ -196,3 +196,17 @@ export const deleteUser = (id) =>
             status: 200
         };
     });
+
+export const getDepartment = (id) =>
+    delay(500).then(() => {
+        const department = fakeDatabase.departments.find((department) => department.id == id);
+        if (!department.id) {
+            return Promise.reject({
+                errorMessage: "Department doesn't exist"
+            });
+        }
+        return {
+            status: 200,
+            department
+        };
+    });

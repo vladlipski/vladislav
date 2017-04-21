@@ -9,6 +9,7 @@ import UsersList from "./User/UsersList";
 import User from "./User";
 import UserNew from "./User/UserNew";
 import {Role} from "./Auth/roles";
+import Department from "./Departament";
 
 
 export default (store) => {
@@ -43,6 +44,7 @@ export default (store) => {
                 <Route authorize={[Role.MENTOR, Role.ADMIN]} component={UserNew} path='/users/new' onEnter={checkRole}/>
                 <Route authorize={[Role.MENTOR, Role.ADMIN]} component={User} path='/users/:id' onEnter={checkRole}/>
                 <Route authorize={[Role.ADMIN]} component={DepartmentsList} path='/departments' onEnter={checkRole}/>
+                <Route authorize={[Role.ADMIN]} component={Department} path='/departments/:id' onEnter={checkRole}/>
             </Route>
             <Route component={Login} path='/login' onEnter={checkAuth}/>
             <Route component={Forbidden} path={NOT_AUTHORIZED_PATH} />

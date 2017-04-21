@@ -6,7 +6,7 @@ import {
 } from "./userActions";
 import {bindActionCreators} from "redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
-import UserForm from "./UserForms/UserForm";
+import UserForm from "./UserForm";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
 import CrudForm from "../CrudForm";
