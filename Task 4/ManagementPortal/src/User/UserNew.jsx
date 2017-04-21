@@ -7,7 +7,7 @@ import {requestUserCreation, resetNewUser} from "./userActions";
 import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
 import {Role} from "../Auth/roles";
-import CrudForm from "../CrudForm/CrudForm";
+import CrudForm from "../CrudForm";
 
 
 class UserNew extends Component {

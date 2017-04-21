@@ -9,7 +9,7 @@ import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForms/UserForm";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
-import CrudForm from "../CrudForm/CrudForm";
+import CrudForm from "../CrudForm";
 
 
 class User extends Component {
@@ -94,7 +94,9 @@ class User extends Component {
 
 User.propTypes = {
     currentUserId: PropTypes.number,
-    selectedUser: PropTypes.object
+    selectedUser: PropTypes.object,
+    updatedUser: PropTypes.object,
+    deletedUser: PropTypes.object
 };
 
 function mapStateToProps(state) {

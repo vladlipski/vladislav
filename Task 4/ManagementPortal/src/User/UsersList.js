@@ -1,10 +1,11 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Alert, Button, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {getAllUsers, getUsersByMentor, resetUsers} from "./userActions";
 import {bindActionCreators} from "redux";
 import {LinkContainer} from "react-router-bootstrap";
 import {Role} from "../Auth/roles";
+import List from "../List";
 
 
 class UsersList extends Component {
@@ -15,27 +16,6 @@ class UsersList extends Component {
         } else {
             this.props.getUsersByMentor(this.props.currentUserId);
         }
-    }
-
-    renderList(usersList){
-        if (usersList.isFetching) {
-            return <h1>Loading...</h1>;
-        } else if(usersList.errorMessage) {
-            return (
-                <Alert bsStyle="danger">
-                    {usersList.errorMessage}
-                </Alert>
-            )
-        } else if(!usersList.users) {
-            return <span />
-        }
-        return usersList.users.map((user) => {
-            return (
-                <LinkContainer key={user.id} to={"/users/".concat(user.id)}>
-                    <ListGroupItem>{user.username}</ListGroupItem>
-                </LinkContainer>
-            );
-        });
     }
 
     render() {
@@ -52,9 +32,11 @@ class UsersList extends Component {
                 </Row>
                 <br/>
                 <Row>
-                    <ListGroup>
-                        {this.renderList(usersList)}
-                    </ListGroup>
+                    <List
+                        displayedProp={'mentor'}
+                        entityList={usersList}
+                        entityName={'users'}
+                    />
                 </Row>
             </Col>
         )

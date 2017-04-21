@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import {Form, Row} from 'formsy-react-components';
-import ConfirmationPopup from "../ConfirmationPopup/ConfirmationPopup ";
+import ConfirmationPopup from "../ConfirmationPopup";
 import {ButtonToolbar} from "react-bootstrap";
 
 

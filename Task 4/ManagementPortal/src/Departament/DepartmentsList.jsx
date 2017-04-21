@@ -4,32 +4,12 @@ import {Button, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {getDepartments, resetDepartments} from "./deprtmentActions";
 import {LinkContainer} from "react-router-bootstrap";
+import List from "../List";
 
 class DepartmentsList extends Component {
     componentWillMount() {
         this.props.resetDepartments();
         this.props.getDepartments();
-    }
-
-    renderList(departmentsList){
-        if (departmentsList.isFetching) {
-            return <h1>Loading...</h1>;
-        } else if(departmentsList.errorMessage) {
-            return (
-                <Alert bsStyle="danger">
-                    {departmentsList.errorMessage}
-                </Alert>
-            )
-        } else if(!departmentsList.departments) {
-            return <span />
-        }
-        return departmentsList.departments.map((department) => {
-            return (
-                <LinkContainer key={department.id} to={"/departments/".concat(department.id)}>
-                    <ListGroupItem>{department.title}</ListGroupItem>
-                </LinkContainer>
-            );
-        });
     }
 
     render() {
@@ -45,9 +25,11 @@ class DepartmentsList extends Component {
                 </Row>
                 <br/>
                 <Row>
-                    <ListGroup>
-                        {this.renderList(departmentsList)}
-                    </ListGroup>
+                    <List
+                        displayedProp={'title'}
+                        entityList={departmentsList}
+                        entityName={'departments'}
+                    />
                 </Row>
             </Col>
         )
@@ -55,7 +37,7 @@ class DepartmentsList extends Component {
 }
 
 DepartmentsList.propTypes = {
-    departmentsList: PropTypes.array
+    departmentsList: PropTypes.object
 };
 
 function mapStateToProps(state) {
