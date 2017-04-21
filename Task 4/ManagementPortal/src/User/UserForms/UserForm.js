@@ -1,15 +1,12 @@
 import React, {Component, PropTypes} from 'react';
-import Button from 'react-bootstrap/lib/Button';
-import {Form, Input, Row, Select} from 'formsy-react-components';
+import {Input, Select} from 'formsy-react-components';
 import {getDepartments} from "../../Departament/deprtmentActions";
 import {connect} from "react-redux";
 import {getPlans} from "../../Plan/planActions";
 import {bindActionCreators} from "redux";
 import {GET_MENTORS, getCertainUsers} from "../selectors";
 import {getAllUsers} from "../userActions";
-import {ButtonToolbar} from "react-bootstrap";
 import {Role} from "../../Auth/roles";
-import ConfirmationPopup from "../../ConfirmationPopup";
 
 const DEFAULT_ROLE = Role.STUDENT;
 
@@ -18,20 +15,9 @@ class UserForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userRole: this.props.user.role || DEFAULT_ROLE,
-            showModal: false
+            userRole: this.props.user.role || DEFAULT_ROLE
         };
         this.changeRole = this.changeRole.bind(this);
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-    }
-
-    openModal() {
-        this.setState({showModal: true});
-    }
-
-    closeModal() {
-        this.setState({showModal: false});
     }
 
     componentWillMount() {
@@ -111,10 +97,6 @@ class UserForm extends Component {
         const plansOptions = this.generateOptions(plansList.plans, 'title');
 
         return (
-            <Form
-                onValidSubmit={this.props.onSubmit}
-                noValidate
-            >
                 <fieldset>
                     <Input
                         name="username"
@@ -146,38 +128,14 @@ class UserForm extends Component {
                             disabled={plansOptions.length === 0}
                         />
                     }
-
-                    <ConfirmationPopup
-                        header={'Delete user'}
-                        body={'Would you like to delete ' + this.props.user.username + '?'}
-                        showModal={this.state.showModal}
-                        confirmClickHandler={this.props.onDeleteClick}
-                        closeClickHandler={this.closeModal}
-                    />
-
                 </fieldset>
-                <Row layout={'horizontal'}>
-                    <ButtonToolbar>
-                        <Button type="submit">Ok</Button>
-                        <Button
-                            onClick={this.openModal}
-                            bsStyle="danger"
-                            className={this.props.user.id ? '' : 'hidden'}
-                        >
-                            Delete
-                        </Button>
-                    </ButtonToolbar>
-                </Row>
-            </Form>
         );
     }
 }
 
 UserForm.propTypes = {
     currentUserRole: PropTypes.string,
-    user: PropTypes.object,
-    onSubmit: PropTypes.func,
-    onDeleteClick: PropTypes.func
+    user: PropTypes.object
 };
 
 function mapStateToProps(state) {

@@ -55,12 +55,11 @@ class DepartmentsList extends Component {
 }
 
 DepartmentsList.propTypes = {
-    currentUserRole: PropTypes.string
+    departmentsList: PropTypes.array
 };
 
 function mapStateToProps(state) {
     return {
-        currentUserRole: state.auth.user.role,
         departmentsList: state.departmentsManager.departmentsList
     }
 }

@@ -7,6 +7,7 @@ import {requestUserCreation, resetNewUser} from "./userActions";
 import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
 import {Role} from "../Auth/roles";
+import CrudForm from "../CrudForm/CrudForm";
 
 
 class UserNew extends Component {
@@ -46,22 +47,26 @@ class UserNew extends Component {
                         </Alert>
                     </Row>
                 }
-                <UserForm
-                    user={{}}
+
+                <CrudForm
+                    creation={true}
                     onSubmit={this.submitNewUser}
-                />
+                >
+                    <UserForm
+                        user={{}}
+                    />
+                </CrudForm>
             </Col>
         );
     }
 }
 
 UserNew.propTypes = {
-    currentUserRole: PropTypes.string
+    newUser: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
-        currentUser: state.auth.user,
         newUser: state.usersManager.newUser
     }
 }

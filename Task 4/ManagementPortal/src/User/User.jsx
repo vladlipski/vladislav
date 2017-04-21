@@ -9,6 +9,7 @@ import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForms/UserForm";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
+import CrudForm from "../CrudForm/CrudForm";
 
 
 class User extends Component {
@@ -75,25 +76,29 @@ class User extends Component {
                         </Alert>
                     </Row>
                 }
-                <UserForm
-                    user={selectedUser.user}
+                <CrudForm
+                    creation={false}
                     onSubmit={this.submitUpdatedUser}
                     onDeleteClick={this.deleteUserClick}
-                />
+                    popupHeader={'Delete user'}
+                    popupBody={'Would you like to delete ' + selectedUser.user.username + '?'}
+                >
+                    <UserForm
+                        user={selectedUser.user}
+                    />
+                </CrudForm>
             </Col>
         );
     }
 }
 
 User.propTypes = {
-    currentUserRole: PropTypes.string,
     currentUserId: PropTypes.number,
     selectedUser: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
-        currentUserRole: state.auth.user.role,
         currentUserId: state.auth.user.id,
         selectedUser: state.usersManager.selectedUser,
         updatedUser: state.usersManager.updatedUser,
