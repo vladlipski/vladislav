@@ -210,3 +210,28 @@ export const getDepartment = (id) =>
             department
         };
     });
+
+export const createDepartment = (department) =>
+    delay(500).then(() => {
+        department.id = fakeDatabase.departments.length + 1;
+        fakeDatabase.departments.push(department);
+        return {
+            status: 200
+        };
+    });
+
+export const updateDepartment = (updatedDepartment) =>
+    delay(500).then(() => {
+        fakeDatabase.departments[updatedDepartment.id - 1] = updatedDepartment;
+        return {
+            status: 200
+        };
+    });
+
+export const deleteDepartment = (id) =>
+    delay(500).then(() => {
+        fakeDatabase.departments = fakeDatabase.departments.filter(department => department.id != id);
+        return {
+            status: 200
+        };
+    });
