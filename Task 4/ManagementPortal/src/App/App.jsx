@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Grid  from 'react-bootstrap/lib/Grid';
 import Header from "../Header";
+import {Col} from "react-bootstrap";
 
 class App extends Component {
     render() {
@@ -10,7 +11,9 @@ class App extends Component {
                     routes={this.props.route.childRoutes}
                 />
                 <Grid>
-                    {this.props.children}
+                    <Col smOffset={2} sm={7}>
+                        {this.props.children}
+                    </Col>
                 </Grid>
             </div>
         );

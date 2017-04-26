@@ -5,7 +5,7 @@ import {
     resetUpdatedUser
 } from "./userActions";
 import {bindActionCreators} from "redux";
-import {Alert, Col, PageHeader} from "react-bootstrap";
+import {Alert, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForm";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
@@ -67,7 +67,7 @@ class User extends Component {
         }
 
         return (
-            <Col smOffset={2} sm={7}>
+            <Row>
                 <PageHeader>User: {selectedUser.user.username}</PageHeader>
                 {errorMessage &&
                     <Row>
@@ -87,7 +87,7 @@ class User extends Component {
                         user={selectedUser.user}
                     />
                 </CrudForm>
-            </Col>
+            </Row>
         );
     }
 }

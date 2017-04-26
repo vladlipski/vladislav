@@ -1,11 +1,11 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Button, Col, Row} from "react-bootstrap";
-import {getAllUsers, getUsersByMentor, resetUsers} from "./userActions";
+import {Button, Row} from "react-bootstrap";
+import {getAllUsers, getUsersByMentor, resetUsers} from "../userActions";
 import {bindActionCreators} from "redux";
 import {LinkContainer} from "react-router-bootstrap";
-import {Role} from "../Auth/roles";
-import List from "../List";
+import {Role} from "../../Auth/roles";
+import UsersTable from "./UsersTable";
 
 
 class UsersList extends Component {
@@ -21,8 +21,18 @@ class UsersList extends Component {
     render() {
         const usersList = this.props.usersList;
 
+        if (usersList.isFetching) {
+            return <h1>Loading...</h1>;
+        } else if(usersList.errorMessage) {
+            return (
+                <Alert bsStyle="danger">
+                    {usersList.errorMessage}
+                </Alert>
+            )
+        }
+
         return (
-            <Col smOffset={2} sm={7}>
+            <Row>
                 <Row>
                     <LinkContainer to="users/new">
                         <Button>
@@ -32,13 +42,11 @@ class UsersList extends Component {
                 </Row>
                 <br/>
                 <Row>
-                    <List
-                        displayedProp={'username'}
-                        entityList={usersList}
-                        entityName={'users'}
+                    <UsersTable
+                        users={usersList.users}
                     />
                 </Row>
-            </Col>
+            </Row>
         )
     }
 }

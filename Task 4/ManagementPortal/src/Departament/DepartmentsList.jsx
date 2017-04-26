@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Button, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap";
+import {Button, Row} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {getDepartments, resetDepartments} from "./deprtmentActions";
 import {LinkContainer} from "react-router-bootstrap";
@@ -15,7 +15,7 @@ class DepartmentsList extends Component {
     render() {
         const departmentsList = this.props.departmentsList;
         return (
-            <Col smOffset={2} sm={7}>
+            <Row>
                 <Row>
                     <LinkContainer to="departments/new">
                         <Button>
@@ -31,7 +31,7 @@ class DepartmentsList extends Component {
                         entityName={'departments'}
                     />
                 </Row>
-            </Col>
+            </Row>
         )
     }
 }

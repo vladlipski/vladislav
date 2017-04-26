@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Alert, Col, PageHeader} from "react-bootstrap";
+import {Alert, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForm";
 import {bindActionCreators} from "redux";
 import {requestUserCreation, resetNewUser} from "./userActions";
@@ -38,7 +38,7 @@ class UserNew extends Component {
     render() {
         const errorMessage = this.props.newUser.errorMessage;
         return (
-            <Col smOffset={2} sm={7}>
+            <Row>
                 <PageHeader>New user</PageHeader>
                 {errorMessage &&
                     <Row>
@@ -56,7 +56,7 @@ class UserNew extends Component {
                         user={{}}
                     />
                 </CrudForm>
-            </Col>
+            </Row>
         );
     }
 }
