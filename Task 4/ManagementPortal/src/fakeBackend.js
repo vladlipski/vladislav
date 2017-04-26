@@ -53,7 +53,7 @@ const fakeDatabase = {
         title: 'D2'
     }, {
         id: 3,
-        title: 'D3'
+        title: 'D3Q1'
     }],
     plans: [{
         id: 1,
@@ -192,6 +192,45 @@ export const updateUser = (updatedUser) =>
 export const deleteUser = (id) =>
     delay(500).then(() => {
         fakeDatabase.users = fakeDatabase.users.filter(user => user.id != id);
+        return {
+            status: 200
+        };
+    });
+
+export const getDepartment = (id) =>
+    delay(500).then(() => {
+        const department = fakeDatabase.departments.find((department) => department.id == id);
+        if (!department.id) {
+            return Promise.reject({
+                errorMessage: "Department doesn't exist"
+            });
+        }
+        return {
+            status: 200,
+            department
+        };
+    });
+
+export const createDepartment = (department) =>
+    delay(500).then(() => {
+        department.id = fakeDatabase.departments.length + 1;
+        fakeDatabase.departments.push(department);
+        return {
+            status: 200
+        };
+    });
+
+export const updateDepartment = (updatedDepartment) =>
+    delay(500).then(() => {
+        fakeDatabase.departments[updatedDepartment.id - 1] = updatedDepartment;
+        return {
+            status: 200
+        };
+    });
+
+export const deleteDepartment = (id) =>
+    delay(500).then(() => {
+        fakeDatabase.departments = fakeDatabase.departments.filter(department => department.id != id);
         return {
             status: 200
         };

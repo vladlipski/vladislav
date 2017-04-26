@@ -1,12 +1,13 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Alert, Col, PageHeader} from "react-bootstrap";
-import UserForm from "./UserForms/UserForm";
+import {Alert, PageHeader} from "react-bootstrap";
+import UserForm from "./UserForm";
 import {bindActionCreators} from "redux";
 import {requestUserCreation, resetNewUser} from "./userActions";
 import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
 import {Role} from "../Auth/roles";
+import CrudForm from "../CrudForm";
 
 
 class UserNew extends Component {
@@ -37,7 +38,7 @@ class UserNew extends Component {
     render() {
         const errorMessage = this.props.newUser.errorMessage;
         return (
-            <Col smOffset={2} sm={7}>
+            <Row>
                 <PageHeader>New user</PageHeader>
                 {errorMessage &&
                     <Row>
@@ -46,22 +47,26 @@ class UserNew extends Component {
                         </Alert>
                     </Row>
                 }
-                <UserForm
-                    user={{}}
+
+                <CrudForm
+                    creation={true}
                     onSubmit={this.submitNewUser}
-                />
-            </Col>
+                >
+                    <UserForm
+                        user={{}}
+                    />
+                </CrudForm>
+            </Row>
         );
     }
 }
 
 UserNew.propTypes = {
-    currentUserRole: PropTypes.string
+    newUser: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
-        currentUser: state.auth.user,
         newUser: state.usersManager.newUser
     }
 }

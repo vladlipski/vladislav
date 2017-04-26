@@ -5,10 +5,11 @@ import {
     resetUpdatedUser
 } from "./userActions";
 import {bindActionCreators} from "redux";
-import {Alert, Col, PageHeader} from "react-bootstrap";
-import UserForm from "./UserForms/UserForm";
+import {Alert, PageHeader} from "react-bootstrap";
+import UserForm from "./UserForm";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
+import CrudForm from "../CrudForm";
 
 
 class User extends Component {
@@ -66,7 +67,7 @@ class User extends Component {
         }
 
         return (
-            <Col smOffset={2} sm={7}>
+            <Row>
                 <PageHeader>User: {selectedUser.user.username}</PageHeader>
                 {errorMessage &&
                     <Row>
@@ -75,25 +76,31 @@ class User extends Component {
                         </Alert>
                     </Row>
                 }
-                <UserForm
-                    user={selectedUser.user}
+                <CrudForm
+                    creation={false}
                     onSubmit={this.submitUpdatedUser}
                     onDeleteClick={this.deleteUserClick}
-                />
-            </Col>
+                    popupHeader={'Delete user'}
+                    popupBody={'Would you like to delete ' + selectedUser.user.username + '?'}
+                >
+                    <UserForm
+                        user={selectedUser.user}
+                    />
+                </CrudForm>
+            </Row>
         );
     }
 }
 
 User.propTypes = {
-    currentUserRole: PropTypes.string,
     currentUserId: PropTypes.number,
-    selectedUser: PropTypes.object
+    selectedUser: PropTypes.object,
+    updatedUser: PropTypes.object,
+    deletedUser: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
-        currentUserRole: state.auth.user.role,
         currentUserId: state.auth.user.id,
         selectedUser: state.usersManager.selectedUser,
         updatedUser: state.usersManager.updatedUser,

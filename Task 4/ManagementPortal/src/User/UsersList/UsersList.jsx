@@ -1,10 +1,11 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Alert, Button, Col, ListGroup, ListGroupItem, Row} from "react-bootstrap";
-import {getAllUsers, getUsersByMentor, resetUsers} from "./userActions";
+import {Button, Row} from "react-bootstrap";
+import {getAllUsers, getUsersByMentor, resetUsers} from "../userActions";
 import {bindActionCreators} from "redux";
 import {LinkContainer} from "react-router-bootstrap";
-import {Role} from "../Auth/roles";
+import {Role} from "../../Auth/roles";
+import UsersTable from "./UsersTable";
 
 
 class UsersList extends Component {
@@ -17,7 +18,9 @@ class UsersList extends Component {
         }
     }
 
-    renderList(usersList){
+    render() {
+        const usersList = this.props.usersList;
+
         if (usersList.isFetching) {
             return <h1>Loading...</h1>;
         } else if(usersList.errorMessage) {
@@ -26,23 +29,10 @@ class UsersList extends Component {
                     {usersList.errorMessage}
                 </Alert>
             )
-        } else if(!usersList.users) {
-            return <span />
         }
-        return usersList.users.map((user) => {
-            return (
-                <LinkContainer key={user.id} to={"/users/".concat(user.id)}>
-                    <ListGroupItem>{user.username}</ListGroupItem>
-                </LinkContainer>
-            );
-        });
-    }
-
-    render() {
-        const usersList = this.props.usersList;
 
         return (
-            <Col smOffset={2} sm={7}>
+            <Row>
                 <Row>
                     <LinkContainer to="users/new">
                         <Button>
@@ -52,11 +42,11 @@ class UsersList extends Component {
                 </Row>
                 <br/>
                 <Row>
-                    <ListGroup>
-                        {this.renderList(usersList)}
-                    </ListGroup>
+                    <UsersTable
+                        users={usersList.users}
+                    />
                 </Row>
-            </Col>
+            </Row>
         )
     }
 }
