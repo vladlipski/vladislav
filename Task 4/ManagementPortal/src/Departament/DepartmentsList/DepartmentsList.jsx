@@ -2,9 +2,9 @@ import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
 import {Button, Row} from "react-bootstrap";
 import {bindActionCreators} from "redux";
-import {getDepartments, resetDepartments} from "./deprtmentActions";
+import {getDepartments, resetDepartments} from "../deprtmentActions";
 import {LinkContainer} from "react-router-bootstrap";
-import List from "../List";
+import DepartmentsTable from "./DepartmentsTable";
 
 class DepartmentsList extends Component {
     componentWillMount() {
@@ -14,6 +14,17 @@ class DepartmentsList extends Component {
 
     render() {
         const departmentsList = this.props.departmentsList;
+
+        if (departmentsList.isFetching) {
+            return <h1>Loading...</h1>;
+        } else if(departmentsList.errorMessage) {
+            return (
+                <Alert bsStyle="danger">
+                    {departmentsList.errorMessage}
+                </Alert>
+            )
+        }
+
         return (
             <Row>
                 <Row>
@@ -25,10 +36,8 @@ class DepartmentsList extends Component {
                 </Row>
                 <br/>
                 <Row>
-                    <List
-                        displayedProp={'title'}
-                        entityList={departmentsList}
-                        entityName={'departments'}
+                    <DepartmentsTable
+                        departments={departmentsList.departments}
                     />
                 </Row>
             </Row>

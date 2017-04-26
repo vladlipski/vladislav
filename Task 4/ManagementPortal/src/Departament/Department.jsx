@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {Alert, Col, PageHeader} from "react-bootstrap";
+import {Alert, PageHeader} from "react-bootstrap";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
 import CrudForm from "../CrudForm";
@@ -67,7 +67,7 @@ class Department extends Component {
         }
 
         return (
-            <Col smOffset={2} sm={7}>
+            <Row>
                 <PageHeader>Department: {selectedDepartment.department.title}</PageHeader>
                 {errorMessage &&
                 <Row>
@@ -87,7 +87,7 @@ class Department extends Component {
                         department={selectedDepartment.department}
                     />
                 </CrudForm>
-            </Col>
+            </Row>
         );
     }
 }
