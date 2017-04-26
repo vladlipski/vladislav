@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Alert, PageHeader} from "react-bootstrap";
+import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForm";
 import {bindActionCreators} from "redux";
 import {requestUserCreation, resetNewUser} from "./userActions";
@@ -47,15 +47,16 @@ class UserNew extends Component {
                         </Alert>
                     </Row>
                 }
-
-                <CrudForm
-                    creation={true}
-                    onSubmit={this.submitNewUser}
-                >
-                    <UserForm
-                        user={{}}
-                    />
-                </CrudForm>
+                <Col smOffset={2} sm={8}>
+                    <CrudForm
+                        creation={true}
+                        onSubmit={this.submitNewUser}
+                    >
+                        <UserForm
+                            user={{}}
+                        />
+                    </CrudForm>
+                </Col>
             </Row>
         );
     }

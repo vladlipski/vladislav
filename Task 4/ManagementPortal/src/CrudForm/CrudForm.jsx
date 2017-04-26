@@ -28,6 +28,7 @@ class CrudForm extends Component {
             <Form
                 onValidSubmit={this.props.onSubmit}
                 noValidate
+                layout={'vertical'}
             >
 
                 {this.props.children}
@@ -40,7 +41,7 @@ class CrudForm extends Component {
                     closeClickHandler={this.closeModal}
                 />
 
-                <Row layout={'horizontal'}>
+                <Row layout={'vertical'}>
                     <ButtonToolbar>
                         <Button type="submit">Ok</Button>
                         <Button

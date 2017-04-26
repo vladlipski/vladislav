@@ -24,7 +24,7 @@ const fakeDatabase = {
         id: 3,
         username: 'misha',
         password: '1',
-        department: 3,
+        department: 2,
         mentor: 4,
         role: Role.STUDENT,
         plan: 3
@@ -40,7 +40,7 @@ const fakeDatabase = {
         id: 5,
         username: 'ilya',
         password: '1',
-        department: 3,
+        department: 2,
         mentor: null,
         role:  Role.MENTOR,
         plan: null
@@ -199,7 +199,8 @@ export const deleteUser = (id) =>
 
 export const getDepartment = (id) =>
     delay(500).then(() => {
-        const department = fakeDatabase.departments.find((department) => department.id == id);
+        const department = Object.assign({}, fakeDatabase.departments.find((department) => department.id == id));
+        department.users = fakeDatabase.users.filter((user) => user.department == department.id);
         if (!department.id) {
             return Promise.reject({
                 errorMessage: "Department doesn't exist"

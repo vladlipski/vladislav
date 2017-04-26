@@ -5,7 +5,7 @@ import {
     resetUpdatedUser
 } from "./userActions";
 import {bindActionCreators} from "redux";
-import {Alert, PageHeader} from "react-bootstrap";
+import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForm";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
@@ -76,17 +76,19 @@ class User extends Component {
                         </Alert>
                     </Row>
                 }
-                <CrudForm
-                    creation={false}
-                    onSubmit={this.submitUpdatedUser}
-                    onDeleteClick={this.deleteUserClick}
-                    popupHeader={'Delete user'}
-                    popupBody={'Would you like to delete ' + selectedUser.user.username + '?'}
-                >
-                    <UserForm
-                        user={selectedUser.user}
-                    />
-                </CrudForm>
+                <Col smOffset={2} sm={8}>
+                    <CrudForm
+                        creation={false}
+                        onSubmit={this.submitUpdatedUser}
+                        onDeleteClick={this.deleteUserClick}
+                        popupHeader={'Delete user'}
+                        popupBody={'Would you like to delete ' + selectedUser.user.username + '?'}
+                    >
+                        <UserForm
+                            user={selectedUser.user}
+                        />
+                    </CrudForm>
+                </Col>
             </Row>
         );
     }

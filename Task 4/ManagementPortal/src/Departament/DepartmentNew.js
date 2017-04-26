@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Alert, PageHeader} from "react-bootstrap";
+import {Alert, Col, PageHeader} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
@@ -41,15 +41,16 @@ class DepartmentNew extends Component {
                     </Alert>
                 </Row>
                 }
-
-                <CrudForm
-                    creation={true}
-                    onSubmit={this.submitNewDepartment}
-                >
-                    <DepartmentForm
-                        department={{}}
-                    />
-                </CrudForm>
+                <Col smOffset={2} sm={8}>
+                    <CrudForm
+                        creation={true}
+                        onSubmit={this.submitNewDepartment}
+                    >
+                        <DepartmentForm
+                            department={{}}
+                        />
+                    </CrudForm>
+                </Col>
             </Row>
         );
     }

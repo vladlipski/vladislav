@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {Alert, PageHeader} from "react-bootstrap";
+import {Alert, Col, PageHeader} from "react-bootstrap";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
 import CrudForm from "../CrudForm";
@@ -10,6 +10,8 @@ import {
     resetSelectedDepartment, resetUpdatedDepartment
 } from "./deprtmentActions";
 import DepartmentForm from "./DepartmentForm";
+import UsersTable from "../User/UsersList/UsersTable";
+import {Role} from "../Auth/roles";
 
 
 class Department extends Component {
@@ -65,28 +67,38 @@ class Department extends Component {
         } else if(!selectedDepartment.department) {
             return <span />
         }
-
         return (
             <Row>
                 <PageHeader>Department: {selectedDepartment.department.title}</PageHeader>
                 {errorMessage &&
-                <Row>
-                    <Alert bsStyle="danger">
-                        {errorMessage}
-                    </Alert>
-                </Row>
+                    <Row>
+                        <Alert bsStyle="danger">
+                            {errorMessage}
+                        </Alert>
+                    </Row>
                 }
-                <CrudForm
-                    creation={false}
-                    onSubmit={this.submitUpdatedDepartment}
-                    onDeleteClick={this.deleteDepartmentClick}
-                    popupHeader={'Delete department'}
-                    popupBody={'Would you like to delete ' + selectedDepartment.department.title + '?'}
-                >
-                    <DepartmentForm
-                        department={selectedDepartment.department}
-                    />
-                </CrudForm>
+                <h2>Students:</h2>
+                <UsersTable
+                    users={selectedDepartment.department.users.filter((user) => user.role === Role.STUDENT)}
+                />
+                <h2>Mentors:</h2>
+                <UsersTable
+                    users={selectedDepartment.department.users.filter((user) => user.role === Role.MENTOR)}
+                />
+                <br/>
+                <Col smOffset={2} sm={8}>
+                    <CrudForm
+                        creation={false}
+                        onSubmit={this.submitUpdatedDepartment}
+                        onDeleteClick={this.deleteDepartmentClick}
+                        popupHeader={'Delete department'}
+                        popupBody={'Would you like to delete ' + selectedDepartment.department.title + '?'}
+                    >
+                        <DepartmentForm
+                            department={selectedDepartment.department}
+                        />
+                    </CrudForm>
+                </Col>
             </Row>
         );
     }
