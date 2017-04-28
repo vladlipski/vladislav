@@ -4,7 +4,6 @@ import {bindActionCreators} from "redux";
 import {Alert, Col, PageHeader} from "react-bootstrap";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
-import CrudForm from "../CrudForm";
 import {
     getDepartment, requestDepartmentDeletion, requestDepartmentUpdate, resetDeletedDepartment,
     resetSelectedDepartment, resetUpdatedDepartment
@@ -12,6 +11,7 @@ import {
 import DepartmentForm from "./DepartmentForm";
 import UsersTable from "../User/UsersList/UsersTable";
 import {Role} from "../Auth/roles";
+import CrudForm from "../Shared/Components/CrudForm";
 
 
 class Department extends Component {

@@ -7,15 +7,16 @@ import getRoutes from './getRoutes';
 import configureStore from './configureStore';
 import {verifyToken} from "./fakeBackend";
 const Cookies = require("cookies");
+import Immutable from 'immutable';
 
 const app = express();
 
 app.use((req, res) => {
   const store = configureStore();
-  const state = store.getState();
+  var state = store.getState();
 
   const cookies = new Cookies(req, res);
-  state.auth.user = verifyToken(cookies.get('id_token'));
+  state = state.setIn(['auth', 'user'], Immutable.fromJS(verifyToken(cookies.get('id_token'))));
 
   match({ routes: getRoutes(store), location: req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {

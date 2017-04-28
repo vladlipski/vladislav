@@ -4,9 +4,9 @@ import {Alert, Col, PageHeader} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
-import CrudForm from "../CrudForm";
 import DepartmentForm from "./DepartmentForm/DepartmentForm";
 import {requestDepartmentCreation, resetNewDepartment} from "./deprtmentActions";
+import CrudForm from "../Shared/Components/CrudForm";
 
 
 class DepartmentNew extends Component {

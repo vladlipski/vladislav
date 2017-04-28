@@ -23,7 +23,7 @@ class UserForm extends Component {
     componentWillMount() {
         if (Role.isAdmin(this.props.currentUserRole)) {
             this.props.getDepartments();
-            if (this.props.mentors.length === 0) {
+            if (this.props.mentors.size === 0) {
                 this.props.getAllUsers();
             }
         }
@@ -39,8 +39,8 @@ class UserForm extends Component {
     generateOptions(array, labelProperty) {
         return array.map((element) => {
             return ({
-                value: element.id,
-                label: element[labelProperty]
+                value: element.get('id'),
+                label: element.get(labelProperty)
             });
         });
     }
@@ -51,7 +51,8 @@ class UserForm extends Component {
             {value: Role.MENTOR, label: 'Mentor'},
             {value: Role.STUDENT, label: 'Student'}
         ];
-        const departmentsOptions = this.generateOptions(this.props.departmentsList.departments, 'title');
+
+        const departmentsOptions = this.generateOptions(this.props.departmentsList.get('departments'), 'title');
         const mentorsOptions = this.generateOptions(this.props.mentors, 'username');
         const {currentUserRole, user} = this.props;
 
@@ -71,21 +72,21 @@ class UserForm extends Component {
                     name="department"
                     label="Department: "
                     value={user.department || (departmentsOptions.length > 0 ?
-                        departmentsOptions[0].value :
+                        departmentsOptions.get(0).value :
                         '')}
                     options={departmentsOptions}
-                    disabled={departmentsOptions.length === 0}
+                    disabled={departmentsOptions.size === 0}
                 />
                 }
                 {Role.isStudent(this.state.userRole) &&
                 <Select
                     name="mentor"
                     label="Mentor: "
-                    value={user.mentor || (mentorsOptions.length > 0 ?
-                        mentorsOptions[0].value :
+                    value={user.mentor || (mentorsOptions.size > 0 ?
+                        mentorsOptions.get(0).value :
                         '')}
                     options={mentorsOptions}
-                    disabled={mentorsOptions.length === 0}
+                    disabled={mentorsOptions.size === 0}
                 />
                 }
             </fieldset>
@@ -94,7 +95,7 @@ class UserForm extends Component {
 
     render() {
         const {user, plansList} =  this.props;
-        const plansOptions = this.generateOptions(plansList.plans, 'title');
+        const plansOptions = this.generateOptions(plansList.get('plans'), 'title');
 
         return (
                 <fieldset>
@@ -122,10 +123,10 @@ class UserForm extends Component {
                             name="plan"
                             label="Plan: "
                             value={user.plan || (plansOptions.length > 0 ?
-                                plansOptions[0].value :
+                                plansOptions.get(0).value :
                                 '')}
                             options={plansOptions}
-                            disabled={plansOptions.length === 0}
+                            disabled={plansOptions.size === 0}
                         />
                     }
                 </fieldset>
@@ -140,9 +141,9 @@ UserForm.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        currentUserRole: state.auth.user.role,
-        departmentsList: state.departmentsManager.departmentsList,
-        plansList: state.plansManager.plansList,
+        currentUserRole: state.getIn(['auth', 'user', 'role']),
+        departmentsList: state.getIn(['departmentsManager', 'departmentsList']),
+        plansList: state.getIn(['plansManager', 'plansList']),
         mentors: getCertainUsers(state, GET_MENTORS)
     }
 }

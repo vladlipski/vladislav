@@ -81,8 +81,8 @@ Login.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        user: state.auth.user,
-        errorMessage: state.auth.errorMessage
+        user: state.getIn(['auth', 'user']),
+        errorMessage: state.getIn(['auth', 'errorMessage'])
     }
 }
 

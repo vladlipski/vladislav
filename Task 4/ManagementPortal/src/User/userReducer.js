@@ -5,8 +5,9 @@ import {
     UPDATE_USER, UPDATE_USER_FAILURE, UPDATE_USER_SUCCESS, RESET_UPDATED_USER,
     DELETE_USER, DELETE_USER_FAILURE, DELETE_USER_SUCCESS, RESET_DELETED_USER
 } from "./userActions";
+import Immutable from 'immutable';
 
-export default function(state = {
+export default function(state = Immutable.fromJS({
                             usersList: {
                                 users: [],
                                 errorMessage: null,
@@ -32,166 +33,121 @@ export default function(state = {
                                 errorMessage: null,
                                 isFetching: false
                             }
-                        }, action) {
+                        }), action) {
     switch (action.type) {
         case FETCH_USERS:
-            return Object.assign({}, state, {
-                usersList: {
-                    isFetching: true,
-                    users: []
-                }
-            });
+            return  state.set('usersList', Immutable.fromJS({
+                isFetching: true,
+                users: [],
+                errorMessage: null
+            }));
         case FETCH_USERS_SUCCESS:
-            return Object.assign({}, state, {
-                usersList: {
-                    isFetching: false,
-                    users: action.payload,
-                    errorMessage: null
-                }
-            });
+            return state.set('usersList', Immutable.fromJS({
+                isFetching: false,
+                users: action.payload,
+                errorMessage: null
+            }));
         case FETCH_USERS_FAILURE:
-            return Object.assign({}, state, {
-                usersList: {
-                    isFetching: false,
-                    users: [],
-                    errorMessage: action.payload
-                }
-            });
-        case RESET_USERS:
-            return Object.assign({}, state, {
-                usersList: {
-                    isFetching: false,
-                    users: [],
-                    errorMessage: null
-                }
-            });
+            return state.set('usersList', Immutable.fromJS({
+                isFetching: false,
+                users: [],
+                errorMessage: action.payload
+            }));
         case FETCH_USER:
-            return Object.assign({}, state, {
-                selectedUser: {
-                    isFetching: true,
-                    user: null
-                }
-            });
+            return state.set('selectedUser', Immutable.fromJS({
+                isFetching: true,
+                user: null
+            }));
         case FETCH_USER_SUCCESS:
-            return Object.assign({}, state, {
-                selectedUser: {
-                    isFetching: false,
-                    user: action.payload,
-                    errorMessage: null
-                }
-            });
+            return state.set('selectedUser', Immutable.fromJS({
+                isFetching: false,
+                user: action.payload,
+                errorMessage: null
+            }));
         case FETCH_USER_FAILURE:
-            return Object.assign({}, state, {
-                selectedUser: {
-                    isFetching: false,
-                    user: null,
-                    errorMessage: action.payload
-                }
-            });
+            return state.set('selectedUser', Immutable.fromJS({
+                isFetching: false,
+                user: null,
+                errorMessage: action.payload
+            }));
         case RESET_SELECTED_USER:
-            return Object.assign({}, state, {
-                selectedUser: {
-                    isFetching: false,
-                    user: {},
-                    errorMessage: null
-                }
-            });
+            return state.set('selectedUser', Immutable.fromJS({
+                isFetching: false,
+                user: {},
+                errorMessage: null
+            }));
         case CREATE_USER:
-            return Object.assign({}, state, {
-                newUser: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: true
-                }
-            });
+            return state.set('newUser', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
         case CREATE_USER_SUCCESS:
-            return Object.assign({}, state, {
-                newUser: {
+            return state.set('newUser', Immutable.fromJS({
                     success: true,
                     errorMessage: null,
                     isFetching: false
-                }
-            });
+            }));
         case CREATE_USER_FAILURE:
-            return Object.assign({}, state, {
-                newUser: {
-                    success: false,
-                    errorMessage: action.payload,
-                    isFetching: false
-                }
-            });
+            return state.set('newUser', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
         case RESET_NEW_USER:
-            return Object.assign({}, state, {
-                newUser: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('newUser', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
+            }));
         case UPDATE_USER:
-            return Object.assign({}, state, {
-                updatedUser: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: true
-                }
-            });
+            return state.set('updatedUser', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
         case UPDATE_USER_SUCCESS:
-            return Object.assign({}, state, {
-                updatedUser: {
-                    success: true,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('updatedUser', Immutable.fromJS({
+                success: true,
+                errorMessage: null,
+                isFetching: false
+            }));
         case UPDATE_USER_FAILURE:
-            return Object.assign({}, state, {
-                updatedUser: {
-                    success: false,
-                    errorMessage: action.payload,
-                    isFetching: false
-                }
-            });
+            return state.set('updatedUser', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
         case RESET_UPDATED_USER:
-            return Object.assign({}, state, {
-                updatedUser: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('updatedUser', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
+            }));
         case DELETE_USER:
-            return Object.assign({}, state, {
-                deletedUser: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: true
-                }
-            });
+            return state.set('deletedUser', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
         case DELETE_USER_SUCCESS:
-            return Object.assign({}, state, {
-                deletedUser: {
-                    success: true,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('deletedUser', Immutable.fromJS({
+                success: true,
+                errorMessage: null,
+                isFetching: false
+            }));
         case DELETE_USER_FAILURE:
-            return Object.assign({}, state, {
-                deletedUser: {
-                    success: false,
-                    errorMessage: action.payload,
-                    isFetching: false
-                }
-            });
+            return state.set('deletedUser', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
         case RESET_DELETED_USER:
-            return Object.assign({}, state, {
-                deletedUser: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('deletedUser', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
+            }));
         default:
             return state
     }

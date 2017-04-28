@@ -1,14 +1,13 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Button, Row} from "react-bootstrap";
+import {Alert, Button, Row} from "react-bootstrap";
 import {bindActionCreators} from "redux";
-import {getDepartments, resetDepartments} from "../deprtmentActions";
+import {getDepartments} from "../deprtmentActions";
 import {LinkContainer} from "react-router-bootstrap";
 import DepartmentsTable from "./DepartmentsTable";
 
 class DepartmentsList extends Component {
     componentWillMount() {
-        this.props.resetDepartments();
         this.props.getDepartments();
     }
 
@@ -57,8 +56,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getDepartments: bindActionCreators(getDepartments, dispatch),
-        resetDepartments: bindActionCreators(resetDepartments, dispatch)
+        getDepartments: bindActionCreators(getDepartments, dispatch)
     }
 }
 

@@ -5,8 +5,10 @@ import {
     UPDATE_DEPARTMENT, UPDATE_DEPARTMENT_FAILURE, UPDATE_DEPARTMENT_SUCCESS, RESET_UPDATED_DEPARTMENT,
     DELETE_DEPARTMENT, DELETE_DEPARTMENT_FAILURE, DELETE_DEPARTMENT_SUCCESS, RESET_DELETED_DEPARTMENT,
 } from "./deprtmentActions";
+import Immutable from 'immutable';
 
-export default function(state = {
+
+export default function(state = Immutable.fromJS({
                             departmentsList: {
                                 departments: [],
                                 errorMessage: null,
@@ -32,166 +34,121 @@ export default function(state = {
                                 errorMessage: null,
                                 isFetching: false
                             }
-                        }, action) {
+                        }), action) {
     switch (action.type) {
         case FETCH_DEPARTMENTS:
-            return Object.assign({}, state, {
-                departmentsList: {
-                    isFetching: true,
-                    departments: []
-                }
-            });
+            return  state.set('departmentsList', Immutable.fromJS({
+                isFetching: true,
+                departments: [],
+                errorMessage: null
+            }));
         case FETCH_DEPARTMENTS_SUCCESS:
-            return Object.assign({}, state, {
-                departmentsList: {
-                    isFetching: false,
-                    departments: action.payload,
-                    errorMessage: ''
-                }
-            });
+            return state.set('departmentsList', Immutable.fromJS({
+                isFetching: false,
+                departments: action.payload,
+                errorMessage: null
+            }));
         case FETCH_DEPARTMENTS_FAILURE:
-            return Object.assign({}, state, {
-                departmentsList: {
-                    isFetching: false,
-                    departments: [],
-                    errorMessage: action.payload
-                }
-            });
-        case RESET_DEPARTMENTS:
-            return Object.assign({}, state, {
-                departmentsList: {
-                    isFetching: false,
-                    departments: [],
-                    errorMessage: ''
-                }
-            });
+            return state.set('departmentsList', Immutable.fromJS({
+                isFetching: false,
+                departments: [],
+                errorMessage: action.payload
+            }));
         case FETCH_DEPARTMENT:
-            return Object.assign({}, state, {
-                selectedDepartment: {
-                    isFetching: true,
-                    department: null
-                }
-            });
+            return state.set('selectedDepartment', Immutable.fromJS({
+                isFetching: true,
+                department: null
+            }));
         case FETCH_DEPARTMENT_SUCCESS:
-            return Object.assign({}, state, {
-                selectedDepartment: {
-                    isFetching: false,
-                    department: action.payload,
-                    errorMessage: null
-                }
-            });
+            return  state.set('selectedDepartment', Immutable.fromJS({
+                isFetching: false,
+                department: action.payload,
+                errorMessage: null
+            }));
         case FETCH_DEPARTMENT_FAILURE:
-            return Object.assign({}, state, {
-                selectedDepartment: {
-                    isFetching: false,
-                    department: null,
-                    errorMessage: action.payload
-                }
-            });
+            return state.set('selectedDepartment', Immutable.fromJS({
+                isFetching: false,
+                department: null,
+                errorMessage: action.payload
+            }));
         case RESET_SELECTED_DEPARTMENT:
-            return Object.assign({}, state, {
-                selectedDepartment: {
-                    isFetching: false,
-                    department: {},
-                    errorMessage: null
-                }
-            });
+            return  state.set('selectedDepartment', Immutable.fromJS({
+                isFetching: false,
+                department: {},
+                errorMessage: null
+            }));
         case CREATE_DEPARTMENT:
-            return Object.assign({}, state, {
-                newDepartment: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: true
-                }
-            });
+            return state.set('newDepartment', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
         case CREATE_DEPARTMENT_SUCCESS:
-            return Object.assign({}, state, {
-                newDepartment: {
-                    success: true,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('newDepartment', Immutable.fromJS({
+                success: true,
+                errorMessage: null,
+                isFetching: false
+            }));
         case CREATE_DEPARTMENT_FAILURE:
-            return Object.assign({}, state, {
-                newDepartment: {
-                    success: false,
-                    errorMessage: action.payload,
-                    isFetching: false
-                }
-            });
+            return state.set('newDepartment', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
         case RESET_NEW_DEPARTMENT:
-            return Object.assign({}, state, {
-                newDepartment: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return Ostate.set('newDepartment', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
+            }));
         case UPDATE_DEPARTMENT:
-            return Object.assign({}, state, {
-                updatedDepartment: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: true
-                }
-            });
+            return state.set('updatedDepartment', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
         case UPDATE_DEPARTMENT_SUCCESS:
-            return Object.assign({}, state, {
-                updatedDepartment: {
-                    success: true,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('updatedDepartment', Immutable.fromJS({
+                success: true,
+                errorMessage: null,
+                isFetching: false
+            }));
         case UPDATE_DEPARTMENT_FAILURE:
-            return Object.assign({}, state, {
-                updatedDepartment: {
-                    success: false,
-                    errorMessage: action.payload,
-                    isFetching: false
-                }
-            });
+            return state.set('updatedDepartment', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
         case RESET_UPDATED_DEPARTMENT:
-            return Object.assign({}, state, {
-                updatedDepartment: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('updatedDepartment', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
+            }));
         case DELETE_DEPARTMENT:
-            return Object.assign({}, state, {
-                deletedDepartment: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: true
-                }
-            });
+            return state.set('deletedDepartment', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
         case DELETE_DEPARTMENT_SUCCESS:
-            return Object.assign({}, state, {
-                deletedDepartment: {
-                    success: true,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('deletedDepartment', Immutable.fromJS({
+                success: true,
+                errorMessage: null,
+                isFetching: false
+            }));
         case DELETE_DEPARTMENT_FAILURE:
-            return Object.assign({}, state, {
-                deletedDepartment: {
-                    success: false,
-                    errorMessage: action.payload,
-                    isFetching: false
-                }
-            });
+            return state.set('deletedDepartment', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
         case RESET_DELETED_DEPARTMENT:
-            return Object.assign({}, state, {
-                deletedDepartment: {
-                    success: false,
-                    errorMessage: null,
-                    isFetching: false
-                }
-            });
+            return state.set('deletedDepartment', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
+            }));
         default:
             return state
     }
