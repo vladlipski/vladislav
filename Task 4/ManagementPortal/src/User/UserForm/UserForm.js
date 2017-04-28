@@ -71,7 +71,7 @@ class UserForm extends Component {
                 < Select
                     name="department"
                     label="Department: "
-                    value={user.department || (departmentsOptions.length > 0 ?
+                    value={user.department || (departmentsOptions.size > 0 ?
                         departmentsOptions.get(0).value :
                         '')}
                     options={departmentsOptions}
@@ -122,7 +122,7 @@ class UserForm extends Component {
                         <Select
                             name="plan"
                             label="Plan: "
-                            value={user.plan || (plansOptions.length > 0 ?
+                            value={user.plan || (plansOptions.size > 0 ?
                                 plansOptions.get(0).value :
                                 '')}
                             options={plansOptions}

@@ -96,7 +96,7 @@ export default function(state = Immutable.fromJS({
                 isFetching: false
             }));
         case RESET_NEW_DEPARTMENT:
-            return Ostate.set('newDepartment', Immutable.fromJS({
+            return state.set('newDepartment', Immutable.fromJS({
                 success: false,
                 errorMessage: null,
                 isFetching: false

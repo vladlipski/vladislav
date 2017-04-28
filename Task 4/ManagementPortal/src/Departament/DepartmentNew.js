@@ -20,7 +20,7 @@ class DepartmentNew extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.newDepartment.success) {
+        if (nextProps.newDepartment.get('success')) {
             browserHistory.push('/departments');
         }
     }
@@ -30,7 +30,7 @@ class DepartmentNew extends Component {
     }
 
     render() {
-        const errorMessage = this.props.newDepartment.errorMessage;
+        const errorMessage = this.props.newDepartment.get('errorMessage');
         return (
             <Row>
                 <PageHeader>New department</PageHeader>
@@ -62,7 +62,7 @@ DepartmentNew.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        newDepartment: state.departmentsManager.newDepartment
+        newDepartment: state.getIn(['departmentsManager', 'newDepartment'])
     }
 }
 

@@ -51,24 +51,24 @@ class User extends Component {
     }
 
     render() {
-        const selectedUser = this.props.selectedUser.toJS();
+        const selectedUser = this.props.selectedUser;
         const errorMessage = this.props.updatedUser.get('errorMessage') || this.props.deletedUser.get('errorMessage');
 
-        if (selectedUser.isFetching) {
+        if (selectedUser.get('isFetching')) {
             return <h1>Loading...</h1>;
-        } else if(selectedUser.errorMessage) {
+        } else if(selectedUser.get('errorMessage')) {
             return (
                 <Alert bsStyle="danger">
-                    {selectedUser.errorMessage}
+                    {selectedUser.get('errorMessage')}
                 </Alert>
             )
-        } else if(!selectedUser.user) {
+        } else if(!selectedUser.get('user')) {
             return <span />
         }
 
         return (
             <Row>
-                <PageHeader>User: {selectedUser.user.username}</PageHeader>
+                <PageHeader>User: {selectedUser.getIn(['user', 'username'])}</PageHeader>
                 {errorMessage &&
                     <Row>
                         <Alert bsStyle="danger">
@@ -82,10 +82,10 @@ class User extends Component {
                         onSubmit={this.submitUpdatedUser}
                         onDeleteClick={this.deleteUserClick}
                         popupHeader={'Delete user'}
-                        popupBody={'Would you like to delete ' + selectedUser.user.username + '?'}
+                        popupBody={'Would you like to delete ' + selectedUser.getIn(['user', 'username']) + '?'}
                     >
                         <UserForm
-                            user={selectedUser.user}
+                            user={selectedUser.get('user').toJS()}
                         />
                     </CrudForm>
                 </Col>

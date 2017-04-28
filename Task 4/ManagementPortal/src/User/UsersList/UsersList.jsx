@@ -19,14 +19,14 @@ class UsersList extends Component {
 
     render() {
 
-        const usersList = this.props.usersList.toJS();
+        const usersList = this.props.usersList;
 
-        if (usersList.isFetching) {
+        if (usersList.get('isFetching')) {
             return <h1>Loading...</h1>;
-        } else if(usersList.errorMessage) {
+        } else if(usersList.get('errorMessage')) {
             return (
                 <Alert bsStyle="danger">
-                    {usersList.errorMessage}
+                    {usersList.get('errorMessage')}
                 </Alert>
             )
         }
@@ -43,7 +43,7 @@ class UsersList extends Component {
                 <br/>
                 <Row>
                     <UsersTable
-                        users={usersList.users}
+                        users={usersList.get('users').toJS()}
                     />
                 </Row>
             </Row>

@@ -14,12 +14,12 @@ class DepartmentsList extends Component {
     render() {
         const departmentsList = this.props.departmentsList;
 
-        if (departmentsList.isFetching) {
+        if (departmentsList.get('isFetching')) {
             return <h1>Loading...</h1>;
-        } else if(departmentsList.errorMessage) {
+        } else if(departmentsList.get('errorMessage')) {
             return (
                 <Alert bsStyle="danger">
-                    {departmentsList.errorMessage}
+                    {departmentsList.get('errorMessage')}
                 </Alert>
             )
         }
@@ -36,7 +36,7 @@ class DepartmentsList extends Component {
                 <br/>
                 <Row>
                     <DepartmentsTable
-                        departments={departmentsList.departments}
+                        departments={departmentsList.get('departments').toJS()}
                     />
                 </Row>
             </Row>
@@ -50,7 +50,7 @@ DepartmentsList.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        departmentsList: state.departmentsManager.departmentsList
+        departmentsList: state.getIn(['departmentsManager', 'departmentsList'])
     }
 }
 

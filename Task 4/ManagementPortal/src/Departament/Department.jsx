@@ -36,40 +36,40 @@ class Department extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.updatedDepartment.success || nextProps.deletedDepartment.success) {
+        if (nextProps.updatedDepartment.get('success') || nextProps.deletedDepartment.get('success')) {
             browserHistory.push('/departments');
         }
     }
 
     submitUpdatedDepartment(updatedDepartment) {
-        const department = this.props.selectedDepartment.department;
-        updatedDepartment.id = department.id;
+        const department = this.props.selectedDepartment.get('department');
+        updatedDepartment.id = department.get('id');
         this.props.updateDepartment(updatedDepartment);
     }
 
     deleteDepartmentClick() {
-        const department = this.props.selectedDepartment.department;
-        this.props.deleteDepartment(department.id);
+        const department = this.props.selectedDepartment.get('department');
+        this.props.deleteDepartment(department.get('id'));
     }
 
     render() {
         const selectedDepartment = this.props.selectedDepartment;
-        const errorMessage = this.props.updatedDepartment.errorMessage || this.props.deletedDepartment.errorMessage;
+        const errorMessage = this.props.updatedDepartment.get('errorMessage') || this.props.deletedDepartment.get('errorMessage');
 
-        if (selectedDepartment.isFetching) {
+        if (selectedDepartment.get('isFetching')) {
             return <h1>Loading...</h1>;
-        } else if(selectedDepartment.errorMessage) {
+        } else if(selectedDepartment.get('errorMessage')) {
             return (
                 <Alert bsStyle="danger">
-                    {selectedDepartment.errorMessage}
+                    {selectedDepartment.get('errorMessage')}
                 </Alert>
             )
-        } else if(!selectedDepartment.department) {
+        } else if(!selectedDepartment.get('department')) {
             return <span />
         }
         return (
             <Row>
-                <PageHeader>Department: {selectedDepartment.department.title}</PageHeader>
+                <PageHeader>Department: {selectedDepartment.getIn(['department', 'title'])}</PageHeader>
                 {errorMessage &&
                     <Row>
                         <Alert bsStyle="danger">
@@ -79,11 +79,13 @@ class Department extends Component {
                 }
                 <h2>Students:</h2>
                 <UsersTable
-                    users={selectedDepartment.department.users.filter((user) => user.role === Role.STUDENT)}
+                    users={selectedDepartment.getIn(['department', 'users']).filter(
+                        (user) => user.get('role') === Role.STUDENT).toJS()}
                 />
                 <h2>Mentors:</h2>
                 <UsersTable
-                    users={selectedDepartment.department.users.filter((user) => user.role === Role.MENTOR)}
+                    users={selectedDepartment.getIn(['department', 'users']).filter(
+                        (user) => user.get('role') === Role.MENTOR).toJS()}
                 />
                 <br/>
                 <Col smOffset={2} sm={8}>
@@ -92,10 +94,10 @@ class Department extends Component {
                         onSubmit={this.submitUpdatedDepartment}
                         onDeleteClick={this.deleteDepartmentClick}
                         popupHeader={'Delete department'}
-                        popupBody={'Would you like to delete ' + selectedDepartment.department.title + '?'}
+                        popupBody={'Would you like to delete ' + selectedDepartment.getIn(['department', 'title']) + '?'}
                     >
                         <DepartmentForm
-                            department={selectedDepartment.department}
+                            department={selectedDepartment.get('department').toJS()}
                         />
                     </CrudForm>
                 </Col>
@@ -112,9 +114,9 @@ Department.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        selectedDepartment: state.departmentsManager.selectedDepartment,
-        updatedDepartment: state.departmentsManager.updatedDepartment,
-        deletedDepartment: state.departmentsManager.deletedDepartment
+        selectedDepartment: state.getIn(['departmentsManager', 'selectedDepartment']),
+        updatedDepartment: state.getIn(['departmentsManager', 'updatedDepartment']),
+        deletedDepartment: state.getIn(['departmentsManager', 'deletedDepartment'])
     }
 }
 
