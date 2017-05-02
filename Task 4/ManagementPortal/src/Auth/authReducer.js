@@ -1,15 +1,17 @@
 import Cookies from 'js-cookie';
+
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE
 } from './authActions'
 import {verifyToken} from "../fakeBackend";
 import Immutable from 'immutable';
+import {getCookie} from "../Shared/sharedCookies";
 
 
 export default function(state = Immutable.fromJS({
                             errorMessage: null,
                             isFetching: false,
-                            user: verifyToken(Cookies.get('id_token'))
+                            user: verifyToken(getCookie('id_token'))
                         }), action) {
     switch (action.type) {
         case LOGIN_REQUEST:

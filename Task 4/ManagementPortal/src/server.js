@@ -5,18 +5,16 @@ import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import getRoutes from './getRoutes';
 import configureStore from './configureStore';
-import {verifyToken} from "./fakeBackend";
+import {setCookie} from "./Shared/sharedCookies";
 const Cookies = require("cookies");
-import Immutable from 'immutable';
 
 const app = express();
 
 app.use((req, res) => {
-  const store = configureStore();
-  var state = store.getState();
-
   const cookies = new Cookies(req, res);
-  state = state.setIn(['auth', 'user'], Immutable.fromJS(verifyToken(cookies.get('id_token'))));
+  setCookie(cookies);
+
+  const store = configureStore();
 
   match({ routes: getRoutes(store), location: req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
