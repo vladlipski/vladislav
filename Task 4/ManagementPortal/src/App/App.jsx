@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Grid  from 'react-bootstrap/lib/Grid';
-import Header from "../Header";
+import Header from "../Shared/Layout/Header";
 import {Col} from "react-bootstrap";
 
 class App extends Component {

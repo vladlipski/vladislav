@@ -5,11 +5,11 @@ import {
     resetUpdatedUser
 } from "./userActions";
 import {bindActionCreators} from "redux";
-import {Alert, PageHeader} from "react-bootstrap";
+import {Alert, Col, PageHeader} from "react-bootstrap";
 import UserForm from "./UserForm";
 import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
-import CrudForm from "../CrudForm";
+import CrudForm from "../Shared/Components/CrudForm";
 
 
 class User extends Component {
@@ -34,41 +34,41 @@ class User extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.updatedUser.success || nextProps.deletedUser.success) {
+        if (nextProps.updatedUser.get('success') || nextProps.deletedUser.get('success')) {
             browserHistory.push('/users');
         }
     }
 
     submitUpdatedUser(updatedUser) {
-        const user = this.props.selectedUser.user;
-        updatedUser.id = user.id;
+        const user = this.props.selectedUser.get('user');
+        updatedUser.id = user.get('id');
         this.props.updateUser(updatedUser);
     }
 
     deleteUserClick() {
-        const user = this.props.selectedUser.user;
-        this.props.deleteUser(user.id);
+        const user = this.props.selectedUser.get('user');
+        this.props.deleteUser(user.get('id'));
     }
 
     render() {
         const selectedUser = this.props.selectedUser;
-        const errorMessage = this.props.updatedUser.errorMessage || this.props.deletedUser.errorMessage;
+        const errorMessage = this.props.updatedUser.get('errorMessage') || this.props.deletedUser.get('errorMessage');
 
-        if (selectedUser.isFetching) {
+        if (selectedUser.get('isFetching')) {
             return <h1>Loading...</h1>;
-        } else if(selectedUser.errorMessage) {
+        } else if(selectedUser.get('errorMessage')) {
             return (
                 <Alert bsStyle="danger">
-                    {selectedUser.errorMessage}
+                    {selectedUser.get('errorMessage')}
                 </Alert>
             )
-        } else if(!selectedUser.user) {
+        } else if(!selectedUser.get('user')) {
             return <span />
         }
 
         return (
             <Row>
-                <PageHeader>User: {selectedUser.user.username}</PageHeader>
+                <PageHeader>User: {selectedUser.getIn(['user', 'username'])}</PageHeader>
                 {errorMessage &&
                     <Row>
                         <Alert bsStyle="danger">
@@ -76,17 +76,20 @@ class User extends Component {
                         </Alert>
                     </Row>
                 }
-                <CrudForm
-                    creation={false}
-                    onSubmit={this.submitUpdatedUser}
-                    onDeleteClick={this.deleteUserClick}
-                    popupHeader={'Delete user'}
-                    popupBody={'Would you like to delete ' + selectedUser.user.username + '?'}
-                >
-                    <UserForm
-                        user={selectedUser.user}
-                    />
-                </CrudForm>
+                <Col smOffset={2} sm={8}>
+                    <CrudForm
+                        creation={false}
+                        onSubmit={this.submitUpdatedUser}
+                        onDeleteClick={this.deleteUserClick}
+                        popupHeader={'Delete user'}
+                        popupBody={'Would you like to delete ' + selectedUser.getIn(['user', 'username']) + '?'}
+                    >
+                        <UserForm
+                            user={selectedUser.get('user')}
+                            currentUserId={this.props.currentUserId}
+                        />
+                    </CrudForm>
+                </Col>
             </Row>
         );
     }
@@ -101,10 +104,10 @@ User.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        currentUserId: state.auth.user.id,
-        selectedUser: state.usersManager.selectedUser,
-        updatedUser: state.usersManager.updatedUser,
-        deletedUser: state.usersManager.deletedUser
+        currentUserId:  state.getIn(['auth', 'user', 'id']),
+        selectedUser:  state.getIn(['usersManager', 'selectedUser']),
+        updatedUser: state.getIn(['usersManager', 'updatedUser']),
+        deletedUser: state.getIn(['usersManager', 'deletedUser'])
     }
 }
 

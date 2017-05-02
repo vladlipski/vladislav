@@ -45,12 +45,6 @@ export function fetchUsersFailure(message) {
     };
 }
 
-export function resetUsers() {
-    return {
-        type: RESET_USERS
-    };
-}
-
 export function getAllUsers() {
     return (dispatch) => {
         dispatch(fetchUsers());

@@ -3,7 +3,7 @@ import {browserHistory, IndexRoute, Route, Router}  from "react-router";
 import App from "./App";
 import Login from "./Auth";
 import Home from "./Home";
-import Forbidden from "./Forbidden";
+import Forbidden from "./Shared/ErrorPages/Forbidden";
 import DepartmentsList from "./Departament/DepartmentsList";
 import UsersList from "./User/UsersList";
 import User from "./User";
@@ -18,21 +18,22 @@ export default (store) => {
 
     function requireAuth(nextState, replace) {
         const state = store.getState();
-        if (!state.auth.user) {
+
+        if (!state.getIn(['auth', 'user'])) {
             replace("/login");
         }
     }
 
     function checkRole(nextState, replace) {
         const state = store.getState();
-        if (this.authorize.indexOf(state.auth.user.role) === -1) {
+        if (this.authorize.indexOf(state.getIn(['auth', 'user', 'role'])) === -1) {
             replace(NOT_AUTHORIZED_PATH);
         }
     }
 
     function checkAuth(nextState, replace) {
         const state = store.getState();
-        if (state.auth.user) {
+        if (state.getIn(['auth', 'user'])) {
             replace("/");
         }
     }

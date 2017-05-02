@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Button from 'react-bootstrap/lib/Button';
 import {Form, Row} from 'formsy-react-components';
-import ConfirmationPopup from "../ConfirmationPopup";
+import ConfirmationPopup from "../ConfirmationPopup/index";
 import {ButtonToolbar} from "react-bootstrap";
 
 
@@ -28,6 +28,7 @@ class CrudForm extends Component {
             <Form
                 onValidSubmit={this.props.onSubmit}
                 noValidate
+                layout={'vertical'}
             >
 
                 {this.props.children}
@@ -40,7 +41,7 @@ class CrudForm extends Component {
                     closeClickHandler={this.closeModal}
                 />
 
-                <Row layout={'horizontal'}>
+                <Row layout={'vertical'}>
                     <ButtonToolbar>
                         <Button type="submit">Ok</Button>
                         <Button

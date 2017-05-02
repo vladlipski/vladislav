@@ -1,12 +1,12 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Alert, PageHeader} from "react-bootstrap";
+import {Alert, Col, PageHeader} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
-import CrudForm from "../CrudForm";
 import DepartmentForm from "./DepartmentForm/DepartmentForm";
 import {requestDepartmentCreation, resetNewDepartment} from "./deprtmentActions";
+import CrudForm from "../Shared/Components/CrudForm";
 
 
 class DepartmentNew extends Component {
@@ -20,7 +20,7 @@ class DepartmentNew extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.newDepartment.success) {
+        if (nextProps.newDepartment.get('success')) {
             browserHistory.push('/departments');
         }
     }
@@ -30,7 +30,7 @@ class DepartmentNew extends Component {
     }
 
     render() {
-        const errorMessage = this.props.newDepartment.errorMessage;
+        const errorMessage = this.props.newDepartment.get('errorMessage');
         return (
             <Row>
                 <PageHeader>New department</PageHeader>
@@ -41,15 +41,16 @@ class DepartmentNew extends Component {
                     </Alert>
                 </Row>
                 }
-
-                <CrudForm
-                    creation={true}
-                    onSubmit={this.submitNewDepartment}
-                >
-                    <DepartmentForm
-                        department={{}}
-                    />
-                </CrudForm>
+                <Col smOffset={2} sm={8}>
+                    <CrudForm
+                        creation={true}
+                        onSubmit={this.submitNewDepartment}
+                    >
+                        <DepartmentForm
+                            department={{}}
+                        />
+                    </CrudForm>
+                </Col>
             </Row>
         );
     }
@@ -61,7 +62,7 @@ DepartmentNew.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        newDepartment: state.departmentsManager.newDepartment
+        newDepartment: state.getIn(['departmentsManager', 'newDepartment'])
     }
 }
 

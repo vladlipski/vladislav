@@ -1,26 +1,25 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Button, Row} from "react-bootstrap";
+import {Alert, Button, Row} from "react-bootstrap";
 import {bindActionCreators} from "redux";
-import {getDepartments, resetDepartments} from "../deprtmentActions";
+import {getDepartments} from "../deprtmentActions";
 import {LinkContainer} from "react-router-bootstrap";
 import DepartmentsTable from "./DepartmentsTable";
 
 class DepartmentsList extends Component {
     componentWillMount() {
-        this.props.resetDepartments();
         this.props.getDepartments();
     }
 
     render() {
         const departmentsList = this.props.departmentsList;
 
-        if (departmentsList.isFetching) {
+        if (departmentsList.get('isFetching')) {
             return <h1>Loading...</h1>;
-        } else if(departmentsList.errorMessage) {
+        } else if(departmentsList.get('errorMessage')) {
             return (
                 <Alert bsStyle="danger">
-                    {departmentsList.errorMessage}
+                    {departmentsList.get('errorMessage')}
                 </Alert>
             )
         }
@@ -37,7 +36,7 @@ class DepartmentsList extends Component {
                 <br/>
                 <Row>
                     <DepartmentsTable
-                        departments={departmentsList.departments}
+                        departments={departmentsList.get('departments').toJS()}
                     />
                 </Row>
             </Row>
@@ -51,14 +50,13 @@ DepartmentsList.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        departmentsList: state.departmentsManager.departmentsList
+        departmentsList: state.getIn(['departmentsManager', 'departmentsList'])
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getDepartments: bindActionCreators(getDepartments, dispatch),
-        resetDepartments: bindActionCreators(resetDepartments, dispatch)
+        getDepartments: bindActionCreators(getDepartments, dispatch)
     }
 }
 

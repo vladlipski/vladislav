@@ -24,8 +24,8 @@ const fakeDatabase = {
         id: 3,
         username: 'misha',
         password: '1',
-        department: 3,
-        mentor: 4,
+        department: 2,
+        mentor: 5,
         role: Role.STUDENT,
         plan: 3
     }, {
@@ -40,7 +40,7 @@ const fakeDatabase = {
         id: 5,
         username: 'ilya',
         password: '1',
-        department: 3,
+        department: 2,
         mentor: null,
         role:  Role.MENTOR,
         plan: null
@@ -57,13 +57,16 @@ const fakeDatabase = {
     }],
     plans: [{
         id: 1,
-        title: 'Plan1'
+        title: 'Plan1',
+        author: 4
     }, {
         id: 2,
-        title: 'Plan2'
+        title: 'Plan2',
+        author: 4
     }, {
         id: 3,
-        title: 'Plan3'
+        title: 'Plan3',
+        author: 5
     }],
 
 };
@@ -154,9 +157,18 @@ export const getUserById = (mentorId, userId) =>
         });
     });
 
-export const getPlans = () =>
+export const getAllPlans = () =>
     delay(500).then(() => {
         const plans = fakeDatabase.plans;
+        return {
+            status: 200,
+            plans
+        };
+    });
+
+export const getPlansByAuthor = (authorId) =>
+    delay(500).then(() => {
+        const plans = fakeDatabase.plans.filter((plan) => plan.author == authorId);
         return {
             status: 200,
             plans
@@ -199,7 +211,8 @@ export const deleteUser = (id) =>
 
 export const getDepartment = (id) =>
     delay(500).then(() => {
-        const department = fakeDatabase.departments.find((department) => department.id == id);
+        const department = Object.assign({}, fakeDatabase.departments.find((department) => department.id == id));
+        department.users = fakeDatabase.users.filter((user) => user.department == department.id);
         if (!department.id) {
             return Promise.reject({
                 errorMessage: "Department doesn't exist"

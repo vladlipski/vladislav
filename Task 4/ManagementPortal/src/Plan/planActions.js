@@ -23,10 +23,21 @@ export function fetchPlansFailure(message) {
     };
 }
 
-export function getPlans() {
+export function getAllPlans() {
     return (dispatch) => {
         dispatch(fetchPlans());
-        return fakeBackend.getPlans().then(response => {
+        return fakeBackend.getAllPlans().then(response => {
+            dispatch(fetchPlansSuccess(response.plans));
+        }).catch(response => {
+            dispatch(fetchPlansFailure(response.errorMessage));
+        })
+    }
+}
+
+export function getPlansByAuthor(authorId) {
+    return (dispatch) => {
+        dispatch(fetchPlans());
+        return fakeBackend.getPlansByAuthor(authorId).then(response => {
             dispatch(fetchPlansSuccess(response.plans));
         }).catch(response => {
             dispatch(fetchPlansFailure(response.errorMessage));

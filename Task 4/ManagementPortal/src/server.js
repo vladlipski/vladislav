@@ -5,17 +5,16 @@ import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import getRoutes from './getRoutes';
 import configureStore from './configureStore';
-import {verifyToken} from "./fakeBackend";
+import {setCookie} from "./Shared/sharedCookies";
 const Cookies = require("cookies");
 
 const app = express();
 
 app.use((req, res) => {
-  const store = configureStore();
-  const state = store.getState();
-
   const cookies = new Cookies(req, res);
-  state.auth.user = verifyToken(cookies.get('id_token'));
+  setCookie(cookies);
+
+  const store = configureStore();
 
   match({ routes: getRoutes(store), location: req.url }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {

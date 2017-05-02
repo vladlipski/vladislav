@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {bindActionCreators} from "redux";
 import {Nav, Navbar, NavItem} from "react-bootstrap";
-import {logoutUser} from "../Auth/authActions";
+import {logoutUser} from "../../../Auth/authActions";
 import {connect} from "react-redux";
 import {IndexLinkContainer, LinkContainer} from "react-router-bootstrap";
 import {browserHistory} from 'react-router';
@@ -39,12 +39,12 @@ class Header extends Component {
                     <IndexLinkContainer to="/">
                         <NavItem>Home</NavItem>
                     </IndexLinkContainer>
-                    {user && this.checkAccessToRoute(user.role, paths.users) &&
+                    {user && this.checkAccessToRoute(user.get('role'), paths.users) &&
                         <LinkContainer to={paths.users}>
                             <NavItem>Users</NavItem>
                         </LinkContainer>
                     }
-                    {user && this.checkAccessToRoute(user.role, paths.departments) &&
+                    {user && this.checkAccessToRoute(user.get('role'), paths.departments) &&
                         <LinkContainer to={paths.departments}>
                             <NavItem>Departments</NavItem>
                         </LinkContainer>
@@ -69,7 +69,7 @@ Header.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        user: state.auth.user
+        user: state.getIn(['auth', 'user'])
     }
 }
 
