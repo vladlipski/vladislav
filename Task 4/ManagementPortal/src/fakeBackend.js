@@ -58,15 +58,15 @@ const fakeDatabase = {
     plans: [{
         id: 1,
         title: 'Plan1',
-        author: 4
+        author: {id: 4}
     }, {
         id: 2,
         title: 'Plan2',
-        author: 4
+        author: {id: 4}
     }, {
         id: 3,
         title: 'Plan3',
-        author: 5
+        author: {id: 5}
     }],
 
 };
@@ -159,7 +159,8 @@ export const getUserById = (mentorId, userId) =>
 
 export const getAllPlans = () =>
     delay(500).then(() => {
-        const plans = fakeDatabase.plans;
+        var plans = Object.assign([], fakeDatabase.plans);
+        plans.map(plan => plan.author =  Object.assign({}, fakeDatabase.users.find(user => user.id == plan.author.id)));
         return {
             status: 200,
             plans
@@ -168,7 +169,8 @@ export const getAllPlans = () =>
 
 export const getPlansByAuthor = (authorId) =>
     delay(500).then(() => {
-        const plans = fakeDatabase.plans.filter((plan) => plan.author == authorId);
+        var plans = Object.assign([], fakeDatabase.plans.filter((plan) => plan.author.id == authorId));
+        plans.map(plan => plan.author = fakeDatabase.users.find(user => user.id == plan.author.id));
         return {
             status: 200,
             plans
