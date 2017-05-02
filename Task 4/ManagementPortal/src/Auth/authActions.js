@@ -1,4 +1,4 @@
-import * as authService from "./authService";
+import * as fakeBackend from "../fakeBackend";
 import Cookies from 'js-cookie';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -10,34 +10,28 @@ export const LOGOUT_FAILURE = 'LOGOUT_FAILURE';
 
 function requestLogin() {
     return {
-        type: LOGIN_REQUEST,
-        isFetching: true,
-        user: null
+        type: LOGIN_REQUEST
     }
 }
 
 function receiveLogin(user) {
     return {
         type: LOGIN_SUCCESS,
-        isFetching: false,
-        user,
-        errorMessage: ''
+        payload: user
     }
 }
 
 function loginError(message) {
     return {
         type: LOGIN_FAILURE,
-        isFetching: false,
-        user: null,
-        message
+        payload: message
     }
 }
 
 export function loginUser(username, password) {
     return (dispatch) => {
         dispatch(requestLogin());
-        return authService.login(username, password).then(response => {
+        return fakeBackend.login(username, password).then(response => {
             dispatch(receiveLogin(response.user));
         }).catch(response => {
             dispatch(loginError(response.errorMessage));
@@ -47,24 +41,19 @@ export function loginUser(username, password) {
 
 function requestLogout() {
     return {
-        type: LOGOUT_REQUEST,
-        isFetching: true
+        type: LOGOUT_REQUEST
     }
 }
 
 function receiveLogout() {
     return {
-        type: LOGOUT_SUCCESS,
-        isFetching: false,
-        user: null
+        type: LOGOUT_SUCCESS
     }
 }
 
 function logoutError() {
     return {
-        type: LOGOUT_FAILURE,
-        isFetching: false,
-        user: null
+        type: LOGOUT_FAILURE
     }
 }
 

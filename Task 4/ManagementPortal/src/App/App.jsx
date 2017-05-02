@@ -1,22 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import Grid  from 'react-bootstrap/lib/Grid';
-import Header from "../Header";
-import {connect} from "react-redux";
-import {browserHistory} from 'react-router';
+import Header from "../Shared/Layout/Header";
+import {Col} from "react-bootstrap";
 
 class App extends Component {
-    componentWillReceiveProps(nextProps) {
-        if (!nextProps.user) {
-            browserHistory.push('/login');
-        }
-    }
-    
     render() {
         return (
             <div>
-                <Header/>
+                <Header
+                    routes={this.props.route.childRoutes}
+                />
                 <Grid>
-                    {this.props.children}
+                    <Col smOffset={2} sm={7}>
+                        {this.props.children}
+                    </Col>
                 </Grid>
             </div>
         );
@@ -24,15 +21,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-    user: PropTypes.object,
     children: PropTypes.node
 };
 
-function mapStateToProps(state) {
-    return {
-        user: state.auth.user
-    }
-}
-
-
-export default connect(mapStateToProps)(App)
+export default App
