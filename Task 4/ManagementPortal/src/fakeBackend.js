@@ -25,7 +25,7 @@ const fakeDatabase = {
         username: 'misha',
         password: '1',
         department: 2,
-        mentor: 4,
+        mentor: 5,
         role: Role.STUDENT,
         plan: 3
     }, {
@@ -57,13 +57,16 @@ const fakeDatabase = {
     }],
     plans: [{
         id: 1,
-        title: 'Plan1'
+        title: 'Plan1',
+        author: 4
     }, {
         id: 2,
-        title: 'Plan2'
+        title: 'Plan2',
+        author: 4
     }, {
         id: 3,
-        title: 'Plan3'
+        title: 'Plan3',
+        author: 5
     }],
 
 };
@@ -154,9 +157,18 @@ export const getUserById = (mentorId, userId) =>
         });
     });
 
-export const getPlans = () =>
+export const getAllPlans = () =>
     delay(500).then(() => {
         const plans = fakeDatabase.plans;
+        return {
+            status: 200,
+            plans
+        };
+    });
+
+export const getPlansByAuthor = (authorId) =>
+    delay(500).then(() => {
+        const plans = fakeDatabase.plans.filter((plan) => plan.author == authorId);
         return {
             status: 200,
             plans

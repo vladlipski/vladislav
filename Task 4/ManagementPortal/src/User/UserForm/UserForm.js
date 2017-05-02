@@ -2,11 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {Input, Select} from 'formsy-react-components';
 import {getDepartments} from "../../Departament/deprtmentActions";
 import {connect} from "react-redux";
-import {getPlans} from "../../Plan/planActions";
+import {getAllPlans, getPlansByAuthor} from "../../Plan/planActions";
 import {bindActionCreators} from "redux";
 import {GET_MENTORS, getCertainUsers} from "../selectors";
 import {getAllUsers} from "../userActions";
 import {Role} from "../../Auth/roles";
+import {List} from "immutable";
 
 const DEFAULT_ROLE = Role.STUDENT;
 
@@ -15,7 +16,7 @@ class UserForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userRole: this.props.user.role || DEFAULT_ROLE
+            userRole: this.props.user.get('role') || DEFAULT_ROLE
         };
         this.changeRole = this.changeRole.bind(this);
     }
@@ -26,8 +27,10 @@ class UserForm extends Component {
             if (this.props.mentors.size === 0) {
                 this.props.getAllUsers();
             }
+            this.props.getAllPlans();
+        } else {
+            this.props.getPlansByAuthor(this.props.currentUserId);
         }
-        this.props.getPlans();
     }
 
     changeRole(event, value) {
@@ -46,11 +49,11 @@ class UserForm extends Component {
     }
 
     renderAdminInputs() {
-        const rolesOptions = [
+        const rolesOptions = List([
             {value: Role.ADMIN, label: 'Admin'},
             {value: Role.MENTOR, label: 'Mentor'},
             {value: Role.STUDENT, label: 'Student'}
-        ];
+        ]);
 
         const departmentsOptions = this.generateOptions(this.props.departmentsList.get('departments'), 'title');
         const mentorsOptions = this.generateOptions(this.props.mentors, 'username');
@@ -62,7 +65,7 @@ class UserForm extends Component {
             >
                 <Select
                     name="role"
-                    value={user.role || Role.STUDENT}
+                    value={user.get('role') || Role.STUDENT}
                     label="Roles: "
                     options={rolesOptions}
                     onChange={this.changeRole}
@@ -71,7 +74,7 @@ class UserForm extends Component {
                 < Select
                     name="department"
                     label="Department: "
-                    value={user.department || (departmentsOptions.size > 0 ?
+                    value={user.get('department') || (departmentsOptions.size > 0 ?
                         departmentsOptions.get(0).value :
                         '')}
                     options={departmentsOptions}
@@ -82,7 +85,7 @@ class UserForm extends Component {
                 <Select
                     name="mentor"
                     label="Mentor: "
-                    value={user.mentor || (mentorsOptions.size > 0 ?
+                    value={user.get('mentor') || (mentorsOptions.size > 0 ?
                         mentorsOptions.get(0).value :
                         '')}
                     options={mentorsOptions}
@@ -95,13 +98,15 @@ class UserForm extends Component {
 
     render() {
         const {user, plansList} =  this.props;
-        const plansOptions = this.generateOptions(plansList.get('plans'), 'title');
-
+        var plansOptions = List([
+            {value: '', label: '---'}
+        ]);
+        plansOptions = plansOptions.concat(this.generateOptions(plansList.get('plans'), 'title'));
         return (
                 <fieldset>
                     <Input
                         name="username"
-                        value={user.username || ''}
+                        value={user.get('username') || ''}
                         label="Username:"
                         type="text"
                         placeholder="username"
@@ -109,7 +114,7 @@ class UserForm extends Component {
                     />
                     <Input
                         name="password"
-                        value={user.password || ''}
+                        value={user.get('password') || ''}
                         label="Password:"
                         type="password"
                         placeholder="password"
@@ -122,9 +127,9 @@ class UserForm extends Component {
                         <Select
                             name="plan"
                             label="Plan: "
-                            value={user.plan || (plansOptions.size > 0 ?
-                                plansOptions.get(0).value :
-                                '')}
+                            value={user.get('plan') || (plansOptions.size > 0 ?
+                                plansOptions.get(0).value : ''
+                            )}
                             options={plansOptions}
                             disabled={plansOptions.size === 0}
                         />
@@ -136,6 +141,7 @@ class UserForm extends Component {
 
 UserForm.propTypes = {
     currentUserRole: PropTypes.string,
+    currentUserId: PropTypes.number,
     user: PropTypes.object
 };
 
@@ -151,7 +157,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getDepartments: bindActionCreators(getDepartments, dispatch),
-        getPlans: bindActionCreators(getPlans, dispatch),
+        getAllPlans: bindActionCreators(getAllPlans, dispatch),
+        getPlansByAuthor: bindActionCreators(getPlansByAuthor, dispatch),
         getAllUsers: bindActionCreators(getAllUsers, dispatch)
     }
 }

@@ -85,7 +85,8 @@ class User extends Component {
                         popupBody={'Would you like to delete ' + selectedUser.getIn(['user', 'username']) + '?'}
                     >
                         <UserForm
-                            user={selectedUser.get('user').toJS()}
+                            user={selectedUser.get('user')}
+                            currentUserId={this.props.currentUserId}
                         />
                     </CrudForm>
                 </Col>

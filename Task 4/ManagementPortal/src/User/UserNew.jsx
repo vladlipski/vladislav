@@ -8,6 +8,7 @@ import {browserHistory} from 'react-router';
 import {Row} from "formsy-react-components";
 import {Role} from "../Auth/roles";
 import CrudForm from "../Shared/Components/CrudForm";
+import {Map} from "immutable";
 
 
 class UserNew extends Component {
@@ -29,7 +30,7 @@ class UserNew extends Component {
     submitNewUser(newUser) {
         const currentUser = this.props.currentUser;
         if (Role.isMentor(currentUser.get('role'))) {
-            newUser.mentor = currentUser.get('id')
+            newUser.mentor = currentUser.get('id');
             newUser.department = currentUser.get('department');
         }
         this.props.createUser(newUser);
@@ -53,7 +54,8 @@ class UserNew extends Component {
                         onSubmit={this.submitNewUser}
                     >
                         <UserForm
-                            user={{}}
+                            user={Map()}
+                            currentUserId={this.props.currentUser.get('id')}
                         />
                     </CrudForm>
                 </Col>
