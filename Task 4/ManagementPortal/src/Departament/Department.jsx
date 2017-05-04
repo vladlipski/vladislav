@@ -68,7 +68,7 @@ class Department extends Component {
             return <span />
         }
         return (
-            <Row>
+            <Col smOffset={2} sm={7}>
                 <PageHeader>Department: {selectedDepartment.getIn(['department', 'title'])}</PageHeader>
                 {errorMessage &&
                     <Row>
@@ -101,7 +101,7 @@ class Department extends Component {
                         />
                     </CrudForm>
                 </Col>
-            </Row>
+            </Col>
         );
     }
 }

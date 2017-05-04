@@ -11,9 +11,7 @@ class App extends Component {
                     routes={this.props.route.childRoutes}
                 />
                 <Grid>
-                    <Col smOffset={2} sm={7}>
-                        {this.props.children}
-                    </Col>
+                    {this.props.children}
                 </Grid>
             </div>
         );

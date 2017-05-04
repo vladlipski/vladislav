@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Button, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {getAllUsers, getUsersByMentor} from "../userActions";
 import {bindActionCreators} from "redux";
 import {LinkContainer} from "react-router-bootstrap";
@@ -32,7 +32,7 @@ class UsersList extends Component {
         }
 
         return (
-            <Row>
+            <Col smOffset={2} sm={7}>
                 <Row>
                     <LinkContainer to="users/new">
                         <Button>
@@ -46,7 +46,7 @@ class UsersList extends Component {
                         users={usersList.get('users').toJS()}
                     />
                 </Row>
-            </Row>
+            </Col>
         )
     }
 }

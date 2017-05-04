@@ -39,7 +39,7 @@ class UserNew extends Component {
     render() {
         const errorMessage = this.props.newUser.get('errorMessage');
         return (
-            <Row>
+            <Col smOffset={2} sm={7}>
                 <PageHeader>New user</PageHeader>
                 {errorMessage &&
                     <Row>
@@ -59,7 +59,7 @@ class UserNew extends Component {
                         />
                     </CrudForm>
                 </Col>
-            </Row>
+            </Col>
         );
     }
 }

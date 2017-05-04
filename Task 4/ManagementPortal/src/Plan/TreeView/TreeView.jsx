@@ -2,6 +2,9 @@ import React from 'react'
 import _ from 'lodash';
 import {Link} from "react-router";
 
+import "./tree-view.css";
+
+
 let treeviewSpanStyle = {
     "width": "1rem",
     "height": "1rem"
@@ -175,8 +178,6 @@ class TreeView extends React.Component {
             node.nodes = [newNode]
         }
 
-        console.log(this.convert(this.state.data));
-
         if (this.props.onNodeAdded)
             this.props.onNodeAdded(this.state.data);
     }
@@ -256,7 +257,7 @@ TreeView.defaultProps = {
     unselectedIcon: 'glyphicon glyphicon-unchecked',
     selectedIcon: 'glyphicon glyphicon-check',
 
-    color: "#428bca",
+    color: "#333333",
     backColor: undefined,
     borderColor: undefined,
     onhoverColor: '#F5F5F5',
@@ -275,11 +276,10 @@ export class TreeNode extends React.Component {
 
     constructor(props) {
         super(props);
-        //console.dir(props.node);
-        this.state = {node: props.node, expanded: true};
-        /*this.expanded = (props.node.state && props.node.state.hasOwnProperty('expanded')) ?
-         props.node.state.expanded :
-         (this.props.level < this.props.options.levels);*/
+
+        this.state = {node: props.node};
+        this.expanded = (props.node.state && props.node.state.hasOwnProperty('expanded')) ?
+             props.node.state.expanded : (this.props.level < this.props.options.levels);
         this.selected = (props.node.state && props.node.state.hasOwnProperty('selected')) ?
             props.node.state.selected :
             false;
@@ -292,10 +292,9 @@ export class TreeNode extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({node: nextProps.node, expanded: true});
-        /*this.expanded = (nextProps.node.state && nextProps.node.state.hasOwnProperty('expanded')) ?
-         nextProps.node.state.expanded :
-         (this.props.level < this.props.options.levels);*/
+        this.setState({node: nextProps.node});
+        this.expanded = (nextProps.node.state && nextProps.node.state.hasOwnProperty('expanded')) ?
+            nextProps.node.state.expanded : (this.props.level < this.props.options.levels);
         this.selected = (nextProps.node.state && nextProps.node.state.hasOwnProperty('selected')) ?
             nextProps.node.state.selected :
             false;
@@ -462,11 +461,11 @@ export class TreeNode extends React.Component {
 
         if (this.state.addNode) {
             newNode = (
-                <div className="input-group">
-                    <input type="text" className="form-control nodeName" ref="newNodeName"/>
+                <div className="input-group node-name">
                     <span className="input-group-btn">
-              <span className="btn btn-default submitNode" onClick={this.addNode}>Add</span>
-            </span>
+                        <span className="btn btn-default" onClick={this.addNode}>Add</span>
+                    </span>
+                    <input type="text" className="form-control" ref="newNodeName"/>
                 </div>
             );
         }
@@ -474,7 +473,7 @@ export class TreeNode extends React.Component {
         style["cursor"] = "pointer";
 
         let treeNode = (
-            <li className="list-group-item"
+            <li className="list-group-item tree-view__node"
                 style={style}
                 onDoubleClick={this.doubleClicked}
                 key={node.nodeId}>
@@ -491,7 +490,7 @@ export class TreeNode extends React.Component {
         );
 
         return (
-            <ul>
+            <ul className="tree-view">
                 {treeNode}
             </ul>
         );

@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Alert, Button, Row} from "react-bootstrap";
+import {Alert, Button, Col, Row} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {getAllPlans, getPlansByAuthor} from "../planActions";
 import PlansTable from "./PlansTable";
@@ -31,7 +31,7 @@ class PlansList extends Component {
         }
 
         return (
-            <Row>
+            <Col smOffset={2} sm={7}>
                 <Row>
                     <LinkContainer to="plans/new">
                         <Button>
@@ -45,7 +45,7 @@ class PlansList extends Component {
                         plans={plansList.get('plans').toJS()}
                     />
                 </Row>
-            </Row>
+            </Col>
         )
     }
 }

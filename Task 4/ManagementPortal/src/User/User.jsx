@@ -67,7 +67,7 @@ class User extends Component {
         }
 
         return (
-            <Row>
+            <Col smOffset={2} sm={7}>
                 <PageHeader>User: {selectedUser.getIn(['user', 'username'])}</PageHeader>
                 {errorMessage &&
                     <Row>
@@ -90,7 +90,7 @@ class User extends Component {
                         />
                     </CrudForm>
                 </Col>
-            </Row>
+            </Col>
         );
     }
 }
