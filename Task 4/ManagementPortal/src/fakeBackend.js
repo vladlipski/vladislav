@@ -68,7 +68,59 @@ const fakeDatabase = {
         title: 'Plan3',
         author: {id: 5}
     }],
-
+    tasks: [{
+        id: 1,
+        title: 'Task HTML + CSS',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        status: 'New',
+        type: 'Coding'
+    }, {
+        id: 2,
+        title: 'CSS',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec metus magna, maximus ut quam vel, placerat lobortis eros. ' +
+            'Morbi ullamcorper congue cursus. Nunc porta leo quis felis facilisis molestie. Donec sollicitudin nisl nec volutpat elementum. ' +
+            'Proin a mauris nec mauris luctus scelerisque. Maecenas sed diam ut tortor tincidunt fringilla sit amet in eros. ' +
+            'Suspendisse at orci quis ex finibus laoreet vitae et justo. Curabitur sagittis diam et odio ornare, eu dictum mauris gravida. ' +
+            'Morbi vehicula quam mauris, quis suscipit nisi pellentesque a. Nam porta ipsum et rhoncus vehicula. Morbi id posuere mi. In hac habitasse platea dictumst. ' +
+            'Duis ut vehicula augue, sit amet blandit nisl. Morbi eget aliquam neque, porta pellentesque tortor. Morbi semper vehicula nibh, id posuere est malesuada scelerisque. ' +
+            'Praesent bibendum volutpat metus, at pulvinar nisi.',
+        status: 'New',
+        type: 'Theory'
+    }, {
+        id: 3,
+        title: 'Software Development basics',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        status: 'New',
+        type: 'Theory'
+    }],
+    completePlans: [{
+        id: 1,
+        plan: [
+            {
+                text: 'HTML + CSS',
+                nodes: [
+                    {
+                        href: 1,
+                        text: 'Task HTML + CSS'
+                    },
+                    {
+                        href: 2,
+                        text: 'CSS'
+                    },
+                    {
+                        href: 3,
+                        text: 'Software Development basics'
+                    }
+                ]
+            }, {
+                text: 'Javascript'
+            }
+        ]
+    }]
 };
 
 export const verifyToken = function (token) {
