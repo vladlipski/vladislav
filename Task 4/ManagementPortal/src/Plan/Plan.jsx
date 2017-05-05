@@ -1,87 +1,43 @@
 import React, {PropTypes, Component} from 'react'
 import TreeView from "./TreeView/TreeView";
-import {Button, Col, ControlLabel, Form, FormControl, FormGroup, Row} from "react-bootstrap";
+import {Alert, Button, Col, ControlLabel, Form, FormControl, FormGroup, Row} from "react-bootstrap";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {getPlan} from "./planActions";
 
 
 class Plan extends Component {
 
-    doubleClickHandler () {
-        console.log('double click');
+    componentWillMount() {
+        const planId = this.props.params.planId;
+        if (planId) {
+            this.props.getPlan(this.props.currentUserId, planId);
+        }
     }
+
 
     render() {
 
-        const data = [
-            {
-                text: 'HTML + CSS',
-                nodes: [
-                    {
-                        text: 'Task HTML + CSS',
-                        href: '/tasks/1',
-                        nodes: [
-                            {
-                                text: 'Task Functional Javascript',
-                                href: '/tasks/1'
-                            },
-                            {
-                                text: 'Javascript',
-                                href: '/tasks/2'
-                            },
-                            {
+        const selectedPlan = this.props.selectedPlan;
 
-                                text: 'Unit testing',
-                                href: '/tasks/3'
-                            },
-                            {
-                                text: 'FP',
-                                href: '/tasks/4'
-                            }
-                        ]
-                    },
-                    {
-                        text: 'CSS',
-                        href: '/tasks/2'
-                    },
-                    {
-
-                        text: 'Software Development basics',
-                        href: '/tasks/3'
-                    },
-                    {
-                        text: 'Web development basics',
-                        href: '/tasks/4'
-                    }
-                ]
-            }, {
-                text: 'Javascript',
-                nodes: [
-                    {
-                        text: 'Task Functional Javascript',
-                        href: '/tasks/1'
-                    },
-                    {
-                        text: 'Javascript',
-                        href: '/tasks/2'
-                    },
-                    {
-
-                        text: 'Unit testing',
-                        href: '/tasks/3'
-                    },
-                    {
-                        text: 'FP',
-                        href: '/tasks/4'
-                    }
-                ]
-            }
-        ];
+        if (selectedPlan.get('isFetching')) {
+            return <h1>Loading...</h1>;
+        } else if(selectedPlan.get('errorMessage')) {
+            return (
+                <Alert bsStyle="danger">
+                    {selectedPlan.get('errorMessage')}
+                </Alert>
+            )
+        } else if(!selectedPlan.get('plan')) {
+            return <span />
+        }
 
         return (
             <Row>
                 <Col sm={4}>
                     <TreeView
                         levels={1}
-                        data = {data}
+                        data = {selectedPlan.getIn(['plan','plansData']).toJS()}
                         enableLinks={true}
                         showBorder={false}
                         highlightSelected={false}
@@ -91,51 +47,7 @@ class Plan extends Component {
                     />
                 </Col>
                 <Col sm={8}>
-                    <Form horizontal>
-                        <FormGroup controlId="formHorizontalEmail">
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Title
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl type="email" placeholder="Email" />
-                            </Col>
-                        </FormGroup>
-
-                        <FormGroup controlId="formHorizontalPassword">
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Description
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl type="password" placeholder="Password" />
-                            </Col>
-                        </FormGroup>
-
-                        <FormGroup controlId="formHorizontalEmail1">
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Status
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl type="email" placeholder="Email" />
-                            </Col>
-                        </FormGroup>
-
-                        <FormGroup controlId="formHorizontalPassword1">
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Type
-                            </Col>
-                            <Col sm={10}>
-                                <FormControl type="password" placeholder="Password" />
-                            </Col>
-                        </FormGroup>
-
-                        <FormGroup>
-                            <Col smOffset={2} sm={10}>
-                                <Button type="button">
-                                    Save
-                                </Button>
-                            </Col>
-                        </FormGroup>
-                    </Form>
+                    {this.props.children}
                 </Col>
             </Row>
         );
@@ -143,10 +55,22 @@ class Plan extends Component {
 }
 
 Plan.propTypes = {
-    // selectedDepartment: PropTypes.object,
+    selectedPlan: PropTypes.object,
     // updatedDepartment: PropTypes.object,
     // deletedDepartment: PropTypes.object
 };
 
+function mapStateToProps(state) {
+    return {
+        currentUserId:  state.getIn(['auth', 'user', 'id']),
+        selectedPlan:  state.getIn(['plansManager', 'selectedPlan'])
+    }
+}
 
-export default Plan
+function mapDispatchToProps(dispatch) {
+    return {
+        getPlan: bindActionCreators(getPlan, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Plan)

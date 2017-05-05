@@ -70,6 +70,10 @@ const fakeDatabase = {
     }],
     tasks: [{
         id: 1,
+        title: 'HTML + CSS'
+    }, {
+        id: 2,
+        parent: 1,
         title: 'Task HTML + CSS',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
@@ -77,7 +81,8 @@ const fakeDatabase = {
         status: 'New',
         type: 'Coding'
     }, {
-        id: 2,
+        id: 3,
+        parent: 1,
         title: 'CSS',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec metus magna, maximus ut quam vel, placerat lobortis eros. ' +
             'Morbi ullamcorper congue cursus. Nunc porta leo quis felis facilisis molestie. Donec sollicitudin nisl nec volutpat elementum. ' +
@@ -89,35 +94,69 @@ const fakeDatabase = {
         status: 'New',
         type: 'Theory'
     }, {
-        id: 3,
+        id: 4,
+        parent: 1,
         title: 'Software Development basics',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
         status: 'New',
         type: 'Theory'
-    }],
+    }, {
+        id: 5,
+        parent: 1,
+        title: 'Web development basics',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+        'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+        'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        status: 'New',
+        type: 'Theory'
+    }
+    ],
     completePlans: [{
         id: 1,
-        plan: [
+        author: 4,
+        plansData: [
             {
-                text: 'HTML + CSS',
+                title: 'HTML + CSS',
                 nodes: [
                     {
-                        href: 1,
-                        text: 'Task HTML + CSS'
+                        title: 'Task HTML + CSS',
+                        href: '/tasks/2'
                     },
                     {
-                        href: 2,
-                        text: 'CSS'
+                        title: 'CSS',
+                        href: '/tasks/3'
                     },
                     {
-                        href: 3,
-                        text: 'Software Development basics'
+                        title: 'Software Development basics',
+                        href: '/tasks/4'
+                    },
+                    {
+                        title: 'Web development basics',
+                        href: '/tasks/5'
                     }
                 ]
             }, {
-                text: 'Javascript'
+                title: 'Javascript',
+                nodes: [
+                    {
+                        title: 'Task Functional Javascript',
+                        href: '/plans/1/tasks/2'
+                    },
+                    {
+                        title: 'Javascript',
+                        href: '/plans/1/tasks/3'
+                    },
+                    {
+                        title: 'Unit testing',
+                        href: '/plans/1/tasks/4'
+                    },
+                    {
+                        title: 'FP',
+                        href: '/plans/1/tasks/5'
+                    }
+                ]
             }
         ]
     }]
@@ -229,6 +268,28 @@ export const getPlansByAuthor = (authorId) =>
         };
     });
 
+export const getPlan = (authorId, planId) =>
+    delay(500).then(() => {
+
+        const plan = Object.assign({}, fakeDatabase.completePlans.find((plan) => plan.id == planId));
+        if (!plan.id) {
+            return Promise.reject({
+                errorMessage: "Plan doesn't exist"
+            });
+        }
+
+        if (isAdmin(authorId) || plan.author == authorId) {
+            return {
+                status: 200,
+                plan
+            };
+        }
+
+        return Promise.reject({
+            errorMessage: '403 Forbidden'
+        });
+    });
+
 export const getDepartments = () =>
     delay(500).then(() => {
         const departments = fakeDatabase.departments;
@@ -302,3 +363,4 @@ export const deleteDepartment = (id) =>
             status: 200
         };
     });
+
