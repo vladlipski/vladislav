@@ -56,10 +56,10 @@ class TreeView extends React.Component {
                 nodes: this.setNodeId(childNode),
                 parentNode: node,
                 state: {
-                    selected: childNode.state ? !!childNode.state.selected : false,
-                    expanded: childNode.state ? !!childNode.state.expanded : false
+                    selected: !!childNode.selected,
+                    expanded: !!childNode.expanded
                 },
-                text: childNode.text,
+                title: childNode.title,
                 icon: childNode.icon,
                 href: childNode.href
             }
@@ -152,7 +152,7 @@ class TreeView extends React.Component {
             return [];
         return _.map(obj, (val) => {
             let treeNodeData = {
-                text: val.text,
+                title: val.title,
                 selected: val.state.selected
             };
             let children = this.convert(val.nodes);
@@ -162,11 +162,11 @@ class TreeView extends React.Component {
         });
     }
 
-    addNode(nodeId, text) {
+    addNode(nodeId, title) {
         let node = this.findNodeById(this.state.data, nodeId);
 
         let newNode = {
-            text: text,
+            title: title,
             state: {},
             parentNode: node,
             nodeId: this.nodesQuantity++
@@ -276,10 +276,10 @@ export class TreeNode extends React.Component {
 
     constructor(props) {
         super(props);
+        const expanded = (props.node.state.expanded) ?
+            props.node.state.expanded : (this.props.level < this.props.options.levels);
+        this.state = {node: props.node, expanded: expanded};
 
-        this.state = {node: props.node};
-        this.expanded = (props.node.state && props.node.state.hasOwnProperty('expanded')) ?
-             props.node.state.expanded : (this.props.level < this.props.options.levels);
         this.selected = (props.node.state && props.node.state.hasOwnProperty('selected')) ?
             props.node.state.selected :
             false;
@@ -292,9 +292,10 @@ export class TreeNode extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({node: nextProps.node});
-        this.expanded = (nextProps.node.state && nextProps.node.state.hasOwnProperty('expanded')) ?
+        const expanded = (nextProps.node.state.expanded) ?
             nextProps.node.state.expanded : (this.props.level < this.props.options.levels);
+        this.setState({node: nextProps.node, expanded: expanded});
+        console.log(this.expanded);
         this.selected = (nextProps.node.state && nextProps.node.state.hasOwnProperty('selected')) ?
             nextProps.node.state.selected :
             false;
@@ -408,16 +409,16 @@ export class TreeNode extends React.Component {
                 className={node.icon || options.nodeIcon}> </i> </span>
         ) : "";
 
-        let nodeText;
+        let nodeTitle;
 
         if (options.enableLinks) {
-            nodeText = (
-                <Link to={node.href}>{node.text}</Link>
+            nodeTitle = (
+                <Link to={node.href}>{node.title}</Link>
             )
         }
         else {
-            nodeText = (
-                <span style={treeviewSpanStyle}> {node.text} </span>
+            nodeTitle = (
+                <span style={treeviewSpanStyle}> {node.title} </span>
             )
         }
 
@@ -480,7 +481,7 @@ export class TreeNode extends React.Component {
                 {indents}
                 {expandCollapseIcon}
                 {nodeIcon}
-                {nodeText}
+                {nodeTitle}
                 {badges}
                 {removeButton}
                 {addButton}
