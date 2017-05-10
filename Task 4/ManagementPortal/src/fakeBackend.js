@@ -70,19 +70,22 @@ const fakeDatabase = {
     }],
     tasks: [{
         id: 1,
-        title: 'HTML + CSS'
+        title: 'HTML + CSS',
+        plan: 1
     }, {
         id: 2,
         parent: 1,
+        plan: 1,
         title: 'Task HTML + CSS',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'New',
-        type: 'Coding'
+        status: 'new',
+        type: 'coding'
     }, {
         id: 3,
         parent: 1,
+        plan: 1,
         title: 'CSS',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec metus magna, maximus ut quam vel, placerat lobortis eros. ' +
             'Morbi ullamcorper congue cursus. Nunc porta leo quis felis facilisis molestie. Donec sollicitudin nisl nec volutpat elementum. ' +
@@ -91,70 +94,125 @@ const fakeDatabase = {
             'Morbi vehicula quam mauris, quis suscipit nisi pellentesque a. Nam porta ipsum et rhoncus vehicula. Morbi id posuere mi. In hac habitasse platea dictumst. ' +
             'Duis ut vehicula augue, sit amet blandit nisl. Morbi eget aliquam neque, porta pellentesque tortor. Morbi semper vehicula nibh, id posuere est malesuada scelerisque. ' +
             'Praesent bibendum volutpat metus, at pulvinar nisi.',
-        status: 'New',
-        type: 'Theory'
+        status: 'new',
+        type: 'theory'
     }, {
         id: 4,
         parent: 1,
+        plan: 1,
         title: 'Software Development basics',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'New',
-        type: 'Theory'
+        status: 'new',
+        type: 'theory'
     }, {
         id: 5,
         parent: 1,
+        plan: 1,
         title: 'Web development basics',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
-        'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
-        'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'New',
-        type: 'Theory'
-    }
-    ],
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        status: 'new',
+        type: 'theory'
+    }, {
+        id: 6,
+        title: 'Javascript',
+        plan: 1
+    }, {
+        id: 7,
+        parent: 6,
+        plan: 1,
+        title: 'Task Functional Javascript',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        status: 'new',
+        type: 'coding'
+    }, {
+        id: 8,
+        parent: 6,
+        plan: 1,
+        title: 'Javascript',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        status: 'new',
+        type: 'theory'
+    }, {
+        id: 9,
+        parent: 6,
+        plan: 1,
+        title: 'Unit testing',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        status: 'new',
+        type: 'theory'
+    }, {
+        id: 10,
+        parent: 6,
+        plan: 1,
+        title: 'FP',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        status: 'new',
+        type: 'theory'
+    }],
     completePlans: [{
         id: 1,
         author: 4,
         plansData: [
             {
+                id: 1,
                 title: 'HTML + CSS',
                 nodes: [
                     {
+                        id: 2,
                         title: 'Task HTML + CSS',
-                        href: '/tasks/2'
-                    },
-                    {
-                        title: 'CSS',
-                        href: '/tasks/3'
-                    },
-                    {
-                        title: 'Software Development basics',
-                        href: '/tasks/4'
-                    },
-                    {
-                        title: 'Web development basics',
-                        href: '/tasks/5'
-                    }
-                ]
-            }, {
-                title: 'Javascript',
-                nodes: [
-                    {
-                        title: 'Task Functional Javascript',
                         href: '/plans/1/tasks/2'
                     },
                     {
-                        title: 'Javascript',
+                        id: 3,
+                        title: 'CSS',
                         href: '/plans/1/tasks/3'
                     },
                     {
-                        title: 'Unit testing',
+                        id: 4,
+                        title: 'Software Development basics',
                         href: '/plans/1/tasks/4'
                     },
                     {
-                        title: 'FP',
+                        id: 5,
+                        title: 'Web development basics',
                         href: '/plans/1/tasks/5'
+                    }
+                ]
+            }, {
+                id: 6,
+                title: 'Javascript',
+                nodes: [
+                    {
+                        id: 7,
+                        title: 'Task Functional Javascript',
+                        href: '/plans/1/tasks/7'
+                    },
+                    {
+                        id: 8,
+                        title: 'Javascript',
+                        href: '/plans/1/tasks/8'
+                    },
+                    {
+                        id: 9,
+                        title: 'Unit testing',
+                        href: '/plans/1/tasks/9'
+                    },
+                    {
+                        id: 10,
+                        title: 'FP',
+                        href: '/plans/1/tasks/10'
                     }
                 ]
             }
@@ -362,5 +420,29 @@ export const deleteDepartment = (id) =>
         return {
             status: 200
         };
+    });
+
+export const getTask = (authorId, taskId) =>
+    delay(500).then(() => {
+
+        const task = Object.assign({}, fakeDatabase.tasks.find((task) => task.id == taskId));
+        if (!task.id) {
+            return Promise.reject({
+                errorMessage: "Task doesn't exist"
+            });
+        }
+
+        const plan = Object.assign({}, fakeDatabase.plans.find((plan) => plan.id == task.plan));
+
+        if (isAdmin(authorId) || plan.author == authorId) {
+            return {
+                status: 200,
+                task
+            };
+        }
+
+        return Promise.reject({
+            errorMessage: '403 Forbidden'
+        });
     });
 

@@ -6,7 +6,6 @@ export const FETCH_PLANS_FAILURE = 'FETCH_PLANS_FAILURE';
 export const FETCH_PLAN = 'FETCH_PLAN';
 export const FETCH_PLAN_SUCCESS = 'FETCH_PLAN_SUCCESS';
 export const FETCH_PLAN_FAILURE = 'FETCH_PLAN_FAILURE';
-export const RESET_SELECTED_PLAN = 'RESET_SELECTED_PLAN';
 
 export function fetchPlans() {
     return {
@@ -70,11 +69,6 @@ export function fetchPlanFailure(message) {
     };
 }
 
-export function resetSelectedPlan() {
-    return {
-        type: RESET_SELECTED_PLAN
-    };
-}
 
 export function getPlan(authorId, planId) {
     return (dispatch) => {

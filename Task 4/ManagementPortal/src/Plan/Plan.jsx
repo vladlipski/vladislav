@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import TreeView from "./TreeView/TreeView";
-import {Alert, Button, Col, ControlLabel, Form, FormControl, FormGroup, Row} from "react-bootstrap";
+import {Alert, Col, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getPlan} from "./planActions";
@@ -14,7 +14,6 @@ class Plan extends Component {
             this.props.getPlan(this.props.currentUserId, planId);
         }
     }
-
 
     render() {
 
@@ -36,7 +35,7 @@ class Plan extends Component {
             <Row>
                 <Col sm={4}>
                     <TreeView
-                        levels={1}
+                        levels={5}
                         data = {selectedPlan.getIn(['plan','plansData']).toJS()}
                         enableLinks={true}
                         showBorder={false}

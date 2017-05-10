@@ -1,20 +1,28 @@
 import {
     FETCH_PLAN, FETCH_PLAN_FAILURE, FETCH_PLAN_SUCCESS,
-    FETCH_PLANS, FETCH_PLANS_FAILURE, FETCH_PLANS_SUCCESS, RESET_SELECTED_PLAN
+    FETCH_PLANS, FETCH_PLANS_FAILURE, FETCH_PLANS_SUCCESS
 } from "./planActions";
+import {
+    FETCH_TASK, FETCH_TASK_FAILURE, FETCH_TASK_SUCCESS
+} from "./Task/taskActions";
 import Immutable from 'immutable';
 
 
 export default function(state = Immutable.fromJS({
                             plansList: {
+                                isFetching: false,
                                 plans: [],
-                                errorMessage: null,
-                                isFetching: false
+                                errorMessage: null
                             },
                             selectedPlan:{
+                                isFetching: false,
                                 plan: null,
-                                errorMessage: null,
-                                isFetching: false
+                                errorMessage: null
+                            },
+                            selectedTask:{
+                                isFetching: false,
+                                task: null,
+                                errorMessage: null
                             }
                         }), action) {
     switch (action.type) {
@@ -39,7 +47,8 @@ export default function(state = Immutable.fromJS({
         case FETCH_PLAN:
             return state.set('selectedPlan', Immutable.fromJS({
                 isFetching: true,
-                plan: null
+                plan: null,
+                errorMessage: null
             }));
         case FETCH_PLAN_SUCCESS:
             return  state.set('selectedPlan', Immutable.fromJS({
@@ -53,11 +62,23 @@ export default function(state = Immutable.fromJS({
                 plan: null,
                 errorMessage: action.payload
             }));
-        case RESET_SELECTED_PLAN:
-            return  state.set('selectedPlan', Immutable.fromJS({
-                isFetching: false,
-                plan: {},
+        case FETCH_TASK:
+            return state.set('selectedTask', Immutable.fromJS({
+                isFetching: true,
+                task: null,
                 errorMessage: null
+            }));
+        case FETCH_TASK_SUCCESS:
+            return  state.set('selectedTask', Immutable.fromJS({
+                isFetching: false,
+                task: action.payload,
+                errorMessage: null
+            }));
+        case FETCH_TASK_FAILURE:
+            return state.set('selectedTask', Immutable.fromJS({
+                isFetching: false,
+                task: null,
+                errorMessage: action.payload
             }));
         default:
             return state
