@@ -78,7 +78,7 @@ class User extends Component {
                 }
                 <Col smOffset={2} sm={8}>
                     <CrudForm
-                        creation={false}
+                        hideDeleteButton={false}
                         onSubmit={this.submitUpdatedUser}
                         onDeleteClick={this.deleteUserClick}
                         popupHeader={'Delete user'}

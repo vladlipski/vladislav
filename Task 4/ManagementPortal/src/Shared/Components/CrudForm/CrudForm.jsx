@@ -47,7 +47,7 @@ class CrudForm extends Component {
                         <Button
                             onClick={this.openModal}
                             bsStyle="danger"
-                            className={this.props.creation ? 'hidden' : ''}
+                            className={this.props.hideDeleteButton ? 'hidden' : ''}
                         >
                             Delete
                         </Button>
@@ -59,7 +59,7 @@ class CrudForm extends Component {
 }
 
 CrudForm.propTypes = {
-    creation: PropTypes.bool,
+    hideDeleteButton: PropTypes.bool,
     onSubmit: PropTypes.func,
     onDeleteClick: PropTypes.func,
     popupHeader: PropTypes.string,

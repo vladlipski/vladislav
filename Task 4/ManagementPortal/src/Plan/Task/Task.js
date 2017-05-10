@@ -30,10 +30,6 @@ class Task extends Component {
         console.log('Update');
     }
 
-    deleteTaskClick() {
-        console.log('Delete');
-    }
-
     render() {
         const selectedTask = this.props.selectedTask;
 
@@ -53,11 +49,8 @@ class Task extends Component {
             <Row>
                 <Col smOffset={1} sm={10}>
                     <CrudForm
-                        creation={false}
+                        hideDeleteButton={true}
                         onSubmit={this.submitUpdatedTask}
-                        onDeleteClick={this.deleteTaskClick}
-                        popupHeader={'Delete task'}
-                        popupBody={'Would you like to delete ' + selectedTask.getIn(['task', 'title']) + '?'}
                     >
                         <TaskForm
                             task={selectedTask.get('task').toJS()}

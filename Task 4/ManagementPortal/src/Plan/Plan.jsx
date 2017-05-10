@@ -48,6 +48,14 @@ class Plan extends Component {
                 <Col sm={8}>
                     {this.props.children}
                 </Col>
+
+                {/*<ConfirmationPopup*/}
+                    {/*header={'Delete task'}*/}
+                    {/*body={'Would you like to delete this task ?'}*/}
+                    {/*showModal={this.state.showModal}*/}
+                    {/*confirmClickHandler={this.props.onDeleteClick}*/}
+                    {/*closeClickHandler={this.closeModal}*/}
+                {/*/>*/}
             </Row>
         );
     }

@@ -43,7 +43,7 @@ class DepartmentNew extends Component {
                 }
                 <Col smOffset={2} sm={8}>
                     <CrudForm
-                        creation={true}
+                        hideDeleteButton={true}
                         onSubmit={this.submitNewDepartment}
                     >
                         <DepartmentForm

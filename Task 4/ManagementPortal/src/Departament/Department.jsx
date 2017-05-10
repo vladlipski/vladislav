@@ -90,7 +90,7 @@ class Department extends Component {
                 <br/>
                 <Col smOffset={2} sm={8}>
                     <CrudForm
-                        creation={false}
+                        hideDeleteButton={false}
                         onSubmit={this.submitUpdatedDepartment}
                         onDeleteClick={this.deleteDepartmentClick}
                         popupHeader={'Delete department'}
