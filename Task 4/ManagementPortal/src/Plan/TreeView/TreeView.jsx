@@ -23,7 +23,7 @@ class TreeView extends React.Component {
     constructor(props) {
         super(props);
 
-        this.nodesQuantity = 0;
+        this.nodesQuantity = 1;
 
         /*this.state = {data: props.data};
          this.someData = _.clone(props.data);
@@ -163,7 +163,7 @@ class TreeView extends React.Component {
     }
 
     addNode(nodeId, title) {
-        let node = this.findNodeById(this.state.data, nodeId);
+        let node =(nodeId !== 0) ? this.findNodeById(this.state.data, nodeId) : null;
 
         let newNode = {
             title: title,
@@ -172,14 +172,20 @@ class TreeView extends React.Component {
             nodeId: this.nodesQuantity++
         };
 
-        if (node.nodes) {
-            node.nodes.push(newNode)
+        if (node) {
+            if (node.nodes) {
+                node.nodes.push(newNode)
+            } else {
+                node.nodes = [newNode]
+            }
         } else {
-            node.nodes = [newNode]
+            let newData = _.clone(this.state.data);
+            newData.push(newNode);
+            this.setState({data: newData});
         }
 
         if (this.props.onNodeAdded)
-            this.props.onNodeAdded(this.state.data);
+            this.props.onNodeAdded(this.state, newNode);
     }
 
     removeNode(nodeId) {
@@ -194,8 +200,24 @@ class TreeView extends React.Component {
     render() {
         let data = this.state.data;
         let children = [];
+        let _this = this;
+        children.push(React.createElement(TreeNode, {
+            node: {
+                nodeId: 0,
+                title: 'Add leaf',
+                state: {}
+            },
+            key: 0,
+            level: 1,
+            visible: true,
+            addNode: _this.addNode,
+            options: {
+                removable: false
+            },
+            nodes: [],
+            allowNew: _this.props.allowNew
+        }));
         if (data) {
-            let _this = this;
             data.forEach(function (node) {
                 children.push(React.createElement(TreeNode, {
                     node: node,

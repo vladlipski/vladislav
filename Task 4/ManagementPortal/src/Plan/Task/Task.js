@@ -38,7 +38,6 @@ class Task extends Component {
     submitUpdatedTask(updatedTask) {
         const task = this.props.selectedTask.get('task');
         updatedTask.id = task.get('id');
-        //console.dir(updatedTask);
         this.props.updateTask(updatedTask);
     }
 

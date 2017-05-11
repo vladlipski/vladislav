@@ -15,6 +15,11 @@ class Plan extends Component {
         }
     }
 
+    addTask(state, node) {
+        console.dir(state);
+        console.dir(node);
+    }
+
     render() {
 
         const selectedPlan = this.props.selectedPlan;
@@ -43,6 +48,7 @@ class Plan extends Component {
                         selectable={false}
                         allowNew={true}
                         removable={true}
+                        onNodeAdded={this.addTask}
                     />
                 </Col>
                 <Col sm={8}>
