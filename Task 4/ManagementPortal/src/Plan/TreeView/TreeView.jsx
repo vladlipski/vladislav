@@ -51,8 +51,11 @@ class TreeView extends React.Component {
         if (!node.nodes) return;
 
         return node.nodes.map(childNode => {
+            if (childNode.id >  this.nodesQuantity) {
+                this.nodesQuantity = childNode.id;
+            }
             return {
-                nodeId: this.nodesQuantity++,
+                nodeId: childNode.id,
                 nodes: this.setNodeId(childNode),
                 parentNode: node,
                 state: {
@@ -169,7 +172,7 @@ class TreeView extends React.Component {
             title: title,
             state: {},
             parentNode: node,
-            nodeId: this.nodesQuantity++
+            nodeId: ++this.nodesQuantity
         };
 
         if (node) {
