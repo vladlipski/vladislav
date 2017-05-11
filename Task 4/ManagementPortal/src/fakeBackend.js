@@ -434,7 +434,7 @@ export const getTask = (authorId, taskId) =>
 
         const plan = Object.assign({}, fakeDatabase.plans.find((plan) => plan.id == task.plan));
 
-        if (isAdmin(authorId) || plan.author == authorId) {
+        if (isAdmin(authorId) || plan.author.id == authorId) {
             return {
                 status: 200,
                 task
@@ -445,4 +445,13 @@ export const getTask = (authorId, taskId) =>
             errorMessage: '403 Forbidden'
         });
     });
+
+export const updateTask = (updatedTask) =>
+    delay(500).then(() => {
+        fakeDatabase.tasks[updatedTask.id - 1] = updatedTask;
+        return {
+            status: 200
+        };
+    });
+
 

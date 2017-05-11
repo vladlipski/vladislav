@@ -1,5 +1,5 @@
 import React, {PropTypes, Component} from 'react'
-import TreeView from "./TreeView/TreeView";
+import TreeView from "./TreeView";
 import {Alert, Col, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";

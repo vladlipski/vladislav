@@ -295,7 +295,6 @@ export class TreeNode extends React.Component {
         const expanded = (nextProps.node.state.expanded) ?
             nextProps.node.state.expanded : (this.props.level < this.props.options.levels);
         this.setState({node: nextProps.node, expanded: expanded});
-        console.log(this.expanded);
         this.selected = (nextProps.node.state && nextProps.node.state.hasOwnProperty('selected')) ?
             nextProps.node.state.selected :
             false;

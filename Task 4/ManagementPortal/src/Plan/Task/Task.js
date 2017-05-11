@@ -4,30 +4,42 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import CrudForm from "../../Shared/Components/CrudForm/CrudForm";
 import TaskForm from "./TaskForm";
-import {getTask} from "./taskActions";
+import {getTask, requestTaskUpdate, resetUpdatedTask} from "./taskActions";
+import {browserHistory} from 'react-router';
 
 
 class Task extends Component {
+    constructor(props) {
+        super(props);
+        this.submitUpdatedTask = this.submitUpdatedTask.bind(this);
+    }
 
     componentWillMount() {
         const taskId = this.props.params.taskId;
         if (taskId) {
             this.props.getTask(this.props.currentUserId, taskId);
+            this.props.resetUpdatedTask();
         }
-        console.log(taskId);
     }
 
     componentWillReceiveProps(nextProps) {
+        const planId = nextProps.params.planId;
+        if (nextProps.updatedTask.get('success')) {
+            browserHistory.push('/plans/' + planId);
+        }
+
         const taskId = nextProps.params.taskId;
 
         if (taskId !== this.props.params.taskId) {
            this.props.getTask(this.props.currentUserId, taskId);
-            console.log('GET');
         }
     }
 
-    submitUpdatedTask() {
-        console.log('Update');
+    submitUpdatedTask(updatedTask) {
+        const task = this.props.selectedTask.get('task');
+        updatedTask.id = task.get('id');
+        //console.dir(updatedTask);
+        this.props.updateTask(updatedTask);
     }
 
     render() {
@@ -65,20 +77,23 @@ class Task extends Component {
 
 Task.propTypes = {
      selectedTask: PropTypes.object,
-    // updatedDepartment: PropTypes.object,
+     updatedTask: PropTypes.object,
     // deletedDepartment: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         currentUserId:  state.getIn(['auth', 'user', 'id']),
-        selectedTask:  state.getIn(['plansManager', 'selectedTask'])
+        selectedTask:  state.getIn(['plansManager', 'selectedTask']),
+        updatedTask:  state.getIn(['plansManager', 'updatedTask'])
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getTask: bindActionCreators(getTask, dispatch)
+        getTask: bindActionCreators(getTask, dispatch),
+        updateTask: bindActionCreators(requestTaskUpdate, dispatch),
+        resetUpdatedTask: bindActionCreators(resetUpdatedTask, dispatch),
     }
 }
 

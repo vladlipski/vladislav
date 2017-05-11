@@ -3,7 +3,6 @@ import {Input, Select, Textarea} from 'formsy-react-components';
 
 
 class TaskForm extends Component {
-
     render() {
         const typesOptions = [
             {value: 'coding', label: 'Coding'},
