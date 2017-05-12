@@ -1,6 +1,6 @@
 import {
-    FETCH_USERS, FETCH_USERS_FAILURE, FETCH_USERS_SUCCESS, RESET_USERS,
-    FETCH_USER,  FETCH_USER_FAILURE,  FETCH_USER_SUCCESS,  RESET_SELECTED_USER,
+    FETCH_USERS, FETCH_USERS_FAILURE, FETCH_USERS_SUCCESS,
+    FETCH_USER,  FETCH_USER_FAILURE,  FETCH_USER_SUCCESS,
     CREATE_USER, CREATE_USER_FAILURE, CREATE_USER_SUCCESS, RESET_NEW_USER,
     UPDATE_USER, UPDATE_USER_FAILURE, UPDATE_USER_SUCCESS, RESET_UPDATED_USER,
     DELETE_USER, DELETE_USER_FAILURE, DELETE_USER_SUCCESS, RESET_DELETED_USER
@@ -56,7 +56,8 @@ export default function(state = Immutable.fromJS({
         case FETCH_USER:
             return state.set('selectedUser', Immutable.fromJS({
                 isFetching: true,
-                user: null
+                user: null,
+                errorMessage: null
             }));
         case FETCH_USER_SUCCESS:
             return state.set('selectedUser', Immutable.fromJS({
@@ -69,12 +70,6 @@ export default function(state = Immutable.fromJS({
                 isFetching: false,
                 user: null,
                 errorMessage: action.payload
-            }));
-        case RESET_SELECTED_USER:
-            return state.set('selectedUser', Immutable.fromJS({
-                isFetching: false,
-                user: {},
-                errorMessage: null
             }));
         case CREATE_USER:
             return state.set('newUser', Immutable.fromJS({

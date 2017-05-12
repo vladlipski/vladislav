@@ -1,5 +1,5 @@
 import {
-    FETCH_DEPARTMENT,  FETCH_DEPARTMENT_FAILURE,  FETCH_DEPARTMENT_SUCCESS,  RESET_SELECTED_DEPARTMENT,
+    FETCH_DEPARTMENT,  FETCH_DEPARTMENT_FAILURE,  FETCH_DEPARTMENT_SUCCESS,
     FETCH_DEPARTMENTS, FETCH_DEPARTMENTS_FAILURE, FETCH_DEPARTMENTS_SUCCESS, RESET_DEPARTMENTS,
     CREATE_DEPARTMENT, CREATE_DEPARTMENT_FAILURE, CREATE_DEPARTMENT_SUCCESS, RESET_NEW_DEPARTMENT,
     UPDATE_DEPARTMENT, UPDATE_DEPARTMENT_FAILURE, UPDATE_DEPARTMENT_SUCCESS, RESET_UPDATED_DEPARTMENT,
@@ -57,7 +57,8 @@ export default function(state = Immutable.fromJS({
         case FETCH_DEPARTMENT:
             return state.set('selectedDepartment', Immutable.fromJS({
                 isFetching: true,
-                department: null
+                department: null,
+                errorMessage: null
             }));
         case FETCH_DEPARTMENT_SUCCESS:
             return  state.set('selectedDepartment', Immutable.fromJS({
@@ -70,12 +71,6 @@ export default function(state = Immutable.fromJS({
                 isFetching: false,
                 department: null,
                 errorMessage: action.payload
-            }));
-        case RESET_SELECTED_DEPARTMENT:
-            return  state.set('selectedDepartment', Immutable.fromJS({
-                isFetching: false,
-                department: {},
-                errorMessage: null
             }));
         case CREATE_DEPARTMENT:
             return state.set('newDepartment', Immutable.fromJS({

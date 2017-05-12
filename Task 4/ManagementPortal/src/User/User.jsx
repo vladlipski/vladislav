@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
 import {
-    getUser, requestUserDeletion, requestUserUpdate, resetSelectedUser, resetDeletedUser,
+    getUser, requestUserDeletion, requestUserUpdate, resetDeletedUser,
     resetUpdatedUser
 } from "./userActions";
 import {bindActionCreators} from "redux";
@@ -20,7 +20,6 @@ class User extends Component {
     }
 
     reset() {
-        this.props.resetSelectedUser();
         this.props.resetUpdatedUser();
         this.props.resetDeletedUser();
     }
@@ -116,7 +115,6 @@ function mapDispatchToProps(dispatch) {
         getUser: bindActionCreators(getUser, dispatch),
         updateUser: bindActionCreators(requestUserUpdate, dispatch),
         deleteUser: bindActionCreators(requestUserDeletion, dispatch),
-        resetSelectedUser: bindActionCreators(resetSelectedUser, dispatch),
         resetUpdatedUser: bindActionCreators(resetUpdatedUser, dispatch),
         resetDeletedUser: bindActionCreators(resetDeletedUser, dispatch),
     }

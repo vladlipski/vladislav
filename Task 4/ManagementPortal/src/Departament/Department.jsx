@@ -6,7 +6,7 @@ import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
 import {
     getDepartment, requestDepartmentDeletion, requestDepartmentUpdate, resetDeletedDepartment,
-    resetSelectedDepartment, resetUpdatedDepartment
+    resetUpdatedDepartment
 } from "./deprtmentActions";
 import DepartmentForm from "./DepartmentForm";
 import UsersTable from "../User/UsersList/UsersTable";
@@ -22,7 +22,6 @@ class Department extends Component {
     }
 
     reset() {
-        this.props.resetSelectedDepartment();
         this.props.resetUpdatedDepartment();
         this.props.resetDeletedDepartment();
     }
@@ -125,9 +124,8 @@ function mapDispatchToProps(dispatch) {
         getDepartment: bindActionCreators(getDepartment, dispatch),
         updateDepartment: bindActionCreators(requestDepartmentUpdate, dispatch),
         deleteDepartment: bindActionCreators(requestDepartmentDeletion, dispatch),
-        resetSelectedDepartment: bindActionCreators(resetSelectedDepartment, dispatch),
         resetUpdatedDepartment: bindActionCreators(resetUpdatedDepartment, dispatch),
-        resetDeletedDepartment: bindActionCreators(resetDeletedDepartment, dispatch),
+        resetDeletedDepartment: bindActionCreators(resetDeletedDepartment, dispatch)
     }
 }
 
