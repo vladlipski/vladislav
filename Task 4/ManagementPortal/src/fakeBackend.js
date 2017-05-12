@@ -80,7 +80,6 @@ const fakeDatabase = {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'new',
         type: 'coding'
     }, {
         id: 3,
@@ -94,7 +93,6 @@ const fakeDatabase = {
             'Morbi vehicula quam mauris, quis suscipit nisi pellentesque a. Nam porta ipsum et rhoncus vehicula. Morbi id posuere mi. In hac habitasse platea dictumst. ' +
             'Duis ut vehicula augue, sit amet blandit nisl. Morbi eget aliquam neque, porta pellentesque tortor. Morbi semper vehicula nibh, id posuere est malesuada scelerisque. ' +
             'Praesent bibendum volutpat metus, at pulvinar nisi.',
-        status: 'new',
         type: 'theory'
     }, {
         id: 4,
@@ -104,7 +102,6 @@ const fakeDatabase = {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'new',
         type: 'theory'
     }, {
         id: 5,
@@ -114,7 +111,6 @@ const fakeDatabase = {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'new',
         type: 'theory'
     }, {
         id: 6,
@@ -128,7 +124,6 @@ const fakeDatabase = {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'new',
         type: 'coding'
     }, {
         id: 8,
@@ -138,7 +133,6 @@ const fakeDatabase = {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'new',
         type: 'theory'
     }, {
         id: 9,
@@ -148,7 +142,6 @@ const fakeDatabase = {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'new',
         type: 'theory'
     }, {
         id: 10,
@@ -158,7 +151,6 @@ const fakeDatabase = {
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
             'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
             'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
-        status: 'new',
         type: 'theory'
     }],
     completePlans: [{
@@ -308,7 +300,7 @@ export const getUserById = (mentorId, userId) =>
 
 export const getAllPlans = () =>
     delay(500).then(() => {
-        var plans = Object.assign([], fakeDatabase.plans);
+        const plans = Object.assign([], fakeDatabase.plans);
         plans.map(plan => plan.author =  Object.assign({}, fakeDatabase.users.find(user => user.id == plan.author.id)));
         return {
             status: 200,
@@ -318,7 +310,7 @@ export const getAllPlans = () =>
 
 export const getPlansByAuthor = (authorId) =>
     delay(500).then(() => {
-        var plans = Object.assign([], fakeDatabase.plans.filter((plan) => plan.author.id == authorId));
+        const plans = Object.assign([], fakeDatabase.plans.filter((plan) => plan.author.id == authorId));
         plans.map(plan => plan.author = fakeDatabase.users.find(user => user.id == plan.author.id));
         return {
             status: 200,
@@ -453,5 +445,19 @@ export const updateTask = (updatedTask) =>
             status: 200
         };
     });
+
+export const createTask = (task) =>
+    delay(500).then(() => {
+        task.id = fakeDatabase.tasks.length + 1;
+        if (task.parent) {
+            task.href = '/plans/' + task.plan + '/tasks/' + task.id;
+        }
+        fakeDatabase.tasks.push(task);
+        return {
+            task: task,
+            status: 200
+        };
+    });
+
 
 

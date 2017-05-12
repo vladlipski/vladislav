@@ -38,6 +38,8 @@ class Task extends Component {
     submitUpdatedTask(updatedTask) {
         const task = this.props.selectedTask.get('task');
         updatedTask.id = task.get('id');
+        updatedTask.parent = task.get('parent');
+        updatedTask.plan = task.get('plan');
         this.props.updateTask(updatedTask);
     }
 
@@ -92,7 +94,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getTask: bindActionCreators(getTask, dispatch),
         updateTask: bindActionCreators(requestTaskUpdate, dispatch),
-        resetUpdatedTask: bindActionCreators(resetUpdatedTask, dispatch),
+        resetUpdatedTask: bindActionCreators(resetUpdatedTask, dispatch)
     }
 }
 

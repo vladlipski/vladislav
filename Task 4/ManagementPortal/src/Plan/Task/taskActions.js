@@ -7,11 +7,12 @@ export const FETCH_TASK_FAILURE = 'FETCH_TASK_FAILURE';
 export const CREATE_TASK = 'CREATE_TASK';
 export const CREATE_TASK_SUCCESS = 'CREATE_TASK_SUCCESS';
 export const CREATE_TASK_FAILURE = 'CREATE_TASK_FAILURE';
+export const RESET_UPDATED_TASK = 'RESET_UPDATED_TASK';
 
 export const UPDATE_TASK = 'UPDATE_TASK';
 export const UPDATE_TASK_SUCCESS = 'UPDATE_TASK_SUCCESS';
 export const UPDATE_TASK_FAILURE = 'UPDATE_TASK_FAILURE';
-export const RESET_UPDATED_TASK = 'RESET_UPDATED_TASK';
+export const RESET_NEW_TASK = 'RESET_NEW_TASK';
 
 export function fetchTask() {
     return {
@@ -50,9 +51,10 @@ export function createTask() {
     };
 }
 
-export function createTaskSuccess() {
+export function createTaskSuccess(task) {
     return {
-        type: CREATE_TASK_SUCCESS
+        type: CREATE_TASK_SUCCESS,
+        payload: task
     };
 }
 
@@ -63,11 +65,17 @@ export function createTaskFailure(message) {
     };
 }
 
+export function resetNewTask() {
+    return {
+        type: RESET_NEW_TASK
+    };
+}
+
 export function requestTaskCreation(task) {
     return (dispatch) => {
         dispatch(createTask());
         return fakeBackend.createTask(task).then(response => {
-            dispatch(createTaskSuccess());
+            dispatch(createTaskSuccess(response.task));
         }).catch(response => {
             dispatch(createTaskFailure(response.errorMessage));
         })

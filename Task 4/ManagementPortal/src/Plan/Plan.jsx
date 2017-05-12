@@ -4,11 +4,17 @@ import {Alert, Col, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getPlan} from "./planActions";
+import {requestTaskCreation, resetNewTask} from "./Task/taskActions";
 
 
 class Plan extends Component {
+    constructor(props) {
+        super(props);
+        this.addTask = this.addTask.bind(this);
+    }
 
     componentWillMount() {
+        this.props.resetNewTask();
         const planId = this.props.params.planId;
         if (planId) {
             this.props.getPlan(this.props.currentUserId, planId);
@@ -16,13 +22,18 @@ class Plan extends Component {
     }
 
     addTask(state, node) {
-        console.dir(state);
-        console.dir(node);
+        const newTask = {
+            title: node.title,
+            parent: node.parentNode ? node.parentNode.nodeId : null,
+            plan: this.props.params.planId
+        };
+        this.props.createTask(newTask);
     }
 
     render() {
 
         const selectedPlan = this.props.selectedPlan;
+        const newTask = this.props.newTask;
 
         if (selectedPlan.get('isFetching')) {
             return <h1>Loading...</h1>;
@@ -50,6 +61,11 @@ class Plan extends Component {
                         removable={true}
                         onNodeAdded={this.addTask}
                     />
+                    { newTask.get('errorMessage') &&
+                        <Alert bsStyle="danger">
+                            {newTask.get('errorMessage')}
+                        </Alert>
+                    }
                 </Col>
                 <Col sm={8}>
                     {this.props.children}
@@ -69,20 +85,23 @@ class Plan extends Component {
 
 Plan.propTypes = {
     selectedPlan: PropTypes.object,
-    // updatedDepartment: PropTypes.object,
+    newTask: PropTypes.object,
     // deletedDepartment: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         currentUserId:  state.getIn(['auth', 'user', 'id']),
-        selectedPlan:  state.getIn(['plansManager', 'selectedPlan'])
+        selectedPlan:  state.getIn(['plansManager', 'selectedPlan']),
+        newTask:  state.getIn(['plansManager', 'newTask'])
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getPlan: bindActionCreators(getPlan, dispatch)
+        getPlan: bindActionCreators(getPlan, dispatch),
+        createTask: bindActionCreators(requestTaskCreation, dispatch),
+        resetNewTask: bindActionCreators(resetNewTask, dispatch)
     }
 }
 

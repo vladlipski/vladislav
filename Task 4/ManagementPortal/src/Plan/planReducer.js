@@ -1,10 +1,11 @@
 import {
-    FETCH_PLAN, FETCH_PLAN_FAILURE, FETCH_PLAN_SUCCESS,
+    FETCH_PLAN,  FETCH_PLAN_FAILURE,  FETCH_PLAN_SUCCESS,
     FETCH_PLANS, FETCH_PLANS_FAILURE, FETCH_PLANS_SUCCESS
 } from "./planActions";
 import {
-    FETCH_TASK, FETCH_TASK_FAILURE, FETCH_TASK_SUCCESS, RESET_UPDATED_TASK, UPDATE_TASK, UPDATE_TASK_FAILURE,
-    UPDATE_TASK_SUCCESS
+    CREATE_TASK, CREATE_TASK_FAILURE, CREATE_TASK_SUCCESS,
+    FETCH_TASK,  FETCH_TASK_FAILURE,  FETCH_TASK_SUCCESS,  RESET_NEW_TASK,
+    UPDATE_TASK, UPDATE_TASK_FAILURE, UPDATE_TASK_SUCCESS, RESET_UPDATED_TASK
 } from "./Task/taskActions";
 import Immutable from 'immutable';
 
@@ -25,8 +26,19 @@ function searchNode(plan, nodeId) {
 
 function setNodeTitle(state, nodeId, title) {
     const plan = state.getIn(['selectedPlan', 'plan', 'plansData']).toJS();
-    var node = searchNode(plan, nodeId);
+    const node = searchNode(plan, nodeId);
     node.title = title;
+    return state.setIn(['selectedPlan', 'plan', 'plansData'], Immutable.fromJS(plan));
+}
+
+function addNode(state, parentNodeId, newNode) {
+    const plan = state.getIn(['selectedPlan', 'plan', 'plansData']).toJS();
+    if (parentNodeId) {
+        const node = searchNode(plan, parentNodeId);
+        node.nodes ? node.nodes.push(newNode) : node.nodes = [newNode];
+    } else {
+        plan.push(newNode);
+    }
     return state.setIn(['selectedPlan', 'plan', 'plansData'], Immutable.fromJS(plan));
 }
 
@@ -46,6 +58,12 @@ export default function(state = Immutable.fromJS({
                                 task: null,
                                 errorMessage: null
                             },
+                            newTask:{
+                                isFetching: false,
+                                success: false,
+                                errorMessage: null
+
+                            },
                             updatedTask:{
                                 isFetching: false,
                                 success: false,
@@ -53,6 +71,7 @@ export default function(state = Immutable.fromJS({
 
                             }
                         }), action) {
+    var newState;
     switch (action.type) {
         case FETCH_PLANS:
             return state.set('plansList', Immutable.fromJS({
@@ -108,6 +127,31 @@ export default function(state = Immutable.fromJS({
                 task: null,
                 errorMessage: action.payload
             }));
+        case CREATE_TASK:
+            return state.set('newTask', Immutable.fromJS({
+                isFetching: true,
+                success: false,
+                errorMessage: null
+            }));
+        case CREATE_TASK_SUCCESS:
+            newState = addNode(state, action.payload.parent, action.payload);
+            return newState.set('newTask', Immutable.fromJS({
+                isFetching: false,
+                success: true,
+                errorMessage: null
+            }));
+        case CREATE_TASK_FAILURE:
+            return state.set('newTask', Immutable.fromJS({
+                isFetching: false,
+                success: false,
+                errorMessage: action.payload,
+            }));
+        case RESET_NEW_TASK:
+            return state.set('newTask', Immutable.fromJS({
+                isFetching: false,
+                success: false,
+                errorMessage: null
+            }));
         case UPDATE_TASK:
             return state.set('updatedTask', Immutable.fromJS({
                 success: false,
@@ -115,7 +159,7 @@ export default function(state = Immutable.fromJS({
                 isFetching: true
             }));
         case UPDATE_TASK_SUCCESS:
-            const newState = setNodeTitle(state, action.payload.id, action.payload.title);
+            newState = setNodeTitle(state, action.payload.id, action.payload.title);
             return newState.set('updatedTask', Immutable.fromJS({
                 success: true,
                 errorMessage: null,
