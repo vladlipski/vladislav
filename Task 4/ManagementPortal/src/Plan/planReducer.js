@@ -5,7 +5,8 @@ import {
 import {
     CREATE_TASK, CREATE_TASK_FAILURE, CREATE_TASK_SUCCESS,
     FETCH_TASK,  FETCH_TASK_FAILURE,  FETCH_TASK_SUCCESS,  RESET_NEW_TASK,
-    UPDATE_TASK, UPDATE_TASK_FAILURE, UPDATE_TASK_SUCCESS, RESET_UPDATED_TASK
+    UPDATE_TASK, UPDATE_TASK_FAILURE, UPDATE_TASK_SUCCESS, RESET_UPDATED_TASK,
+    DELETE_TASK, DELETE_TASK_FAILURE, DELETE_TASK_SUCCESS, RESET_DELETED_TASK,
 } from "./Task/taskActions";
 import Immutable from 'immutable';
 
@@ -42,6 +43,20 @@ function addNode(state, parentNodeId, newNode) {
     return state.setIn(['selectedPlan', 'plan', 'plansData'], Immutable.fromJS(plan));
 }
 
+function deleteNode(state, nodeId) {
+    const plan = state.getIn(['selectedPlan', 'plan', 'plansData']).toJS();
+    var res = plan.filter(function f(task) {
+        if (task.id == nodeId) {
+            return false
+        }
+        if (task.nodes) {
+            task.nodes = task.nodes.filter(f);
+        }
+        return true;
+    });
+    return state.setIn(['selectedPlan', 'plan', 'plansData'], Immutable.fromJS(res));
+}
+
 export default function(state = Immutable.fromJS({
                             plansList: {
                                 isFetching: false,
@@ -68,7 +83,11 @@ export default function(state = Immutable.fromJS({
                                 isFetching: false,
                                 success: false,
                                 errorMessage: null
-
+                            },
+                            deletedTask:{
+                                isFetching: false,
+                                success: false,
+                                errorMessage: null
                             }
                         }), action) {
     var newState;
@@ -173,6 +192,31 @@ export default function(state = Immutable.fromJS({
             }));
         case RESET_UPDATED_TASK:
             return state.set('updatedTask', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
+            }));
+        case DELETE_TASK:
+            return state.set('deletedTask', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
+        case DELETE_TASK_SUCCESS:
+            newState = deleteNode(state, action.payload);
+            return newState.set('deletedTask', Immutable.fromJS({
+                success: true,
+                errorMessage: null,
+                isFetching: false
+            }));
+        case DELETE_TASK_FAILURE:
+            return state.set('deletedTask', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
+        case RESET_DELETED_TASK:
+            return state.set('deletedTask', Immutable.fromJS({
                 success: false,
                 errorMessage: null,
                 isFetching: false

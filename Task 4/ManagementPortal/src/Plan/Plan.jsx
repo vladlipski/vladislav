@@ -4,24 +4,30 @@ import {Alert, Col, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getPlan} from "./planActions";
-import {requestTaskCreation, resetNewTask} from "./Task/taskActions";
+import {requestTaskCreation, requestTaskDeletion, resetDeletedTask, resetNewTask} from "./Task/taskActions";
 
 
 class Plan extends Component {
     constructor(props) {
         super(props);
         this.addTask = this.addTask.bind(this);
+        this.reset = this.reset.bind(this);
+    }
+
+    reset() {
+        this.props.resetNewTask();
+        this.props.resetDeletedTask();
     }
 
     componentWillMount() {
-        this.props.resetNewTask();
+        this.reset();
         const planId = this.props.params.planId;
         if (planId) {
             this.props.getPlan(this.props.currentUserId, planId);
         }
     }
 
-    addTask(state, node) {
+    addTask(node) {
         const newTask = {
             title: node.title,
             parent: node.parentNode ? node.parentNode.nodeId : null,
@@ -31,9 +37,8 @@ class Plan extends Component {
     }
 
     render() {
-
-        const selectedPlan = this.props.selectedPlan;
-        const newTask = this.props.newTask;
+        const {selectedPlan, newTask, deletedTask} = this.props;
+        const errorMessage = newTask.get('errorMessage') || deletedTask.get('errorMessage');
 
         if (selectedPlan.get('isFetching')) {
             return <h1>Loading...</h1>;
@@ -60,10 +65,11 @@ class Plan extends Component {
                         allowNew={true}
                         removable={true}
                         onNodeAdded={this.addTask}
+                        onNodeRemoved={this.props.deleteTask}
                     />
-                    { newTask.get('errorMessage') &&
+                    {errorMessage &&
                         <Alert bsStyle="danger">
-                            {newTask.get('errorMessage')}
+                            {errorMessage}
                         </Alert>
                     }
                 </Col>
@@ -86,14 +92,15 @@ class Plan extends Component {
 Plan.propTypes = {
     selectedPlan: PropTypes.object,
     newTask: PropTypes.object,
-    // deletedDepartment: PropTypes.object
+    deletedTask: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         currentUserId:  state.getIn(['auth', 'user', 'id']),
         selectedPlan:  state.getIn(['plansManager', 'selectedPlan']),
-        newTask:  state.getIn(['plansManager', 'newTask'])
+        newTask:  state.getIn(['plansManager', 'newTask']),
+        deletedTask:  state.getIn(['plansManager', 'deletedTask'])
     }
 }
 
@@ -101,7 +108,9 @@ function mapDispatchToProps(dispatch) {
     return {
         getPlan: bindActionCreators(getPlan, dispatch),
         createTask: bindActionCreators(requestTaskCreation, dispatch),
-        resetNewTask: bindActionCreators(resetNewTask, dispatch)
+        resetNewTask: bindActionCreators(resetNewTask, dispatch),
+        deleteTask: bindActionCreators(requestTaskDeletion, dispatch),
+        resetDeletedTask: bindActionCreators(resetDeletedTask, dispatch),
     }
 }
 

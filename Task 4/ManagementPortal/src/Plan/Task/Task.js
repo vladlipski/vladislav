@@ -79,7 +79,6 @@ class Task extends Component {
 Task.propTypes = {
      selectedTask: PropTypes.object,
      updatedTask: PropTypes.object,
-    // deletedDepartment: PropTypes.object
 };
 
 function mapStateToProps(state) {

@@ -459,5 +459,12 @@ export const createTask = (task) =>
         };
     });
 
+export const deleteTask = (id) =>
+    delay(500).then(() => {
+        fakeDatabase.tasks = fakeDatabase.tasks.filter(task => task.id != id);
+        return {
+            status: 200
+        };
+    });
 
 

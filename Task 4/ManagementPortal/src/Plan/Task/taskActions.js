@@ -14,6 +14,11 @@ export const UPDATE_TASK_SUCCESS = 'UPDATE_TASK_SUCCESS';
 export const UPDATE_TASK_FAILURE = 'UPDATE_TASK_FAILURE';
 export const RESET_NEW_TASK = 'RESET_NEW_TASK';
 
+export const DELETE_TASK = 'DELETE_TASK';
+export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
+export const DELETE_TASK_FAILURE = 'DELETE_TASK_FAILURE';
+export const RESET_DELETED_TASK = 'RESET_DELETED_TASK';
+
 export function fetchTask() {
     return {
         type: FETCH_TASK
@@ -117,4 +122,41 @@ export function resetUpdatedTask() {
     return {
         type: RESET_UPDATED_TASK
     };
+}
+
+export function deleteTask() {
+    return {
+        type: DELETE_TASK
+    };
+}
+
+export function deleteTaskSuccess(taskId) {
+    return {
+        type: DELETE_TASK_SUCCESS,
+        payload: taskId
+    };
+}
+
+export function deleteTaskFailure(message) {
+    return {
+        type: DELETE_TASK_FAILURE,
+        payload: message
+    };
+}
+
+export function resetDeletedTask() {
+    return {
+        type: RESET_DELETED_TASK
+    };
+}
+
+export function requestTaskDeletion (id) {
+    return (dispatch) => {
+        dispatch(deleteTask());
+        return fakeBackend.deleteTask(id).then(response => {
+            dispatch(deleteTaskSuccess(id));
+        }).catch(response => {
+            dispatch(deleteTaskFailure(response.errorMessage));
+        })
+    }
 }

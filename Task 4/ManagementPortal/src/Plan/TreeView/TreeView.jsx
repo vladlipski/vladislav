@@ -188,16 +188,14 @@ class TreeView extends React.Component {
         }
 
         if (this.props.onNodeAdded)
-            this.props.onNodeAdded(this.state, newNode);
+            this.props.onNodeAdded(newNode);
     }
 
     removeNode(nodeId) {
         let newData = this.deleteById(_.clone(this.state.data), nodeId);
-        if(newData.length === 0)
-            return false;
         this.setState({data: newData});
         if (this.props.onNodeRemoved)
-            this.props.onNodeRemoved(newData);
+            this.props.onNodeRemoved(nodeId);
     }
 
     render() {
