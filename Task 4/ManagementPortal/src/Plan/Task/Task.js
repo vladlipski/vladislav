@@ -1,11 +1,12 @@
 import React, {PropTypes, Component} from 'react'
-import {Alert, Col, Row} from "react-bootstrap";
+import {Alert, Col, PageHeader, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import CrudForm from "../../Shared/Components/CrudForm/CrudForm";
 import TaskForm from "./TaskForm";
 import {getTask, requestTaskUpdate, resetUpdatedTask} from "./taskActions";
 import {browserHistory} from 'react-router';
+import './task.css'
 
 
 class Task extends Component {
@@ -61,6 +62,7 @@ class Task extends Component {
         return (
             <Row>
                 <Col smOffset={1} sm={10}>
+                    <h2 className="task_header">Task: {selectedTask.getIn(['task', 'title'])}</h2>
                     <CrudForm
                         hideDeleteButton={true}
                         onSubmit={this.submitUpdatedTask}
@@ -71,7 +73,6 @@ class Task extends Component {
                     </CrudForm>
                 </Col>
             </Row>
-
         );
     }
 }

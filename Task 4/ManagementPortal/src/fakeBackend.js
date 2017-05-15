@@ -155,6 +155,7 @@ const fakeDatabase = {
     }],
     completePlans: [{
         id: 1,
+        title: 'Plan1',
         author: 4,
         plansData: [
             {
@@ -324,7 +325,7 @@ export const getPlan = (authorId, planId) =>
         const plan = Object.assign({}, fakeDatabase.completePlans.find((plan) => plan.id == planId));
         if (!plan.id) {
             return Promise.reject({
-                errorMessage: "Plan doesn't exist"
+                errorMessage: "PlanManager doesn't exist"
             });
         }
 

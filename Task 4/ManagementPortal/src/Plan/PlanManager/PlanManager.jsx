@@ -1,13 +1,14 @@
 import React, {PropTypes, Component} from 'react'
-import TreeView from "./TreeView";
-import {Alert, Col, Row} from "react-bootstrap";
+import TreeView from "../TreeView/index";
+import {Alert, Col, PageHeader, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {getPlan} from "./planActions";
-import {requestTaskCreation, requestTaskDeletion, resetDeletedTask, resetNewTask} from "./Task/taskActions";
+import {getPlan} from "../planActions";
+import {requestTaskCreation, requestTaskDeletion, resetDeletedTask, resetNewTask} from "../Task/taskActions";
+import {Link} from "react-router";
 
 
-class Plan extends Component {
+class PlanManager extends Component {
     constructor(props) {
         super(props);
         this.addTask = this.addTask.bind(this);
@@ -54,6 +55,11 @@ class Plan extends Component {
 
         return (
             <Row>
+                <PageHeader>
+                    <Link to={'/plans/' + selectedPlan.getIn(['plan', 'id'])}>
+                        Plan: {selectedPlan.getIn(['plan', 'title'])}
+                    </Link>
+                </PageHeader>
                 <Col sm={4}>
                     <TreeView
                         levels={5}
@@ -81,7 +87,7 @@ class Plan extends Component {
     }
 }
 
-Plan.propTypes = {
+PlanManager.propTypes = {
     selectedPlan: PropTypes.object,
     newTask: PropTypes.object,
     deletedTask: PropTypes.object
@@ -106,4 +112,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Plan)
+export default connect(mapStateToProps, mapDispatchToProps)(PlanManager)

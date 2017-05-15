@@ -1,6 +1,10 @@
 import {
-    FETCH_PLAN,  FETCH_PLAN_FAILURE,  FETCH_PLAN_SUCCESS,
-    FETCH_PLANS, FETCH_PLANS_FAILURE, FETCH_PLANS_SUCCESS
+    CREATE_PLAN, CREATE_PLAN_FAILURE, CREATE_PLAN_SUCCESS, DELETE_PLAN, DELETE_PLAN_FAILURE, DELETE_PLAN_SUCCESS,
+    FETCH_PLAN, FETCH_PLAN_FAILURE, FETCH_PLAN_SUCCESS,
+    FETCH_PLANS, FETCH_PLANS_FAILURE, FETCH_PLANS_SUCCESS, RESET_DELETED_PLAN, RESET_NEW_PLAN, RESET_UPDATED_PLAN,
+    UPDATE_PLAN,
+    UPDATE_PLAN_FAILURE,
+    UPDATE_PLAN_SUCCESS
 } from "./planActions";
 import {
     CREATE_TASK, CREATE_TASK_FAILURE, CREATE_TASK_SUCCESS,
@@ -68,6 +72,21 @@ export default function(state = Immutable.fromJS({
                                 plan: null,
                                 errorMessage: null
                             },
+                            newPlan:{
+                                success: false,
+                                errorMessage: null,
+                                isFetching: false
+                            },
+                            updatedPlan:{
+                                success: false,
+                                errorMessage: null,
+                                isFetching: false
+                            },
+                            deletedPlan:{
+                                success: false,
+                                errorMessage: null,
+                                isFetching: false
+                            },
                             selectedTask:{
                                 isFetching: false,
                                 task: null,
@@ -127,6 +146,78 @@ export default function(state = Immutable.fromJS({
                 isFetching: false,
                 plan: null,
                 errorMessage: action.payload
+            }));
+        case CREATE_PLAN:
+            return state.set('newPlan', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
+        case CREATE_PLAN_SUCCESS:
+            return state.set('newPlan', Immutable.fromJS({
+                success: true,
+                errorMessage: null,
+                isFetching: false
+            }));
+        case CREATE_PLAN_FAILURE:
+            return state.set('newPlan', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
+        case RESET_NEW_PLAN:
+            return state.set('newPlan', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
+            }));
+        case UPDATE_PLAN:
+            return state.set('updatedPlan', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
+        case UPDATE_PLAN_SUCCESS:
+            return state.set('updatedPlan', Immutable.fromJS({
+                success: true,
+                errorMessage: null,
+                isFetching: false
+            }));
+        case UPDATE_PLAN_FAILURE:
+            return state.set('updatedPlan', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
+        case RESET_UPDATED_PLAN:
+            return state.set('updatedPlan', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
+            }));
+        case DELETE_PLAN:
+            return state.set('deletedPlan', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: true
+            }));
+        case DELETE_PLAN_SUCCESS:
+            return state.set('deletedPlan', Immutable.fromJS({
+                success: true,
+                errorMessage: null,
+                isFetching: false
+            }));
+        case DELETE_PLAN_FAILURE:
+            return state.set('deletedPlan', Immutable.fromJS({
+                success: false,
+                errorMessage: action.payload,
+                isFetching: false
+            }));
+        case RESET_DELETED_PLAN:
+            return state.set('deletedPlan', Immutable.fromJS({
+                success: false,
+                errorMessage: null,
+                isFetching: false
             }));
         case FETCH_TASK:
             return state.set('selectedTask', Immutable.fromJS({

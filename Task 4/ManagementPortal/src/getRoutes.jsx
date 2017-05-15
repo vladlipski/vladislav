@@ -12,8 +12,9 @@ import {Role} from "./Auth/roles";
 import Department from "./Departament";
 import DepartmentNew from "./Departament/DepartmentNew";
 import PlansList from "./Plan/PlansList";
-import Plan from "./Plan";
 import Task from "./Plan/Task";
+import PlanManager from "./Plan/PlanManager";
+import Plan from "./Plan";
 
 
 
@@ -52,7 +53,8 @@ export default (store) => {
                 <Route authorize={[Role.ADMIN]} component={DepartmentsList} path='/departments' onEnter={checkRole}/>
                 <Route authorize={[Role.ADMIN]} component={DepartmentNew} path='/departments/new' onEnter={checkRole}/>
                 <Route authorize={[Role.ADMIN]} component={Department} path='/departments/:id' onEnter={checkRole}/>
-                <Route authorize={[Role.ADMIN, Role.MENTOR]} component={Plan} path='/plans/:planId' onEnter={checkRole}>
+                <Route authorize={[Role.ADMIN, Role.MENTOR]} component={PlanManager} path='/plans/:planId' onEnter={checkRole}>
+                    <IndexRoute component={Plan}/>
                     <Route component={Task} path='tasks/:taskId' />
                 </Route>
                 <Route authorize={[Role.ADMIN, Role.MENTOR]} component={PlansList} path='/plans' onEnter={checkRole}/>
