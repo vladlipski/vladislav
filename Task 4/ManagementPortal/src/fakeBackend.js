@@ -483,4 +483,13 @@ export const updatePlan = (updatedPlan) =>
         };
     });
 
+export const deletePlan = (id) =>
+    delay(500).then(() => {
+        fakeDatabase.plans = fakeDatabase.plans.filter(plan => plan.id != id);
+        fakeDatabase.completePlans = fakeDatabase.completePlans.filter(plan => plan.id != id);
+        return {
+            status: 200
+        };
+    });
+
 

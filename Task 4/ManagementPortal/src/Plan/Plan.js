@@ -4,14 +4,26 @@ import {Col, Row} from "react-bootstrap";
 import CrudForm from "../Shared/Components/CrudForm";
 import PlanForm from "./PlanForm";
 import {bindActionCreators} from "redux";
-import {requestPlanUpdate} from "./planActions";
-
+import {requestPlanDeletion, requestPlanUpdate, resetUpdatedPlan} from "./planActions";
+import {browserHistory} from 'react-router';
 
 class Plan extends Component {
     constructor(props) {
         super(props);
         this.updatePlan = this.updatePlan.bind(this);
-        this.deletePlan = this.deletePlan.bind(this);
+        this.deletePlanClick = this.deletePlanClick.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.resetUpdatedPlan();
+        this.props.resetDeletedPlan();
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.updatedPlan.get('success') || nextProps.deletedPlan.get('success')) {
+            browserHistory.push('/plans');
+        }
     }
 
     updatePlan(plan) {
@@ -20,8 +32,9 @@ class Plan extends Component {
         this.props.updatePlan(plan);
     }
 
-    deletePlan() {
-        console.dir(this.props.params.planId);
+    deletePlanClick() {
+        const selectedPlan = this.props.selectedPlan;
+        this.props.deletePlan(selectedPlan.getIn(['plan', 'id']));
     }
 
     render() {
@@ -32,7 +45,7 @@ class Plan extends Component {
                     <CrudForm
                         hideDeleteButton={false}
                         onSubmit={this.updatePlan}
-                        onDeleteClick={this.deletePlan}
+                        onDeleteClick={this.deletePlanClick}
                         popupHeader={'Delete plan'}
                         popupBody={'Would you like to delete ' + selectedPlan.getIn(['plan', 'title']) + ' plan?'}
                     >
@@ -52,13 +65,18 @@ Plan.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        selectedPlan:  state.getIn(['plansManager', 'selectedPlan'])
+        selectedPlan:  state.getIn(['plansManager', 'selectedPlan']),
+        updatedPlan:  state.getIn(['plansManager', 'updatedPlan']),
+        deletedPlan:  state.getIn(['plansManager', 'deletedPlan'])
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        updatePlan: bindActionCreators(requestPlanUpdate, dispatch)
+        updatePlan: bindActionCreators(requestPlanUpdate, dispatch),
+        deletePlan: bindActionCreators(requestPlanDeletion, dispatch),
+        resetUpdatedPlan: bindActionCreators(resetUpdatedPlan, dispatch),
+        resetDeletedPlan: bindActionCreators(resetUpdatedPlan, dispatch)
     }
 }
 
