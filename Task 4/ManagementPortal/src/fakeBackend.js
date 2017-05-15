@@ -468,4 +468,19 @@ export const deleteTask = (id) =>
         };
     });
 
+export const updatePlan = (updatedPlan) =>
+    delay(500).then(() => {
+        const completePlan = Object.assign({}, fakeDatabase.completePlans[updatedPlan.id - 1], updatedPlan);
+        fakeDatabase.completePlans[updatedPlan.id - 1] = completePlan;
+        if (updatedPlan.author) {
+            updatedPlan.author = {id: updatedPlan.author};
+        }
+
+        const plan = Object.assign({}, fakeDatabase.plans[updatedPlan.id - 1], updatedPlan);
+        fakeDatabase.plans[updatedPlan.id - 1] = plan;
+        return {
+            status: 200
+        };
+    });
+
 

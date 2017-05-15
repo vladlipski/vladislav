@@ -61,7 +61,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAllUsers: bindActionCreators(getAllUsers, dispatch)
+        getAllUsers: bindActionCreators(getAllUsers, dispatch),
+
     }
 }
 

@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {Col, Row} from "react-bootstrap";
 import CrudForm from "../Shared/Components/CrudForm";
 import PlanForm from "./PlanForm";
+import {bindActionCreators} from "redux";
+import {requestPlanUpdate} from "./planActions";
 
 
 class Plan extends Component {
@@ -15,8 +17,7 @@ class Plan extends Component {
     updatePlan(plan) {
         const selectedPlan = this.props.selectedPlan;
         plan.id = selectedPlan.getIn(['plan', 'id']);
-        //plan.plansData = selectedPlan.getIn(['plan', 'plansData']).toJS();
-        console.dir(plan);
+        this.props.updatePlan(plan);
     }
 
     deletePlan() {
@@ -57,7 +58,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-
+        updatePlan: bindActionCreators(requestPlanUpdate, dispatch)
     }
 }
 
