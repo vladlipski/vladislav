@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {Link} from "react-router";
 
 import "./tree-view.css";
+import ConfirmationPopup from "../../Shared/Components/ConfirmationPopup/ConfirmationPopup";
 
 
 let treeviewSpanStyle = {
@@ -301,17 +302,26 @@ export class TreeNode extends React.Component {
         super(props);
         const expanded = (props.node.state.expanded) ?
             props.node.state.expanded : (this.props.level < this.props.options.levels);
-        this.state = {node: props.node, expanded: expanded};
-
+        this.state = {
+            node: props.node,
+            expanded: expanded,
+            showModal: false,
+            onDeleteClick: () => {}
+        };
         this.selected = (props.node.state && props.node.state.hasOwnProperty('selected')) ?
             props.node.state.selected :
             false;
+        this.closeModal = this.closeModal.bind(this);
         this.toggleExpanded = this.toggleExpanded.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
         this.doubleClicked = this.doubleClicked.bind(this);
         this.newNodeForm = this.newNodeForm.bind(this);
         this.addNode = this.addNode.bind(this);
         this.removeNode = this.removeNode.bind(this);
+    }
+
+    closeModal() {
+        this.setState({showModal: false});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -357,7 +367,10 @@ export class TreeNode extends React.Component {
     }
 
     removeNode(event) {
-        this.props.removeNode(this.state.node.nodeId);
+        this.setState({
+            showModal: true,
+            onDeleteClick: () => {this.props.removeNode(this.state.node.nodeId);}
+        });
         event.stopPropagation();
     }
 
@@ -515,6 +528,13 @@ export class TreeNode extends React.Component {
         return (
             <ul className="tree-view">
                 {treeNode}
+                <ConfirmationPopup
+                    header={'Delete task'}
+                    body={'Would you like to delete this task ?'}
+                    showModal={this.state.showModal}
+                    confirmClickHandler={this.state.onDeleteClick}
+                    closeClickHandler={this.closeModal}
+                />
             </ul>
         );
     }
