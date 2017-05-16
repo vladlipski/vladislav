@@ -210,6 +210,95 @@ const fakeDatabase = {
                 ]
             }
         ]
+    }, {
+        id: 2,
+        title: 'Plan2',
+        author: 4,
+        plansData: [
+            {
+                id: 1,
+                title: 'HTML + CSS',
+                nodes: [
+                    {
+                        id: 2,
+                        title: 'Task HTML + CSS',
+                        href: '/plans/1/tasks/2'
+                    },
+                    {
+                        id: 3,
+                        title: 'CSS',
+                        href: '/plans/1/tasks/3'
+                    },
+                    {
+                        id: 4,
+                        title: 'Software Development basics',
+                        href: '/plans/1/tasks/4'
+                    },
+                    {
+                        id: 5,
+                        title: 'Web development basics',
+                        href: '/plans/1/tasks/5'
+                    }
+                ]
+            }, {
+                id: 6,
+                title: 'Javascript',
+                nodes: [
+                    {
+                        id: 7,
+                        title: 'Task Functional Javascript',
+                        href: '/plans/1/tasks/7'
+                    },
+                    {
+                        id: 8,
+                        title: 'Javascript',
+                        href: '/plans/1/tasks/8'
+                    },
+                    {
+                        id: 9,
+                        title: 'Unit testing',
+                        href: '/plans/1/tasks/9'
+                    },
+                    {
+                        id: 10,
+                        title: 'FP',
+                        href: '/plans/1/tasks/10'
+                    }
+                ]
+            }
+        ]
+    }, {
+        id: 3,
+        title: 'Plan3',
+        author: 5,
+        plansData: [
+            {
+                id: 1,
+                title: 'HTML + CSS',
+                nodes: [
+                    {
+                        id: 2,
+                        title: 'Task HTML + CSS',
+                        href: '/plans/1/tasks/2'
+                    },
+                    {
+                        id: 3,
+                        title: 'CSS',
+                        href: '/plans/1/tasks/3'
+                    },
+                    {
+                        id: 4,
+                        title: 'Software Development basics',
+                        href: '/plans/1/tasks/4'
+                    },
+                    {
+                        id: 5,
+                        title: 'Web development basics',
+                        href: '/plans/1/tasks/5'
+                    }
+                ]
+            }
+        ]
     }]
 };
 
@@ -328,7 +417,6 @@ export const getPlan = (authorId, planId) =>
                 errorMessage: "PlanManager doesn't exist"
             });
         }
-
         if (isAdmin(authorId) || plan.author == authorId) {
             return {
                 status: 200,
@@ -468,6 +556,20 @@ export const deleteTask = (id) =>
         };
     });
 
+export const createPlan = (plan) =>
+    delay(500).then(() => {
+        plan.id = fakeDatabase.plans.length + 1;
+        const completePlan = Object.assign({}, plan, {plansData: []});
+        fakeDatabase.completePlans.push(completePlan);
+
+        const newPlan = Object.assign({}, plan, {author: {id: plan.author}});
+        fakeDatabase.plans.push(newPlan);
+        return {
+            plan: completePlan,
+            status: 200
+        };
+    });
+
 export const updatePlan = (updatedPlan) =>
     delay(500).then(() => {
         const completePlan = Object.assign({}, fakeDatabase.completePlans[updatedPlan.id - 1], updatedPlan);
@@ -475,7 +577,6 @@ export const updatePlan = (updatedPlan) =>
         if (updatedPlan.author) {
             updatedPlan.author = {id: updatedPlan.author};
         }
-
         const plan = Object.assign({}, fakeDatabase.plans[updatedPlan.id - 1], updatedPlan);
         fakeDatabase.plans[updatedPlan.id - 1] = plan;
         return {

@@ -1,10 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from "react-redux";
-import {Col, Row} from "react-bootstrap";
+import {Alert, Col, Row} from "react-bootstrap";
 import CrudForm from "../Shared/Components/CrudForm";
 import PlanForm from "./PlanForm";
 import {bindActionCreators} from "redux";
-import {requestPlanDeletion, requestPlanUpdate, resetUpdatedPlan} from "./planActions";
+import {requestPlanDeletion, requestPlanUpdate, resetDeletedPlan, resetUpdatedPlan} from "./planActions";
 import {browserHistory} from 'react-router';
 
 class Plan extends Component {
@@ -39,6 +39,21 @@ class Plan extends Component {
 
     render() {
         const {selectedPlan} = this.props;
+
+        const errorMessage = this.props.updatedPlan.get('errorMessage') || this.props.deletedPlan.get('errorMessage');
+
+        if (selectedPlan.get('isFetching')) {
+            return <h1>Loading...</h1>;
+        } else if(selectedPlan.get('errorMessage')) {
+            return (
+                <Alert bsStyle="danger">
+                    {selectedPlan.get('errorMessage')}
+                </Alert>
+            )
+        } else if(!selectedPlan.get('plan')) {
+            return <span />
+        }
+        
         return (
             <Row>
                 <Col smOffset={2} sm={8}>
@@ -60,7 +75,9 @@ class Plan extends Component {
 }
 
 Plan.propTypes = {
-    selectedPlan: PropTypes.object
+    selectedPlan: PropTypes.object,
+    updatedPlan: PropTypes.object,
+    deletedPlan: PropTypes.object
 };
 
 function mapStateToProps(state) {
@@ -76,7 +93,7 @@ function mapDispatchToProps(dispatch) {
         updatePlan: bindActionCreators(requestPlanUpdate, dispatch),
         deletePlan: bindActionCreators(requestPlanDeletion, dispatch),
         resetUpdatedPlan: bindActionCreators(resetUpdatedPlan, dispatch),
-        resetDeletedPlan: bindActionCreators(resetUpdatedPlan, dispatch)
+        resetDeletedPlan: bindActionCreators(resetDeletedPlan, dispatch)
     }
 }
 

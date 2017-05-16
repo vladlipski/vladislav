@@ -227,7 +227,6 @@ class TreeView extends React.Component {
                     level: 1,
                     visible: true,
                     onSelectedStatusChanged: _this.nodeSelected,
-                    onNodeDoubleClicked: _this.nodeDoubleClicked,
                     addNode: _this.addNode,
                     removeNode: _this.removeNode,
                     options: _this.props,
@@ -314,7 +313,6 @@ export class TreeNode extends React.Component {
         this.closeModal = this.closeModal.bind(this);
         this.toggleExpanded = this.toggleExpanded.bind(this);
         this.toggleSelected = this.toggleSelected.bind(this);
-        this.doubleClicked = this.doubleClicked.bind(this);
         this.newNodeForm = this.newNodeForm.bind(this);
         this.addNode = this.addNode.bind(this);
         this.removeNode = this.removeNode.bind(this);
@@ -341,12 +339,6 @@ export class TreeNode extends React.Component {
     toggleSelected(event) {
         let selected = !this.props.node.state.selected;
         this.props.onSelectedStatusChanged(this.state.node.nodeId, selected);
-        event.stopPropagation();
-    }
-
-    doubleClicked(event) {
-        let selected = !this.props.node.state.selected;
-        this.props.onNodeDoubleClicked(this.state.node.nodeId, selected);
         event.stopPropagation();
     }
 
@@ -476,7 +468,6 @@ export class TreeNode extends React.Component {
                     level: _this.props.level + 1,
                     visible: _this.state.expanded && _this.props.visible,
                     onSelectedStatusChanged: _this.props.onSelectedStatusChanged,
-                    onNodeDoubleClicked: _this.props.onNodeDoubleClicked,
                     addNode: _this.props.addNode,
                     removeNode: _this.props.removeNode,
                     options: options,
@@ -511,7 +502,6 @@ export class TreeNode extends React.Component {
         let treeNode = (
             <li className="list-group-item tree-view__node"
                 style={style}
-                onDoubleClick={this.doubleClicked}
                 key={node.nodeId}>
                 {indents}
                 {expandCollapseIcon}

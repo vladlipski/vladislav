@@ -156,6 +156,7 @@ export default function(state = Immutable.fromJS({
         case CREATE_PLAN_SUCCESS:
             return state.set('newPlan', Immutable.fromJS({
                 success: true,
+                plan: action.payload,
                 errorMessage: null,
                 isFetching: false
             }));

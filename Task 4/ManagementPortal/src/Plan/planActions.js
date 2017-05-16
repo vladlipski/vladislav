@@ -101,9 +101,10 @@ export function createPlan() {
     };
 }
 
-export function createPlanSuccess() {
+export function createPlanSuccess(plan) {
     return {
-        type: CREATE_PLAN_SUCCESS
+        type: CREATE_PLAN_SUCCESS,
+        payload: plan
     };
 }
 
@@ -124,7 +125,7 @@ export function requestPlanCreation(plan) {
     return (dispatch) => {
         dispatch(createPlan());
         return fakeBackend.createPlan(plan).then(response => {
-            dispatch(createPlanSuccess());
+            dispatch(createPlanSuccess(response.plan));
         }).catch(response => {
             dispatch(createPlanFailure(response.errorMessage));
         })
