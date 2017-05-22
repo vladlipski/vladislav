@@ -45,13 +45,11 @@ export default function(state = Immutable.fromJS({
         case FETCH_DEPARTMENTS_SUCCESS:
             return state.set('departmentsList', Immutable.fromJS({
                 isFetching: false,
-                departments: action.payload,
-                errorMessage: null
+                departments: action.payload
             }));
         case FETCH_DEPARTMENTS_FAILURE:
             return state.set('departmentsList', Immutable.fromJS({
                 isFetching: false,
-                departments: [],
                 errorMessage: action.payload
             }));
         case FETCH_DEPARTMENT:
@@ -63,30 +61,24 @@ export default function(state = Immutable.fromJS({
         case FETCH_DEPARTMENT_SUCCESS:
             return  state.set('selectedDepartment', Immutable.fromJS({
                 isFetching: false,
-                department: action.payload,
-                errorMessage: null
+                department: action.payload
             }));
         case FETCH_DEPARTMENT_FAILURE:
             return state.set('selectedDepartment', Immutable.fromJS({
                 isFetching: false,
-                department: null,
                 errorMessage: action.payload
             }));
         case CREATE_DEPARTMENT:
             return state.set('newDepartment', Immutable.fromJS({
-                success: false,
-                errorMessage: null,
                 isFetching: true
             }));
         case CREATE_DEPARTMENT_SUCCESS:
             return state.set('newDepartment', Immutable.fromJS({
                 success: true,
-                errorMessage: null,
                 isFetching: false
             }));
         case CREATE_DEPARTMENT_FAILURE:
             return state.set('newDepartment', Immutable.fromJS({
-                success: false,
                 errorMessage: action.payload,
                 isFetching: false
             }));
@@ -98,19 +90,15 @@ export default function(state = Immutable.fromJS({
             }));
         case UPDATE_DEPARTMENT:
             return state.set('updatedDepartment', Immutable.fromJS({
-                success: false,
-                errorMessage: null,
                 isFetching: true
             }));
         case UPDATE_DEPARTMENT_SUCCESS:
             return state.set('updatedDepartment', Immutable.fromJS({
                 success: true,
-                errorMessage: null,
                 isFetching: false
             }));
         case UPDATE_DEPARTMENT_FAILURE:
             return state.set('updatedDepartment', Immutable.fromJS({
-                success: false,
                 errorMessage: action.payload,
                 isFetching: false
             }));
@@ -122,19 +110,15 @@ export default function(state = Immutable.fromJS({
             }));
         case DELETE_DEPARTMENT:
             return state.set('deletedDepartment', Immutable.fromJS({
-                success: false,
-                errorMessage: null,
                 isFetching: true
             }));
         case DELETE_DEPARTMENT_SUCCESS:
             return state.set('deletedDepartment', Immutable.fromJS({
                 success: true,
-                errorMessage: null,
                 isFetching: false
             }));
         case DELETE_DEPARTMENT_FAILURE:
             return state.set('deletedDepartment', Immutable.fromJS({
-                success: false,
                 errorMessage: action.payload,
                 isFetching: false
             }));

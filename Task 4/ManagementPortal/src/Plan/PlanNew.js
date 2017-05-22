@@ -19,7 +19,7 @@ class Plan extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.newPlan.get('success')) {
+        if (nextProps.newPlan.get('plan')) {
             browserHistory.push('/plans/' + nextProps.newPlan.getIn(['plan', 'id']));
         }
     }
