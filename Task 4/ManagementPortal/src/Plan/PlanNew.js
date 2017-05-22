@@ -6,7 +6,7 @@ import PlanForm from "./PlanForm";
 import {Role} from "../Auth/roles";
 import {bindActionCreators} from "redux";
 import {browserHistory} from 'react-router';
-import {requestPlanCreation} from "./planActions";
+import {requestPlanCreation, resetNewPlan} from "./planActions";
 
 class Plan extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class Plan extends Component {
     }
 
     componentWillMount() {
-        //this.props.resetUpdatedPlan();
+        this.props.resetNewPlan();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -72,7 +72,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        createPlan: bindActionCreators(requestPlanCreation, dispatch)
+        createPlan: bindActionCreators(requestPlanCreation, dispatch),
+        resetNewPlan: bindActionCreators(resetNewPlan, dispatch)
     }
 }
 
