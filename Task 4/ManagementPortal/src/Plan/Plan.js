@@ -4,7 +4,7 @@ import {Alert, Col, Row} from "react-bootstrap";
 import CrudForm from "../Shared/Components/CrudForm";
 import PlanForm from "./PlanForm";
 import {bindActionCreators} from "redux";
-import {requestPlanDeletion, requestPlanUpdate, resetDeletedPlan, resetUpdatedPlan} from "./planActions";
+import {requestPlanDeletion, requestPlanUpdate, resetEditedPlan} from "./planActions";
 import {browserHistory} from 'react-router';
 
 class Plan extends Component {
@@ -15,13 +15,11 @@ class Plan extends Component {
     }
 
     componentWillMount() {
-        this.props.resetUpdatedPlan();
-        this.props.resetDeletedPlan();
-
+        this.props.resetEditedPlan();
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.updatedPlan.get('success') || nextProps.deletedPlan.get('success')) {
+        if (nextProps.editedPlan.get('success')) {
             browserHistory.push('/plans');
         }
     }
@@ -40,7 +38,7 @@ class Plan extends Component {
     render() {
         const {selectedPlan} = this.props;
 
-        const errorMessage = this.props.updatedPlan.get('errorMessage') || this.props.deletedPlan.get('errorMessage');
+        const errorMessage = this.props.editedPlan.get('errorMessage');
 
         if (selectedPlan.get('isFetching')) {
             return <h1>Loading...</h1>;
@@ -76,15 +74,13 @@ class Plan extends Component {
 
 Plan.propTypes = {
     selectedPlan: PropTypes.object,
-    updatedPlan: PropTypes.object,
-    deletedPlan: PropTypes.object
+    editedPlan: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         selectedPlan:  state.getIn(['plansManager', 'selectedPlan']),
-        updatedPlan:  state.getIn(['plansManager', 'updatedPlan']),
-        deletedPlan:  state.getIn(['plansManager', 'deletedPlan'])
+        editedPlan:  state.getIn(['plansManager', 'editedPlan'])
     }
 }
 
@@ -92,8 +88,7 @@ function mapDispatchToProps(dispatch) {
     return {
         updatePlan: bindActionCreators(requestPlanUpdate, dispatch),
         deletePlan: bindActionCreators(requestPlanDeletion, dispatch),
-        resetUpdatedPlan: bindActionCreators(resetUpdatedPlan, dispatch),
-        resetDeletedPlan: bindActionCreators(resetDeletedPlan, dispatch)
+        resetEditedPlan: bindActionCreators(resetEditedPlan, dispatch)
     }
 }
 

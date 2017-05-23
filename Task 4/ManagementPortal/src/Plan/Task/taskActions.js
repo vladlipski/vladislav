@@ -4,20 +4,19 @@ export const FETCH_TASK = 'FETCH_TASK';
 export const FETCH_TASK_SUCCESS = 'FETCH_TASK_SUCCESS';
 export const FETCH_TASK_FAILURE = 'FETCH_TASK_FAILURE';
 
+export const RESET_EDITED_TASK = 'RESET_EDITED_TASK';
+
 export const CREATE_TASK = 'CREATE_TASK';
 export const CREATE_TASK_SUCCESS = 'CREATE_TASK_SUCCESS';
 export const CREATE_TASK_FAILURE = 'CREATE_TASK_FAILURE';
-export const RESET_UPDATED_TASK = 'RESET_UPDATED_TASK';
 
 export const UPDATE_TASK = 'UPDATE_TASK';
 export const UPDATE_TASK_SUCCESS = 'UPDATE_TASK_SUCCESS';
 export const UPDATE_TASK_FAILURE = 'UPDATE_TASK_FAILURE';
-export const RESET_NEW_TASK = 'RESET_NEW_TASK';
 
 export const DELETE_TASK = 'DELETE_TASK';
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const DELETE_TASK_FAILURE = 'DELETE_TASK_FAILURE';
-export const RESET_DELETED_TASK = 'RESET_DELETED_TASK';
 
 export function fetchTask() {
     return {
@@ -70,9 +69,9 @@ export function createTaskFailure(message) {
     };
 }
 
-export function resetNewTask() {
+export function resetEditedTask() {
     return {
-        type: RESET_NEW_TASK
+        type: RESET_EDITED_TASK
     };
 }
 
@@ -118,12 +117,6 @@ export function requestTaskUpdate(task) {
     }
 }
 
-export function resetUpdatedTask() {
-    return {
-        type: RESET_UPDATED_TASK
-    };
-}
-
 export function deleteTask() {
     return {
         type: DELETE_TASK
@@ -141,12 +134,6 @@ export function deleteTaskFailure(message) {
     return {
         type: DELETE_TASK_FAILURE,
         payload: message
-    };
-}
-
-export function resetDeletedTask() {
-    return {
-        type: RESET_DELETED_TASK
     };
 }
 

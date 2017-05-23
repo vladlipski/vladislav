@@ -6,7 +6,7 @@ import PlanForm from "./PlanForm";
 import {Role} from "../Auth/roles";
 import {bindActionCreators} from "redux";
 import {browserHistory} from 'react-router';
-import {requestPlanCreation, resetNewPlan} from "./planActions";
+import {requestPlanCreation, resetEditedPlan} from "./planActions";
 
 class Plan extends Component {
     constructor(props) {
@@ -15,12 +15,12 @@ class Plan extends Component {
     }
 
     componentWillMount() {
-        this.props.resetNewPlan();
+        this.props.resetEditedPlan();
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.newPlan.get('plan')) {
-            browserHistory.push('/plans/' + nextProps.newPlan.getIn(['plan', 'id']));
+        if (nextProps.editedPlan.get('plan')) {
+            browserHistory.push('/plans/' + nextProps.editedPlan.getIn(['plan', 'id']));
         }
     }
 
@@ -34,7 +34,7 @@ class Plan extends Component {
 
 
     render() {
-        const errorMessage = this.props.newPlan.get('errorMessage');
+        const errorMessage = this.props.editedPlan.get('errorMessage');
 
         return (
             <Col smOffset={2} sm={7}>
@@ -60,20 +60,20 @@ class Plan extends Component {
 }
 
 Plan.propTypes = {
-    newPlan: PropTypes.object
+    editedPlan: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         currentUser:  state.getIn(['auth', 'user']),
-        newPlan:  state.getIn(['plansManager', 'newPlan'])
+        editedPlan:  state.getIn(['plansManager', 'editedPlan'])
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         createPlan: bindActionCreators(requestPlanCreation, dispatch),
-        resetNewPlan: bindActionCreators(resetNewPlan, dispatch)
+        resetEditedPlan: bindActionCreators(resetEditedPlan, dispatch)
     }
 }
 

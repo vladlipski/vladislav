@@ -1,10 +1,10 @@
 import React, {PropTypes, Component} from 'react'
-import {Alert, Col, PageHeader, Row} from "react-bootstrap";
+import {Alert, Col, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import CrudForm from "../../Shared/Components/CrudForm/CrudForm";
 import TaskForm from "./TaskForm";
-import {getTask, requestTaskUpdate, resetUpdatedTask} from "./taskActions";
+import {getTask, requestTaskUpdate, resetEditedTask} from "./taskActions";
 import {browserHistory} from 'react-router';
 import './task.css'
 
@@ -19,13 +19,13 @@ class Task extends Component {
         const taskId = this.props.params.taskId;
         if (taskId) {
             this.props.getTask(this.props.currentUserId, taskId);
-            this.props.resetUpdatedTask();
+            this.props.resetEditedTask();
         }
     }
 
     componentWillReceiveProps(nextProps) {
         const planId = nextProps.params.planId;
-        if (nextProps.updatedTask.get('success')) {
+        if (nextProps.editedTask.get('success')) {
             browserHistory.push('/plans/' + planId);
         }
 
@@ -79,14 +79,14 @@ class Task extends Component {
 
 Task.propTypes = {
      selectedTask: PropTypes.object,
-     updatedTask: PropTypes.object,
+     editedTask: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
         currentUserId:  state.getIn(['auth', 'user', 'id']),
         selectedTask:  state.getIn(['plansManager', 'selectedTask']),
-        updatedTask:  state.getIn(['plansManager', 'updatedTask'])
+        editedTask:  state.getIn(['plansManager', 'editedTask'])
     }
 }
 
@@ -94,7 +94,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getTask: bindActionCreators(getTask, dispatch),
         updateTask: bindActionCreators(requestTaskUpdate, dispatch),
-        resetUpdatedTask: bindActionCreators(resetUpdatedTask, dispatch)
+        resetEditedTask: bindActionCreators(resetEditedTask, dispatch)
     }
 }
 

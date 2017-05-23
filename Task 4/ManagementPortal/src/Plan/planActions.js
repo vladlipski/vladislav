@@ -7,20 +7,20 @@ export const FETCH_PLAN = 'FETCH_PLAN';
 export const FETCH_PLAN_SUCCESS = 'FETCH_PLAN_SUCCESS';
 export const FETCH_PLAN_FAILURE = 'FETCH_PLAN_FAILURE';
 
+export const RESET_EDITED_PLAN = 'RESET_EDITED_PLAN';
+
 export const CREATE_PLAN = 'CREATE_PLAN';
 export const CREATE_PLAN_SUCCESS = 'CREATE_PLAN_SUCCESS';
 export const CREATE_PLAN_FAILURE = 'CREATE_PLAN_FAILURE';
-export const RESET_NEW_PLAN = 'RESET_NEW_PLAN';
 
 export const UPDATE_PLAN = 'UPDATE_PLAN';
 export const UPDATE_PLAN_SUCCESS = 'UPDATE_PLAN_SUCCESS';
 export const UPDATE_PLAN_FAILURE = 'UPDATE_PLAN_FAILURE';
-export const RESET_UPDATED_PLAN = 'RESET_UPDATED_PLAN';
 
 export const DELETE_PLAN = 'DELETE_PLAN';
 export const DELETE_PLAN_SUCCESS = 'DELETE_PLAN_SUCCESS';
 export const DELETE_PLAN_FAILURE = 'DELETE_PLAN_FAILURE';
-export const RESET_DELETED_PLAN = 'RESET_DELETED_PLAN';
+
 
 export function fetchPlans() {
     return {
@@ -115,9 +115,9 @@ export function createPlanFailure(message) {
     };
 }
 
-export function resetNewPlan() {
+export function resetEditedPlan() {
     return {
-        type: RESET_NEW_PLAN
+        type: RESET_EDITED_PLAN
     };
 }
 
@@ -151,12 +151,6 @@ export function updatePlanFailure(message) {
     };
 }
 
-export function resetUpdatedPlan() {
-    return {
-        type: RESET_UPDATED_PLAN
-    };
-}
-
 export function requestPlanUpdate(plan) {
     return (dispatch) => {
         dispatch(updatePlan());
@@ -184,12 +178,6 @@ export function deletePlanFailure(message) {
     return {
         type: DELETE_PLAN_FAILURE,
         payload: message
-    };
-}
-
-export function resetDeletedPlan() {
-    return {
-        type: RESET_DELETED_PLAN
     };
 }
 

@@ -4,7 +4,7 @@ import {Alert, Col, PageHeader, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getPlan} from "../planActions";
-import {requestTaskCreation, requestTaskDeletion, resetDeletedTask, resetNewTask} from "../Task/taskActions";
+import {requestTaskCreation, requestTaskDeletion, resetEditedTask} from "../Task/taskActions";
 import {Link} from "react-router";
 
 
@@ -12,16 +12,10 @@ class PlanManager extends Component {
     constructor(props) {
         super(props);
         this.addTask = this.addTask.bind(this);
-        this.reset = this.reset.bind(this);
-    }
-
-    reset() {
-        this.props.resetNewTask();
-        this.props.resetDeletedTask();
     }
 
     componentWillMount() {
-        this.reset();
+        this.props.resetEditedTask();
         const planId = this.props.params.planId;
         if (planId) {
             this.props.getPlan(this.props.currentUserId, planId);
@@ -38,8 +32,8 @@ class PlanManager extends Component {
     }
 
     render() {
-        const {selectedPlan, newTask, deletedTask} = this.props;
-        const errorMessage = newTask.get('errorMessage') || deletedTask.get('errorMessage');
+        const {selectedPlan, editedTask} = this.props;
+        const errorMessage = editedTask.get('errorMessage');
 
         if (selectedPlan.get('isFetching')) {
             return <h1>Loading...</h1>;
@@ -89,16 +83,14 @@ class PlanManager extends Component {
 
 PlanManager.propTypes = {
     selectedPlan: PropTypes.object,
-    newTask: PropTypes.object,
-    deletedTask: PropTypes.object
+    editedTask: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         currentUserId:  state.getIn(['auth', 'user', 'id']),
         selectedPlan:  state.getIn(['plansManager', 'selectedPlan']),
-        newTask:  state.getIn(['plansManager', 'newTask']),
-        deletedTask:  state.getIn(['plansManager', 'deletedTask'])
+        editedTask:  state.getIn(['plansManager', 'editedTask'])
     }
 }
 
@@ -106,9 +98,8 @@ function mapDispatchToProps(dispatch) {
     return {
         getPlan: bindActionCreators(getPlan, dispatch),
         createTask: bindActionCreators(requestTaskCreation, dispatch),
-        resetNewTask: bindActionCreators(resetNewTask, dispatch),
-        deleteTask: bindActionCreators(requestTaskDeletion, dispatch),
-        resetDeletedTask: bindActionCreators(resetDeletedTask, dispatch),
+        resetEditedTask: bindActionCreators(resetEditedTask, dispatch),
+        deleteTask: bindActionCreators(requestTaskDeletion, dispatch)
     }
 }
 
