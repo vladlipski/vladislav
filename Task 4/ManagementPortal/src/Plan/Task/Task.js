@@ -7,6 +7,7 @@ import TaskForm from "./TaskForm";
 import {getTask, requestTaskUpdate, resetEditedTask} from "./taskActions";
 import {browserHistory} from 'react-router';
 import './task.css'
+import {searchNodeImmutable} from "../../Shared/utils";
 
 
 class Task extends Component {
@@ -17,10 +18,8 @@ class Task extends Component {
 
     componentWillMount() {
         const taskId = this.props.params.taskId;
-        if (taskId) {
-            this.props.getTask(this.props.currentUserId, taskId);
-            this.props.resetEditedTask();
-        }
+        this.props.getTask(this.props.currentUserId, taskId);
+        this.props.resetEditedTask();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -30,17 +29,24 @@ class Task extends Component {
         }
 
         const taskId = nextProps.params.taskId;
-
         if (taskId !== this.props.params.taskId) {
            this.props.getTask(this.props.currentUserId, taskId);
+            this.task = null;
+        }
+
+        if (!this.task) {
+            const plan = nextProps.selectedPlan.getIn(['plan', 'plansData']);
+            const node = searchNodeImmutable(plan, taskId);
+            if (node && node.get('isLoaded')) {
+                this.task = node;
+            }
         }
     }
 
     submitUpdatedTask(updatedTask) {
-        const task = this.props.selectedTask.get('task');
-        updatedTask.id = task.get('id');
-        updatedTask.parent = task.get('parent');
-        updatedTask.plan = task.get('plan');
+        updatedTask.id = this.task.get('id');
+        updatedTask.parent = this.task.get('parent');
+        updatedTask.plan = this.task.get('plan');
         this.props.updateTask(updatedTask);
     }
 
@@ -55,20 +61,20 @@ class Task extends Component {
                     {selectedTask.get('errorMessage')}
                 </Alert>
             )
-        } else if(!selectedTask.get('task')) {
+        } else if(!this.task) {
             return <span />
         }
 
         return (
             <Row>
                 <Col smOffset={1} sm={10}>
-                    <h2 className="task_header">Task: {selectedTask.getIn(['task', 'title'])}</h2>
+                    <h2 className="task_header">Task: {this.task.get('title')}</h2>
                     <CrudForm
                         hideDeleteButton={true}
                         onSubmit={this.submitUpdatedTask}
                     >
                         <TaskForm
-                            task={selectedTask.get('task').toJS()}
+                            task={this.task.toJS()}
                         />
                     </CrudForm>
                 </Col>
@@ -79,12 +85,14 @@ class Task extends Component {
 
 Task.propTypes = {
      selectedTask: PropTypes.object,
-     editedTask: PropTypes.object,
+     selectedPlan: PropTypes.object,
+     editedTask: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         currentUserId:  state.getIn(['auth', 'user', 'id']),
+        selectedPlan:  state.getIn(['plansManager', 'selectedPlan']),
         selectedTask:  state.getIn(['plansManager', 'selectedTask']),
         editedTask:  state.getIn(['plansManager', 'editedTask'])
     }
