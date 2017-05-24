@@ -74,10 +74,6 @@ export default function(state = Immutable.fromJS({
                             },
                             selectedTask:{
                                 isFetching: false,
-                                errorMessage: null
-                            },
-                            editedTask:{
-                                isFetching: false,
                                 success: false,
                                 errorMessage: null
                             }
@@ -181,53 +177,53 @@ export default function(state = Immutable.fromJS({
                 errorMessage: action.payload
             }));
         case CREATE_TASK:
-            return state.set('editedTask', Immutable.fromJS({
+            return state.set('selectedTask', Immutable.fromJS({
                 isFetching: true
             }));
         case CREATE_TASK_SUCCESS:
             newState = addNode(state, action.payload.parent, action.payload);
-            return newState.set('editedTask', Immutable.fromJS({
+            return newState.set('selectedTask', Immutable.fromJS({
                 isFetching: false,
                 success: true
             }));
         case CREATE_TASK_FAILURE:
-            return state.set('editedTask', Immutable.fromJS({
+            return state.set('selectedTask', Immutable.fromJS({
                 isFetching: false,
                 errorMessage: action.payload,
             }));
         case RESET_EDITED_TASK:
-            return state.set('editedTask', Immutable.fromJS({
+            return state.set('selectedTask', Immutable.fromJS({
                 isFetching: false,
                 success: false,
                 errorMessage: null
             }));
         case UPDATE_TASK:
-            return state.set('editedTask', Immutable.fromJS({
+            return state.set('selectedTask', Immutable.fromJS({
                 isFetching: true
             }));
         case UPDATE_TASK_SUCCESS:
             newState = updateNode(state, action.payload);
-            return newState.set('editedTask', Immutable.fromJS({
+            return newState.set('selectedTask', Immutable.fromJS({
                 success: true,
                 isFetching: false
             }));
         case UPDATE_TASK_FAILURE:
-            return state.set('editedTask', Immutable.fromJS({
+            return state.set('selectedTask', Immutable.fromJS({
                 errorMessage: action.payload,
                 isFetching: false
             }));
         case DELETE_TASK:
-            return state.set('editedTask', Immutable.fromJS({
+            return state.set('selectedTask', Immutable.fromJS({
                 isFetching: true
             }));
         case DELETE_TASK_SUCCESS:
             newState = deleteNode(state, action.payload);
-            return newState.set('editedTask', Immutable.fromJS({
+            return newState.set('selectedTask', Immutable.fromJS({
                 success: true,
                 isFetching: false
             }));
         case DELETE_TASK_FAILURE:
-            return state.set('editedTask', Immutable.fromJS({
+            return state.set('selectedTask', Immutable.fromJS({
                 errorMessage: action.payload,
                 isFetching: false
             }));

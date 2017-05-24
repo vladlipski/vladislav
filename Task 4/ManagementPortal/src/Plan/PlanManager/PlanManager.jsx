@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import TreeView from "../TreeView/index";
-import {Alert, Col, PageHeader, Row} from "react-bootstrap";
+import {Alert, Col, Grid, PageHeader, Row} from "react-bootstrap";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getPlan} from "../planActions";
@@ -32,8 +32,8 @@ class PlanManager extends Component {
     }
 
     render() {
-        const {selectedPlan, editedTask} = this.props;
-        const errorMessage = editedTask.get('errorMessage');
+        const {selectedPlan, selectedTask} = this.props;
+        const errorMessage = selectedTask.get('errorMessage');
 
         if (selectedPlan.get('isFetching')) {
             return <h1>Loading...</h1>;
@@ -48,49 +48,55 @@ class PlanManager extends Component {
         }
 
         return (
-            <Row>
-                <PageHeader>
-                    <Link to={'/plans/' + selectedPlan.getIn(['plan', 'id'])}>
-                        Plan: {selectedPlan.getIn(['plan', 'title'])}
-                    </Link>
-                </PageHeader>
-                <Col sm={4}>
-                    <TreeView
-                        levels={5}
-                        data = {selectedPlan.getIn(['plan','plansData']).toJS()}
-                        enableLinks={true}
-                        showBorder={false}
-                        highlightSelected={false}
-                        selectable={false}
-                        allowNew={true}
-                        removable={true}
-                        onNodeAdded={this.addTask}
-                        onNodeRemoved={this.props.deleteTask}
-                    />
-                    {errorMessage &&
-                        <Alert bsStyle="danger">
-                            {errorMessage}
-                        </Alert>
-                    }
-                </Col>
-                <Col sm={8}>
-                    {this.props.children}
-                </Col>
-            </Row>
+            <Grid>
+                <Row>
+                    <PageHeader>
+                        <Link to={'/plans/' + selectedPlan.getIn(['plan', 'id'])}>
+                            Plan: {selectedPlan.getIn(['plan', 'title'])}
+                        </Link>
+                    </PageHeader>
+                    <Col sm={4}>
+                        <TreeView
+                            levels={5}
+                            data = {selectedPlan.getIn(['plan','plansData']).toJS()}
+                            enableLinks={true}
+                            showBorder={false}
+                            highlightSelected={false}
+                            selectable={false}
+                            allowNew={true}
+                            removable={true}
+                            onNodeAdded={this.addTask}
+                            onNodeRemoved={this.props.deleteTask}
+                        />
+                    </Col>
+                    <Col sm={8}>
+                        {this.props.children}
+                    </Col>
+                </Row>
+                <Row>
+                    <Col smOffset={1} sm={10}>
+                        {errorMessage &&
+                            <Alert bsStyle="danger">
+                                {errorMessage}
+                            </Alert>
+                        }
+                    </Col>
+                </Row>
+            </Grid>
         );
     }
 }
 
 PlanManager.propTypes = {
     selectedPlan: PropTypes.object,
-    editedTask: PropTypes.object
+    selectedTask: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         currentUserId:  state.getIn(['auth', 'user', 'id']),
         selectedPlan:  state.getIn(['plansManager', 'selectedPlan']),
-        editedTask:  state.getIn(['plansManager', 'editedTask'])
+        selectedTask:  state.getIn(['plansManager', 'selectedTask'])
     }
 }
 

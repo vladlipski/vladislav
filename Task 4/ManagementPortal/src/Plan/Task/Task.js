@@ -24,7 +24,7 @@ class Task extends Component {
 
     componentWillReceiveProps(nextProps) {
         const planId = nextProps.params.planId;
-        if (nextProps.editedTask.get('success')) {
+        if (nextProps.selectedTask.get('success')) {
             browserHistory.push('/plans/' + planId);
         }
 
@@ -55,12 +55,12 @@ class Task extends Component {
 
         if (selectedTask.get('isFetching')) {
             return <h1>Loading...</h1>;
-        } else if(selectedTask.get('errorMessage')) {
-            return (
-                <Alert bsStyle="danger">
-                    {selectedTask.get('errorMessage')}
-                </Alert>
-            )
+        // } else if(selectedTask.get('errorMessage')) {
+            //     return (
+            //         <Alert bsStyle="danger">
+            //             {selectedTask.get('errorMessage')}
+            //         </Alert>
+            //     )
         } else if(!this.task) {
             return <span />
         }
@@ -85,16 +85,14 @@ class Task extends Component {
 
 Task.propTypes = {
      selectedTask: PropTypes.object,
-     selectedPlan: PropTypes.object,
-     editedTask: PropTypes.object
+     selectedPlan: PropTypes.object
 };
 
 function mapStateToProps(state) {
     return {
         currentUserId:  state.getIn(['auth', 'user', 'id']),
         selectedPlan:  state.getIn(['plansManager', 'selectedPlan']),
-        selectedTask:  state.getIn(['plansManager', 'selectedTask']),
-        editedTask:  state.getIn(['plansManager', 'editedTask'])
+        selectedTask:  state.getIn(['plansManager', 'selectedTask'])
     }
 }
 
