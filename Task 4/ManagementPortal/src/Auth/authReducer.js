@@ -1,5 +1,3 @@
-import Cookies from 'js-cookie';
-
 import {
     LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILURE
 } from './authActions'
@@ -22,29 +20,25 @@ export default function(state = Immutable.fromJS({
             });
         case LOGIN_SUCCESS:
             return Immutable.fromJS({
-                errorMessage: null,
                 isFetching: false,
                 user: action.payload
             });
         case LOGIN_FAILURE:
             return Immutable.fromJS({
                 errorMessage: action.payload,
-                isFetching: false,
-                user: null
+                isFetching: false
             });
         case LOGOUT_REQUEST:
             return state.set('isFetching', true);
         case LOGOUT_SUCCESS:
             return Immutable.fromJS({
-                errorMessage: null,
                 isFetching: false,
                 user: null
             });
         case LOGOUT_FAILURE:
             return Immutable.fromJS({
                 errorMessage: null,
-                isFetching: false,
-                user: null
+                isFetching: false
             });
         default:
             return state

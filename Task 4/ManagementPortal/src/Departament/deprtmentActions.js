@@ -6,7 +6,6 @@ export const FETCH_DEPARTMENTS_FAILURE = 'FETCH_DEPARTMENTS_FAILURE';
 export const FETCH_DEPARTMENT = 'FETCH_DEPARTMENT';
 export const FETCH_DEPARTMENT_SUCCESS = 'FETCH_DEPARTMENT_SUCCESS';
 export const FETCH_DEPARTMENT_FAILURE = 'FETCH_DEPARTMENT_FAILURE';
-export const RESET_SELECTED_DEPARTMENT = 'RESET_SELECTED_DEPARTMENT';
 
 export const CREATE_DEPARTMENT = 'CREATE_DEPARTMENT';
 export const CREATE_DEPARTMENT_SUCCESS = 'CREATE_DEPARTMENT_SUCCESS';
@@ -71,12 +70,6 @@ export function fetchDepartmentFailure(message) {
     return {
         type: FETCH_DEPARTMENT_FAILURE,
         payload: message
-    };
-}
-
-export function resetSelectedDepartment() {
-    return {
-        type: RESET_SELECTED_DEPARTMENT
     };
 }
 

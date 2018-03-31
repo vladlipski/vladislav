@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
-import {Alert, Button, Row} from "react-bootstrap";
+import {Alert, Button, Col, Row} from "react-bootstrap";
 import {bindActionCreators} from "redux";
 import {getDepartments} from "../deprtmentActions";
 import {LinkContainer} from "react-router-bootstrap";
@@ -25,7 +25,7 @@ class DepartmentsList extends Component {
         }
 
         return (
-            <Row>
+            <Col smOffset={2} sm={7}>
                 <Row>
                     <LinkContainer to="departments/new">
                         <Button>
@@ -39,7 +39,7 @@ class DepartmentsList extends Component {
                         departments={departmentsList.get('departments').toJS()}
                     />
                 </Row>
-            </Row>
+            </Col>
         )
     }
 }

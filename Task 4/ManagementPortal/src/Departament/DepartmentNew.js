@@ -32,7 +32,7 @@ class DepartmentNew extends Component {
     render() {
         const errorMessage = this.props.newDepartment.get('errorMessage');
         return (
-            <Row>
+            <Col smOffset={2} sm={7}>
                 <PageHeader>New department</PageHeader>
                 {errorMessage &&
                 <Row>
@@ -43,7 +43,7 @@ class DepartmentNew extends Component {
                 }
                 <Col smOffset={2} sm={8}>
                     <CrudForm
-                        creation={true}
+                        hideDeleteButton={true}
                         onSubmit={this.submitNewDepartment}
                     >
                         <DepartmentForm
@@ -51,7 +51,7 @@ class DepartmentNew extends Component {
                         />
                     </CrudForm>
                 </Col>
-            </Row>
+            </Col>
         );
     }
 }

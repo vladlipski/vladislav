@@ -58,17 +58,248 @@ const fakeDatabase = {
     plans: [{
         id: 1,
         title: 'Plan1',
-        author: 4
+        author: {id: 4}
     }, {
         id: 2,
         title: 'Plan2',
-        author: 4
+        author: {id: 4}
     }, {
         id: 3,
         title: 'Plan3',
-        author: 5
+        author: {id: 5}
     }],
-
+    tasks: [{
+        id: 1,
+        title: 'HTML + CSS',
+        plan: 1
+    }, {
+        id: 2,
+        parent: 1,
+        plan: 1,
+        title: 'Task HTML + CSS',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        type: 'coding'
+    }, {
+        id: 3,
+        parent: 1,
+        plan: 1,
+        title: 'CSS',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec metus magna, maximus ut quam vel, placerat lobortis eros. ' +
+            'Morbi ullamcorper congue cursus. Nunc porta leo quis felis facilisis molestie. Donec sollicitudin nisl nec volutpat elementum. ' +
+            'Proin a mauris nec mauris luctus scelerisque. Maecenas sed diam ut tortor tincidunt fringilla sit amet in eros. ' +
+            'Suspendisse at orci quis ex finibus laoreet vitae et justo. Curabitur sagittis diam et odio ornare, eu dictum mauris gravida. ' +
+            'Morbi vehicula quam mauris, quis suscipit nisi pellentesque a. Nam porta ipsum et rhoncus vehicula. Morbi id posuere mi. In hac habitasse platea dictumst. ' +
+            'Duis ut vehicula augue, sit amet blandit nisl. Morbi eget aliquam neque, porta pellentesque tortor. Morbi semper vehicula nibh, id posuere est malesuada scelerisque. ' +
+            'Praesent bibendum volutpat metus, at pulvinar nisi.',
+        type: 'theory'
+    }, {
+        id: 4,
+        parent: 1,
+        plan: 1,
+        title: 'Software Development basics',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        type: 'theory'
+    }, {
+        id: 5,
+        parent: 1,
+        plan: 1,
+        title: 'Web development basics',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        type: 'theory'
+    }, {
+        id: 6,
+        title: 'Javascript',
+        plan: 1
+    }, {
+        id: 7,
+        parent: 6,
+        plan: 1,
+        title: 'Task Functional Javascript',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        type: 'coding'
+    }, {
+        id: 8,
+        parent: 6,
+        plan: 1,
+        title: 'Javascript',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        type: 'theory'
+    }, {
+        id: 9,
+        parent: 6,
+        plan: 1,
+        title: 'Unit testing',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        type: 'theory'
+    }, {
+        id: 10,
+        parent: 6,
+        plan: 1,
+        title: 'FP',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et sodales leo, non eleifend tortor. Sed cursus vel lacus vestibulum congue. ' +
+            'Nulla id leo fringilla, dignissim neque nec, egestas leo. Nam dignissim cursus convallis. Vestibulum laoreet vehicula aliquam. ' +
+            'In luctus ante nisl, in pharetra velit iaculis vitae. Fusce sed pharetra arcu. Curabitur aliquam tortor id metus tincidunt scelerisque.',
+        type: 'theory'
+    }],
+    completePlans: [{
+        id: 1,
+        title: 'Plan1',
+        author: 4,
+        plansData: [
+            {
+                id: 1,
+                title: 'HTML + CSS',
+                nodes: [
+                    {
+                        id: 2,
+                        title: 'Task HTML + CSS',
+                        href: '/plans/1/tasks/2'
+                    },
+                    {
+                        id: 3,
+                        title: 'CSS',
+                        href: '/plans/1/tasks/3'
+                    },
+                    {
+                        id: 4,
+                        title: 'Software Development basics',
+                        href: '/plans/1/tasks/4'
+                    },
+                    {
+                        id: 5,
+                        title: 'Web development basics',
+                        href: '/plans/1/tasks/5'
+                    }
+                ]
+            }, {
+                id: 6,
+                title: 'Javascript',
+                nodes: [
+                    {
+                        id: 7,
+                        title: 'Task Functional Javascript',
+                        href: '/plans/1/tasks/7'
+                    },
+                    {
+                        id: 8,
+                        title: 'Javascript',
+                        href: '/plans/1/tasks/8'
+                    },
+                    {
+                        id: 9,
+                        title: 'Unit testing',
+                        href: '/plans/1/tasks/9'
+                    },
+                    {
+                        id: 10,
+                        title: 'FP',
+                        href: '/plans/1/tasks/10'
+                    }
+                ]
+            }
+        ]
+    }, {
+        id: 2,
+        title: 'Plan2',
+        author: 4,
+        plansData: [
+            {
+                id: 1,
+                title: 'HTML + CSS',
+                nodes: [
+                    {
+                        id: 2,
+                        title: 'Task HTML + CSS',
+                        href: '/plans/1/tasks/2'
+                    },
+                    {
+                        id: 3,
+                        title: 'CSS',
+                        href: '/plans/1/tasks/3'
+                    },
+                    {
+                        id: 4,
+                        title: 'Software Development basics',
+                        href: '/plans/1/tasks/4'
+                    },
+                    {
+                        id: 5,
+                        title: 'Web development basics',
+                        href: '/plans/1/tasks/5'
+                    }
+                ]
+            }, {
+                id: 6,
+                title: 'Javascript',
+                nodes: [
+                    {
+                        id: 7,
+                        title: 'Task Functional Javascript',
+                        href: '/plans/1/tasks/7'
+                    },
+                    {
+                        id: 8,
+                        title: 'Javascript',
+                        href: '/plans/1/tasks/8'
+                    },
+                    {
+                        id: 9,
+                        title: 'Unit testing',
+                        href: '/plans/1/tasks/9'
+                    },
+                    {
+                        id: 10,
+                        title: 'FP',
+                        href: '/plans/1/tasks/10'
+                    }
+                ]
+            }
+        ]
+    }, {
+        id: 3,
+        title: 'Plan3',
+        author: 5,
+        plansData: [
+            {
+                id: 1,
+                title: 'HTML + CSS',
+                nodes: [
+                    {
+                        id: 2,
+                        title: 'Task HTML + CSS',
+                        href: '/plans/1/tasks/2'
+                    },
+                    {
+                        id: 3,
+                        title: 'CSS',
+                        href: '/plans/1/tasks/3'
+                    },
+                    {
+                        id: 4,
+                        title: 'Software Development basics',
+                        href: '/plans/1/tasks/4'
+                    },
+                    {
+                        id: 5,
+                        title: 'Web development basics',
+                        href: '/plans/1/tasks/5'
+                    }
+                ]
+            }
+        ]
+    }]
 };
 
 export const verifyToken = function (token) {
@@ -159,7 +390,8 @@ export const getUserById = (mentorId, userId) =>
 
 export const getAllPlans = () =>
     delay(500).then(() => {
-        const plans = fakeDatabase.plans;
+        const plans = Object.assign([], fakeDatabase.plans);
+        plans.map(plan => plan.author =  Object.assign({}, fakeDatabase.users.find(user => user.id == plan.author.id)));
         return {
             status: 200,
             plans
@@ -168,11 +400,33 @@ export const getAllPlans = () =>
 
 export const getPlansByAuthor = (authorId) =>
     delay(500).then(() => {
-        const plans = fakeDatabase.plans.filter((plan) => plan.author == authorId);
+        const plans = Object.assign([], fakeDatabase.plans.filter((plan) => plan.author.id == authorId));
+        plans.map(plan => plan.author = fakeDatabase.users.find(user => user.id == plan.author.id));
         return {
             status: 200,
             plans
         };
+    });
+
+export const getPlan = (authorId, planId) =>
+    delay(500).then(() => {
+
+        const plan = Object.assign({}, fakeDatabase.completePlans.find((plan) => plan.id == planId));
+        if (!plan.id) {
+            return Promise.reject({
+                errorMessage: "PlanManager doesn't exist"
+            });
+        }
+        if (isAdmin(authorId) || plan.author == authorId) {
+            return {
+                status: 200,
+                plan
+            };
+        }
+
+        return Promise.reject({
+            errorMessage: '403 Forbidden'
+        });
     });
 
 export const getDepartments = () =>
@@ -248,3 +502,95 @@ export const deleteDepartment = (id) =>
             status: 200
         };
     });
+
+export const getTask = (authorId, taskId) =>
+    delay(500).then(() => {
+
+        const task = Object.assign({}, fakeDatabase.tasks.find((task) => task.id == taskId));
+        if (!task.id) {
+            return Promise.reject({
+                errorMessage: "Task doesn't exist"
+            });
+        }
+
+        const plan = Object.assign({}, fakeDatabase.plans.find((plan) => plan.id == task.plan));
+
+        if (isAdmin(authorId) || plan.author.id == authorId) {
+            return {
+                status: 200,
+                task
+            };
+        }
+
+        return Promise.reject({
+            errorMessage: '403 Forbidden'
+        });
+    });
+
+export const updateTask = (updatedTask) =>
+    delay(500).then(() => {
+        fakeDatabase.tasks[updatedTask.id - 1] = updatedTask;
+        return {
+            status: 200
+        };
+    });
+
+export const createTask = (task) =>
+    delay(500).then(() => {
+        task.id = fakeDatabase.tasks.length + 1;
+        if (task.parent) {
+            task.href = '/plans/' + task.plan + '/tasks/' + task.id;
+        }
+        fakeDatabase.tasks.push(task);
+        return {
+            task: task,
+            status: 200
+        };
+    });
+
+export const deleteTask = (id) =>
+    delay(500).then(() => {
+        fakeDatabase.tasks = fakeDatabase.tasks.filter(task => task.id != id);
+        return {
+            status: 200
+        };
+    });
+
+export const createPlan = (plan) =>
+    delay(500).then(() => {
+        plan.id = fakeDatabase.plans.length + 1;
+        const completePlan = Object.assign({}, plan, {plansData: []});
+        fakeDatabase.completePlans.push(completePlan);
+
+        const newPlan = Object.assign({}, plan, {author: {id: plan.author}});
+        fakeDatabase.plans.push(newPlan);
+        return {
+            plan: completePlan,
+            status: 200
+        };
+    });
+
+export const updatePlan = (updatedPlan) =>
+    delay(500).then(() => {
+        const completePlan = Object.assign({}, fakeDatabase.completePlans[updatedPlan.id - 1], updatedPlan);
+        fakeDatabase.completePlans[updatedPlan.id - 1] = completePlan;
+        if (updatedPlan.author) {
+            updatedPlan.author = {id: updatedPlan.author};
+        }
+        const plan = Object.assign({}, fakeDatabase.plans[updatedPlan.id - 1], updatedPlan);
+        fakeDatabase.plans[updatedPlan.id - 1] = plan;
+        return {
+            status: 200
+        };
+    });
+
+export const deletePlan = (id) =>
+    delay(500).then(() => {
+        fakeDatabase.plans = fakeDatabase.plans.filter(plan => plan.id != id);
+        fakeDatabase.completePlans = fakeDatabase.completePlans.filter(plan => plan.id != id);
+        return {
+            status: 200
+        };
+    });
+
+

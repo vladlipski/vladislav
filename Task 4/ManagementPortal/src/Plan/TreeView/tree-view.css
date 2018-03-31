@@ -1,0 +1,22 @@
+ul {
+    padding: 0;
+}
+
+a {
+    color: #333333;
+}
+
+.tree-view {
+
+}
+
+.tree-view__node {
+    padding-left: 0;
+    padding-right: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.node-name {
+    margin-left: 10px;
+}

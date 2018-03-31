@@ -70,7 +70,7 @@
         function setTotalTime(duration) {
             totalTime = duration;
             if (totalTimeElement) {
-                totalTimeElement.text(formatTime(totalTime));
+                totalTimeElement.title(formatTime(totalTime));
             }
         }
 
@@ -172,7 +172,7 @@
                 progressSlider.slider('value', player.seek() / totalTime * 100);
             }
             if (currentTimeElement) {
-                currentTimeElement.text(formatTime(player.seek()));
+                currentTimeElement.title(formatTime(player.seek()));
             }
         }
 

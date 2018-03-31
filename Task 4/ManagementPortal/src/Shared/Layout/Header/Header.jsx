@@ -21,9 +21,12 @@ class Header extends Component {
 
     render() {
         const {user} = this.props;
+        const userRole = user.get('role');
+
         const paths = {
             users: '/users',
-            departments: '/departments'
+            departments: '/departments',
+            plans: '/plans'
         };
 
         return (
@@ -39,14 +42,19 @@ class Header extends Component {
                     <IndexLinkContainer to="/">
                         <NavItem>Home</NavItem>
                     </IndexLinkContainer>
-                    {user && this.checkAccessToRoute(user.get('role'), paths.users) &&
+                    {user && this.checkAccessToRoute(userRole, paths.users) &&
                         <LinkContainer to={paths.users}>
                             <NavItem>Users</NavItem>
                         </LinkContainer>
                     }
-                    {user && this.checkAccessToRoute(user.get('role'), paths.departments) &&
+                    {user && this.checkAccessToRoute(userRole, paths.departments) &&
                         <LinkContainer to={paths.departments}>
                             <NavItem>Departments</NavItem>
+                        </LinkContainer>
+                    }
+                    {user && this.checkAccessToRoute(userRole, paths.plans) &&
+                        <LinkContainer to={paths.plans}>
+                            <NavItem>Plans</NavItem>
                         </LinkContainer>
                     }
                 </Nav>

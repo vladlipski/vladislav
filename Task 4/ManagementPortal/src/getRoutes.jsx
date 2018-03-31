@@ -11,6 +11,12 @@ import UserNew from "./User/UserNew";
 import {Role} from "./Auth/roles";
 import Department from "./Departament";
 import DepartmentNew from "./Departament/DepartmentNew";
+import PlansList from "./Plan/PlansList";
+import Task from "./Plan/Task";
+import PlanManager from "./Plan/PlanManager";
+import Plan from "./Plan";
+import PlanNew from "./Plan/PlanNew";
+
 
 
 export default (store) => {
@@ -48,6 +54,12 @@ export default (store) => {
                 <Route authorize={[Role.ADMIN]} component={DepartmentsList} path='/departments' onEnter={checkRole}/>
                 <Route authorize={[Role.ADMIN]} component={DepartmentNew} path='/departments/new' onEnter={checkRole}/>
                 <Route authorize={[Role.ADMIN]} component={Department} path='/departments/:id' onEnter={checkRole}/>
+                <Route authorize={[Role.ADMIN, Role.MENTOR]} component={PlanNew} path='/plans/new' onEnter={checkRole}/>
+                <Route authorize={[Role.ADMIN, Role.MENTOR]} component={PlanManager} path='/plans/:planId' onEnter={checkRole}>
+                    <IndexRoute component={Plan}/>
+                    <Route component={Task} path='tasks/:taskId' />
+                </Route>
+                <Route authorize={[Role.ADMIN, Role.MENTOR]} component={PlansList} path='/plans' onEnter={checkRole}/>
             </Route>
             <Route component={Login} path='/login' onEnter={checkAuth}/>
             <Route component={Forbidden} path={NOT_AUTHORIZED_PATH} />

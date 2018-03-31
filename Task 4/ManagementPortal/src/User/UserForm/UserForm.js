@@ -8,6 +8,7 @@ import {GET_MENTORS, getCertainUsers} from "../selectors";
 import {getAllUsers} from "../userActions";
 import {Role} from "../../Auth/roles";
 import {List} from "immutable";
+import {generateOptions} from "../../Shared/utils";
 
 const DEFAULT_ROLE = Role.STUDENT;
 
@@ -39,15 +40,6 @@ class UserForm extends Component {
         })
     }
 
-    generateOptions(array, labelProperty) {
-        return array.map((element) => {
-            return ({
-                value: element.get('id'),
-                label: element.get(labelProperty)
-            });
-        });
-    }
-
     renderAdminInputs() {
         const rolesOptions = List([
             {value: Role.ADMIN, label: 'Admin'},
@@ -55,8 +47,8 @@ class UserForm extends Component {
             {value: Role.STUDENT, label: 'Student'}
         ]);
 
-        const departmentsOptions = this.generateOptions(this.props.departmentsList.get('departments'), 'title');
-        const mentorsOptions = this.generateOptions(this.props.mentors, 'username');
+        const departmentsOptions = generateOptions(this.props.departmentsList.get('departments'), 'title');
+        const mentorsOptions = generateOptions(this.props.mentors, 'username');
         const {currentUserRole, user} = this.props;
 
         return (
@@ -101,7 +93,7 @@ class UserForm extends Component {
         var plansOptions = List([
             {value: '', label: '---'}
         ]);
-        plansOptions = plansOptions.concat(this.generateOptions(plansList.get('plans'), 'title'));
+        plansOptions = plansOptions.concat(generateOptions(plansList.get('plans'), 'title'));
         return (
                 <fieldset>
                     <Input

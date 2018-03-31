@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react'
 import {connect} from "react-redux";
 import {
-    getUser, requestUserDeletion, requestUserUpdate, resetSelectedUser, resetDeletedUser,
+    getUser, requestUserDeletion, requestUserUpdate, resetDeletedUser,
     resetUpdatedUser
 } from "./userActions";
 import {bindActionCreators} from "redux";
@@ -20,7 +20,6 @@ class User extends Component {
     }
 
     reset() {
-        this.props.resetSelectedUser();
         this.props.resetUpdatedUser();
         this.props.resetDeletedUser();
     }
@@ -67,7 +66,7 @@ class User extends Component {
         }
 
         return (
-            <Row>
+            <Col smOffset={2} sm={7}>
                 <PageHeader>User: {selectedUser.getIn(['user', 'username'])}</PageHeader>
                 {errorMessage &&
                     <Row>
@@ -78,7 +77,7 @@ class User extends Component {
                 }
                 <Col smOffset={2} sm={8}>
                     <CrudForm
-                        creation={false}
+                        hideDeleteButton={false}
                         onSubmit={this.submitUpdatedUser}
                         onDeleteClick={this.deleteUserClick}
                         popupHeader={'Delete user'}
@@ -90,7 +89,7 @@ class User extends Component {
                         />
                     </CrudForm>
                 </Col>
-            </Row>
+            </Col>
         );
     }
 }
@@ -116,7 +115,6 @@ function mapDispatchToProps(dispatch) {
         getUser: bindActionCreators(getUser, dispatch),
         updateUser: bindActionCreators(requestUserUpdate, dispatch),
         deleteUser: bindActionCreators(requestUserDeletion, dispatch),
-        resetSelectedUser: bindActionCreators(resetSelectedUser, dispatch),
         resetUpdatedUser: bindActionCreators(resetUpdatedUser, dispatch),
         resetDeletedUser: bindActionCreators(resetDeletedUser, dispatch),
     }

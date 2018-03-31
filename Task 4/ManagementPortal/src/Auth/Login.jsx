@@ -47,6 +47,7 @@ class Login extends Component {
                         <Input
                             label="Password:"
                             name="password"
+                            type="password"
                             placeholder="Password"
                             required
                             validationErrors={{

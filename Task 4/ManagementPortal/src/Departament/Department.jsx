@@ -6,7 +6,7 @@ import {Row} from "formsy-react-components";
 import {browserHistory} from 'react-router';
 import {
     getDepartment, requestDepartmentDeletion, requestDepartmentUpdate, resetDeletedDepartment,
-    resetSelectedDepartment, resetUpdatedDepartment
+    resetUpdatedDepartment
 } from "./deprtmentActions";
 import DepartmentForm from "./DepartmentForm";
 import UsersTable from "../User/UsersList/UsersTable";
@@ -22,7 +22,6 @@ class Department extends Component {
     }
 
     reset() {
-        this.props.resetSelectedDepartment();
         this.props.resetUpdatedDepartment();
         this.props.resetDeletedDepartment();
     }
@@ -68,7 +67,7 @@ class Department extends Component {
             return <span />
         }
         return (
-            <Row>
+            <Col smOffset={2} sm={7}>
                 <PageHeader>Department: {selectedDepartment.getIn(['department', 'title'])}</PageHeader>
                 {errorMessage &&
                     <Row>
@@ -90,7 +89,7 @@ class Department extends Component {
                 <br/>
                 <Col smOffset={2} sm={8}>
                     <CrudForm
-                        creation={false}
+                        hideDeleteButton={false}
                         onSubmit={this.submitUpdatedDepartment}
                         onDeleteClick={this.deleteDepartmentClick}
                         popupHeader={'Delete department'}
@@ -101,7 +100,7 @@ class Department extends Component {
                         />
                     </CrudForm>
                 </Col>
-            </Row>
+            </Col>
         );
     }
 }
@@ -125,9 +124,8 @@ function mapDispatchToProps(dispatch) {
         getDepartment: bindActionCreators(getDepartment, dispatch),
         updateDepartment: bindActionCreators(requestDepartmentUpdate, dispatch),
         deleteDepartment: bindActionCreators(requestDepartmentDeletion, dispatch),
-        resetSelectedDepartment: bindActionCreators(resetSelectedDepartment, dispatch),
         resetUpdatedDepartment: bindActionCreators(resetUpdatedDepartment, dispatch),
-        resetDeletedDepartment: bindActionCreators(resetDeletedDepartment, dispatch),
+        resetDeletedDepartment: bindActionCreators(resetDeletedDepartment, dispatch)
     }
 }
 

@@ -3,12 +3,10 @@ import * as fakeBackend from "../fakeBackend";
 export const FETCH_USERS = 'FETCH_USERS';
 export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
 export const FETCH_USERS_FAILURE = 'FETCH_USERS_FAILURE';
-export const RESET_USERS = 'RESET_USERS';
 
 export const FETCH_USER = 'FETCH_USER';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
-export const RESET_SELECTED_USER = 'RESET_SELECTED_USER';
 
 export const CREATE_USER = 'CREATE_USER';
 export const CREATE_USER_SUCCESS = 'CREATE_USER_SUCCESS';
@@ -84,12 +82,6 @@ export function fetchUserFailure(message) {
     return {
         type: FETCH_USER_FAILURE,
         payload: message
-    };
-}
-
-export function resetSelectedUser() {
-    return {
-        type: RESET_SELECTED_USER
     };
 }
 
